@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **The problem:**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+A clear and concise description of what the problem is.
 
 **The solution:**
 A clear and concise description of what you want to happen.
