@@ -40,7 +40,6 @@ export const createContentItem = async (id, name, url) => {
     // initial content's data in the slate.js' format
     const data = [{
             type: 'title',
-            links: [],
             children: [{ text: name }]
         }, {
             type: 'links',

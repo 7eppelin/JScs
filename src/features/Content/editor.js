@@ -94,10 +94,11 @@ const MyEditor = {
     },
 
     setLinks: (editor, links) => {
-        Transforms.setNodes(editor, links, {
-            match: n => editor.isVoid(n),
-            mode: 'highest',
-        })
+        Transforms.setNodes(
+            editor, 
+            { links }, 
+            { at: [1] }
+        )
     }
 }
 

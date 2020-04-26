@@ -72,8 +72,6 @@ const LinkForm = ({ links, editing, closeForm }) => {
         }
     }, [editing])
 
-    console.log('text: ', text);
-
     const submit = e => {
         e.preventDefault();
         let newLinks;
@@ -88,30 +86,33 @@ const LinkForm = ({ links, editing, closeForm }) => {
             // if creating a new link
             newLinks = [ ...links, { text, href } ];
         }
-
+        
         Editor.setLinks(editor, newLinks);
+        closeForm();
     }
 
     return (
         <AnimatePresence>
             {editing && (
                 <Form variants={variants}
+                    onSubmit={submit}
                     initial='hidden'
                     animate='shown'
                     exit='hidden'>
 
                     <input 
                         type='text'
+                        placeholder='text...'
                         value={text} 
-                        onChange={e => {setText(e.target.value); console.log('change!')}} />
+                        onChange={e => setText(e.target.value)} />
 
                     <input
                         type='text'
                         placeholder='href...' 
                         value={href} 
-                        onChange={e => setHref(e.target.href)} />
+                        onChange={e => setHref(e.target.value)} />
 
-                    <button onClick={submit}>
+                    <button>
                         <i className="fas fa-plus"></i>
                     </button>
 

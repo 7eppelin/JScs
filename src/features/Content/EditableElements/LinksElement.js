@@ -44,6 +44,8 @@ const LinksElement = ({ element, attributes, children }) => {
     const { links } = element;
     const [ editing, setEditing ] = useState(false); // boolean || link index
 
+    console.log(links);
+
     return (
         <LinksContainer 
             variants={elem} 
@@ -52,6 +54,7 @@ const LinksElement = ({ element, attributes, children }) => {
 
             <Links links={links} 
                 edit={linkIndex => setEditing(linkIndex)} />
+                
 
             <button onClick={() => setEditing(true)} >
                 <i className="fas fa-plus"></i>
