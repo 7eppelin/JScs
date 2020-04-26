@@ -46,7 +46,7 @@ const Ul = styled.ul`
 `;
 
 
-const Links = ({ links, edit }) => (
+const Links = ({ links, edit, deleteLink }) => (
     <Ul>
         {links.map((link, index) => (
             <Tooltip tip={link.href} offset={0} key={index}>
@@ -60,7 +60,7 @@ const Links = ({ links, edit }) => (
                     </button>
 
                     <button className='close' 
-                        onClick={() => edit(index)}>
+                        onClick={() => deleteLink(index)}>
                         <i className="fas fa-times"></i>
                     </button>
                 </li>

@@ -69,6 +69,9 @@ const LinkForm = ({ links, editing, closeForm }) => {
         if (typeof editing === 'number') {
             setText(links[editing].text);
             setHref(links[editing].href);
+        } else {
+            setText('');
+            setHref('');
         }
     }, [editing])
 
@@ -93,7 +96,7 @@ const LinkForm = ({ links, editing, closeForm }) => {
 
     return (
         <AnimatePresence>
-            {editing && (
+            {editing !== false && (
                 <Form variants={variants}
                     onSubmit={submit}
                     initial='hidden'

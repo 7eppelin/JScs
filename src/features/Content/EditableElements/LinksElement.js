@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
+
+import { Editor } from './../editor';
+import { useSlate } from 'slate-react';
 
 import Links from './Links';
 import LinkForm from './LinkForm';
@@ -43,8 +46,12 @@ const LinksContainer = styled(motion.div)`
 const LinksElement = ({ element, attributes, children }) => {
     const { links } = element;
     const [ editing, setEditing ] = useState(false); // boolean || link index
+    const editor = useSlate();
 
-    console.log(links);
+    const deleteLink = useCallback(index => {
+        Editor.setLinks(editor,
+            links.filter((l, i) => i !== index))
+    }, [links])
 
     return (
         <LinksContainer 
@@ -53,7 +60,8 @@ const LinksElement = ({ element, attributes, children }) => {
             {...attributes} >
 
             <Links links={links} 
-                edit={linkIndex => setEditing(linkIndex)} />
+                edit={linkIndex => setEditing(linkIndex)}
+                deleteLink={linkIndex => deleteLink(linkIndex)} />
                 
 
             <button onClick={() => setEditing(true)} >
