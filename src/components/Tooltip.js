@@ -16,9 +16,15 @@ const StyledTippy = styled(Tippy)`
 
 // https://atomiks.github.io/tippyjs/v6/all-props/
 
-const Tooltip = ({ tip, position = 'top', children }) => (
+const Tooltip = ({ 
+    tip, 
+    position = 'top',
+    offset = 5,
+    children 
+}) => (
     <StyledTippy animation='scale'
-        arrow={true}
+        interactive={true}
+        offset={[0, offset]}
         content={tip}
         delay={[200, 50]}
         duration={150}
