@@ -12,8 +12,6 @@
     "firebase-tools": "^7.15.0",
     "framer-motion": "^1.9.1",
     "g": "^2.0.1",
-    "is-url": "^1.2.4",
-    "prism-react-renderer": "^1.0.2",
     "prismjs": "^1.20.0",
     "react": "^16.13.0",
     "react-custom-scrollbars": "^4.2.1",
