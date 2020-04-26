@@ -26,7 +26,7 @@ const Form = styled(motion.form)`
     right: 0;
     padding: 8px;
     text-align: center;
-    background: rgba(13, 13, 13, 0.9);
+    background: rgba(13, 13, 13, 0.8);
     z-index: 200;
 
     input {
@@ -49,12 +49,11 @@ const Form = styled(motion.form)`
         color: var(--gray1);
         border-radius: 3px;
         font-size: 1.2rem;
-        padding: 6px 10px;
+        padding: 6px 12px;
         transition: .15s;
     }
 
     button:hover { color: var(--green); }
-    button.close i { transform: rotate(45deg); }
     button.close:hover { color: var(--red); }
 `;
 
@@ -120,7 +119,7 @@ const LinkForm = ({ links, editing, closeForm }) => {
                     </button>
 
                     <button className='close' type='reset' onClick={closeForm}>
-                        <i className="fas fa-plus"></i>
+                        <i className="fas fa-times"></i>
                     </button>
 
                 </Form>

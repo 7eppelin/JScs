@@ -19,6 +19,7 @@ const LinksContainer = styled(motion.div)`
     user-select: none;
     height: 45px;
     background: var(--gray6);
+    margin-bottom: 20px;
     box-shadow: 0 3px 12px -3px var(--black);
 
     ul {
@@ -34,7 +35,7 @@ const LinksContainer = styled(motion.div)`
         color: var(--gray1);
         border-radius: 3px;
         font-size: 1.4rem;
-        padding: 7px;
+        padding: 7px 9px;
         transition: .15s;
     }
 

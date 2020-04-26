@@ -41,8 +41,9 @@ const Ul = styled.ul`
         transition: .45s;
     }
 
-    button.close { right: 2px; }
-    button:hover { color: var(--gray1); }
+    button.close { right: 2px }
+    button:hover { color: var(--gray1) }
+    button:focus { outline: none }
 `;
 
 
