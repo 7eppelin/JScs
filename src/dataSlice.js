@@ -87,10 +87,12 @@ export default reducer;
 export const createItem = name => async dispatch => {
 
     try {   
-        // define what kind of item we are creating
-        // and dispatch a corresponding thunk
+        // the name arg is AddForm's input value
+        // the format is sectionName/subsectionName/featureName
         const [secName, subsecName, featureName] = name.split('/');
 
+        // define what kind of item we are creating
+        // and dispatch a corresponding thunk
         if (featureName) {
             await dispatch(createFeature(featureName, subsecName, secName));
 
@@ -119,19 +121,19 @@ const createSection = name => async dispatch => {
     }
 
     //  create the section
-    const newSec = { name }
+    const newSec = { name };
     const sec = await db.collection('sections').add(newSec);
     newSec.id = sec.id;
 
     // create a corresponding content item
-    const url = `/${name}`
+    const url = `/${name}`;
     await createContentItem(newSec.id, name, url);
 
     batch(() => {
         dispatch(addItems({
             collection: 'sections',
             items: [ newSec ]
-        }));
+        }))
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} section has been created`
@@ -143,14 +145,14 @@ const createSection = name => async dispatch => {
 
 const createSubsection = (name, sectionName) => async dispatch => {
 
-    // find target section' id by the given name
-    // if it doesnt exist, throw an error
+    // find the target section's id
+    // if it doesnt exist, throw
     const sectionID = await findSectionID(sectionName);
     if (!sectionID) throw Error(`The ${sectionName} section does not exist`);
 
     // check whether a subsection with the given name already exists
     if (await findSubsecID(name, sectionName)) {
-        throw Error('subsection with given name already exists')
+        throw Error('A subsection with the given name already exists')
     }
 
     // create the subsection
@@ -178,18 +180,21 @@ const createSubsection = (name, sectionName) => async dispatch => {
 
 const createFeature = (name, subsecName, secName) => async dispatch => {
 
-    // find target section' id by the given name
-    // if it doesnt exist throw an error
+    // find the target section' id
+    // if it doesnt exist, throw
     const secID = await findSectionID(secName)
     if (!secID) {
         throw Error(`The ${secName} section does not exist`);
     }
 
-    // find target subsection's id by the given name
+    // find the target subsection's id
     const subsecID = await findSubsecID(subsecName, secName);
     if (!subsecID) {
         throw Error(`The ${subsecName} subsection does not exist`)
     }
+
+    // check whether a feature with the given name already exists
+    // ...
 
     // create the feature;
     const feature = { 
@@ -404,10 +409,12 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
 
 export const getSections = () => async dispatch => {
     const sectionsSnapshot = await db.collection('sections').get()
+
     const sections = sectionsSnapshot.docs.map(sec => ({
         id: sec.id,
         ...sec.data()
     }))
+
     dispatch(addItems({
         collection: 'sections',
         items: sections
@@ -430,7 +437,7 @@ export const getSubsections = secName => async dispatch => {
 
     if (!subs.length) return;
     
-    // get all features with 
+    // get all the features with 
     // feature.sectionName == secName && feature.subsectionName == any of subNames
     const subNames = subs.map(sub => sub.name);
 
@@ -488,8 +495,6 @@ export const getContentItem = url => async dispatch => {
 
 export const updateContentItem = newItem => async dispatch => {
     dispatch(addContentItem(newItem));
-
-    console.log(newItem);
 
     db.collection('content')
         .doc(newItem.id)
