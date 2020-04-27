@@ -171,7 +171,7 @@ const createSubsection = (name, sectionName) => async dispatch => {
         }));
         dispatch(setStatus({
             type: 'success',
-            message: `The ${name} subsections has been created within ${sectionName}`
+            message: `The ${name} subsections has been created in ${sectionName}`
         }))
     })
 }
@@ -222,7 +222,7 @@ const createFeature = (name, subsecName, secName) => async dispatch => {
         }));
         dispatch(setStatus({
             type: 'success',
-            message: `The ${name} feature has been created within ${secName}/${subsecName}`
+            message: `The ${name} feature has been created in ${secName}/${subsecName}`
         }))
     })
 }
@@ -262,7 +262,7 @@ export const deleteSection = name => async dispatch => {
 
     // check whether the target section exists
     const secID = await findSectionID(name);
-    if (!secID) throw Error('Section with given name does not exist')
+    if (!secID) throw Error("There's no such section in the database")
 
     // now, we need to not only delete the section
     // but all the items nested within it aswell
@@ -335,7 +335,7 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
 
     // check whether the target subsection exists
     const subsecID = await findSubsecID(name, sectionName);
-    if (!subsecID) throw Error(`The ${name} subsection does not exist within ${sectionName}`)
+    if (!subsecID) throw Error(`The ${name} subsection does not exist in ${sectionName}`)
 
     // delete the subsection and all nested features
 
@@ -386,7 +386,7 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
     // verify that a subsection with the given name exists
     const subsecID = await findSubsecID(subsection, section);
     if (!subsecID) {
-        throw Error(`The ${subsection} subsection does not exist within ${section}`)
+        throw Error(`The ${subsection} subsection does not exist in ${section}`)
     }
 
     // check whether a feature with the given name exists
