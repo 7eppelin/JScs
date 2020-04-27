@@ -39,9 +39,10 @@ const StyledAddForm = styled.form`
     }
 
     div {
-        margin: 12px auto;
-        height: 36px;
+        margin: 10px auto;
+        height: 44px;
         width: 80%;
+        line-height: 1.3;
         color: var(--green);
     }
 
