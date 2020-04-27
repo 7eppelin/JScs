@@ -13,21 +13,17 @@ const StyledMenu = styled.section`
     position: relative;
     background: var(--gray6);
     padding: 4px;
-    flex-basis: 150px;
+    flex-basis: 160px;
 
     ul {
         background: var(--gray5);
+        margin-right: 10px;
         height: 100%;
     }
 
     li {
         display: block;
         border-bottom: 3px solid var(--gray6);
-    }
-
-    .thumb {
-        width: 3px !important;
-        background: var(--brown);
     }
 `;
 
@@ -40,7 +36,7 @@ const list = {
         transition: { 
             duration: 0.3,
             when: 'beforeChildren',
-            staggerChildren: 0.05,
+            staggerChildren: 0.08,
         }
     }
 }
@@ -60,7 +56,7 @@ const SectionMenu = () => {
         dispatch(getSections());
     }, [])
 
-    if (!sections.length) return <StyledMenu><Spinner size={90} /></StyledMenu>
+    if (!sections.length) return <StyledMenu><Spinner /></StyledMenu>
 
     return (
         <StyledMenu>
