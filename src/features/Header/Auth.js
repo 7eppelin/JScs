@@ -17,8 +17,13 @@ const StyledAuth = styled.div`
         background: transparent;
         color: var(--white);
         font-size: 1.2rem;
-        padding: 5px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        transition: .5s;
     }
+
+    button:hover { background: var(--gray6) }
+    button:hover span { color: var(--orange2) }
 
     span {
         color: var(--orange1);
@@ -32,10 +37,6 @@ const StyledAuth = styled.div`
         border: 1px solid var(--gray2);
         vertical-align: middle;
         margin-left: 8px;
-    }
-
-    button:hover span {
-        color: var(--orange2);
     }
 `;
 
