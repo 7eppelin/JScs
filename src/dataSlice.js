@@ -1,7 +1,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { batch } from 'react-redux';
-import { setStatus } from './addFormStatusSlice';
+import { setStatus } from 'features/AddForm/addFormStatusSlice';
 import { db } from 'firebase.js';
 import { 
     findSectionID, 

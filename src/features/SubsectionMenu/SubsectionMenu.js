@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
-import { getSubsections } from 'features/AddForm/dataSlice';
+import { getSubsections } from '../../dataSlice';
 
 import Spinner from 'components/Spinner';
 import Scrollbar from 'components/Scrollbar';

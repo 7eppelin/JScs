@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
 
-import { getSections } from 'features/AddForm/dataSlice';
+import { getSections } from '../../dataSlice';
 
 import Scrollbar from 'components/Scrollbar';
 import Spinner from 'components/Spinner';
