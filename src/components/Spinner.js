@@ -19,7 +19,7 @@ const StyledImg = styled.img`
     animation: ${rotate} 1.8s ease-in-out infinite;
 `;
 
-const Spinner = ({ size = 120 }) => (
+const Spinner = ({ size = 90 }) => (
     <StyledImg src={svg} 
             alt="spinner"
             width={`${size}px`}
