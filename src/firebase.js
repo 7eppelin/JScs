@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
-import { logIn } from 'features/Header/userSlice';
+import { logIn } from 'userSlice';
 
 
 // app config

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
 
-import { logIn, logOut } from 'features/Header/userSlice';
+import { logIn, logOut } from 'userSlice';
 import { authRef } from './firebase';
 
 import Header from 'features/Header/Header';

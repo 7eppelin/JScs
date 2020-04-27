@@ -1,7 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 
-import userReducer from 'features/Header/userSlice';
+import userReducer from 'userSlice';
 import addFormStatusReducer from 'features/AddForm/addFormStatusSlice';
 import dataReducer from 'dataSlice.js';
 import editorStatusReducer from 'features/Content/editorSlice';
