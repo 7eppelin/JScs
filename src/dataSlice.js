@@ -194,7 +194,10 @@ const createFeature = (name, subsecName, secName) => async dispatch => {
     }
 
     // check whether a feature with the given name already exists
-    // ...
+    const featureID = await findFeatureID(name, secName, subsecName);
+    if (featureID) {
+        throw Error(`A feature with the given name already exists`)
+    }
 
     // create the feature;
     const feature = { 
