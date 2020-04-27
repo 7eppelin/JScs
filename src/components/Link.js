@@ -12,10 +12,6 @@ const StyledLink = styled.a`
 const Link = ({ navigateTo, children }) => {
     const history = useHistory();
 
-    const navigate = e => {
-
-    }
-
     return (
         <StyledLink href='#' onClick={() => history.push(navigateTo)} >
             {children}
