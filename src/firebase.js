@@ -38,41 +38,19 @@ export const authRef = firebase.auth();
 const authProvider = new firebase.auth.GithubAuthProvider().addScope('read:user');
 
 
-export const loginWithGithub = () => dispatch => {
+export const loginWithGithub = () => async dispatch => {
     //  firebase's user displayName field
     //  is being set to null for some reason
-    //  the only way to set it explicitly is 
-    //  to use additionalUserInfo from signInWithPopup() response
+    //  the only way to set it explicitly
+    //  is to use additionalUserInfo
 
-    authRef.signInWithPopup(authProvider)
-        .then(result => {
-            const user = authRef.currentUser;
-            if (user.displayName) return;
-            user.updateProfile({
-                displayName: result.additionalUserInfo.username
-            })
-            .then(() => dispatch(logIn(user)))
+    const signInResult = await authRef.signInWithPopup(authProvider)
+
+    const user = authRef.currentUser;
+    if (!user.displayName) {
+        await user.updateProfile({
+            displayName: signInResult.additionalUserInfo.username
         })
+    }
+    dispatch(logIn(user))
 }
-
-
-
-// export const authConfig = {
-//     signInOptions: [
-//         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-//         firebase.auth.GithubAuthProvider.PROVIDER_ID,
-//         firebase.auth.EmailAuthProvider.PROVIDER_ID,
-//     ],
-
-//     callbacks: {
-//         signInSuccessWithAuthResult: (authResult, redirectURL) => {
-//             // console.log(authResult);
-//         },
-//         uiShown: () => {
-//             // may want to hide the signup form here
-//         },
-//     },
-
-//     signInFlow: 'popup', // default value is 'redirect'
-//     //signInSuccessUrl: '<url-to-redirect-to-on-success>',
-// }
