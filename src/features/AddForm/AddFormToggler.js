@@ -3,30 +3,25 @@ import styled from 'styled-components/macro';
 
 
 const StyledToggler = styled.button`
+    width: 42px;
+    height: 42px;
     font-size: 1.8rem;
-    padding: 5px;
     margin-top: 20px;
     background-color: var(--black);
     color: var(--white);
     border-radius: 50%;
     border: 1px solid var(--gray4);
     box-shadow: 0 0 6px 1px var(--black);
-    transition: .25s;
     outline: none;
 
-    &:focus {
-        outline: none;
-    }
+    &:focus { outline: none }
 
     i {
-        display: block;
-        text-align: center;
-        width: 32px;
-        height: 32px;
-        padding-top: 7px;
+        vertical-align: middle;
+        transition: .25s;
     }
 
-    &.toggled {
+    &.toggled i {
         transform: rotate(135deg);
     }
 `;
