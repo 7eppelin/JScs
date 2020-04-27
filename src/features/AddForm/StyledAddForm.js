@@ -5,7 +5,6 @@ const StyledAddForm = styled.form`
     background-color: var(--gray6);
     background-size: 20px 20px;
     width: 280px;
-    height: 260px;
     border: 1px solid var(--gray5);
     box-shadow: 0 2px 15px -1px var(--black);
     color: var(--white);
@@ -16,10 +15,11 @@ const StyledAddForm = styled.form`
         font-weight: normal;
         color: var(--orange1);
         margin: 30px;
+        font-size: 1.2rem;
     }
 
     input {
-        background-color: var(--gray6);
+        background-color: var(--gray5);
         color: var(--white);
         box-shadow: inset 0 0 12px -1px var(--black);
         padding: 10px 15px;
@@ -27,13 +27,15 @@ const StyledAddForm = styled.form`
         width: 90%;
         margin: 0 auto;
         transition: .2s;
-        outline: none;
+        outline: 1px solid transparent;
+        outline-offset: -7px;
     }
 
     input:focus {
         box-shadow: inset 0 0 12px -2px var(--black);
         background-color: var(--gray4);
-        border: 1px solid var(--brown);
+        outline: 1px solid var(--brown);
+        outline-offset: 0px;
     }
 
     div {
@@ -48,15 +50,24 @@ const StyledAddForm = styled.form`
     }
 
     button {
-        font-size: 1.2rem;
+        outline: none;
+        font-size: 1.1rem;
         display: inline-block;
-        margin: 0 6px;
-        padding: 10px 20px;
-        background-color: var(--gray4);
-        border: 1px solid var(--gray3);
-        box-shadow: 0 1px 10px -1px var(--black);
+        padding: 10px;
+        width: 50%;
+        text-align: center;
+        background-color: var(--gray5);
+        border-top: 1px solid var(--gray4);
+        color: var(--gray1);
+        transition: .2s;
+    }
+
+    button:hover {
+        background: var(--gray4);
         color: var(--white);
     }
+
+    button:focus { outline: none }
 `;
 
 export default StyledAddForm;
