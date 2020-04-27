@@ -12,7 +12,8 @@ import SectionLink from './SectionLink';
 const StyledMenu = styled.section`
     position: relative;
     background: var(--gray6);
-    padding: 4px;
+    padding: 5px;
+    padding-right: 0;
     flex-basis: 160px;
 
     ul {
