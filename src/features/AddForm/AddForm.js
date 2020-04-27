@@ -34,11 +34,9 @@ const AddForm = ({ hide }) => {
 
             <h3>ADD OR DELETE AN ITEM</h3>
 
-            <Tooltip tip='sectionName/subsectionName/featureName'
-                    position='right'>
-                <input value={inputValue} 
-                    onChange={e => setinputValue(e.target.value)} />
-            </Tooltip>
+            <input value={inputValue} 
+                placeholder='section/subsection/feature'
+                onChange={e => setinputValue(e.target.value)} />
 
             <div className={status.type === 'error' ? 'error' : ''} >
                 {status.message}
