@@ -17,8 +17,8 @@ const StyledLink = styled(NavLink)`
     }
 
     &.active {
-        background-color: var(--gray3);
-        box-shadow: inset 0 0 10px 0 var(--gray6);
+        background-color: var(--gray4);
+        box-shadow: inset 0 0 15px 0 var(--gray6);
         color: var(--white);
     }
 `;
