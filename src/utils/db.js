@@ -15,6 +15,7 @@ export const findSubsecID = async (name, secName) => {
     const snapshot = await
         db.collection('subsections')
             .where('name', '==', name)
+            // subsection names are unique only within the same section
             .where('sectionName', '==', secName)
             .get();
 
@@ -27,8 +28,10 @@ export const findFeatureID = async (name, secName, subsecName) => {
     const snapshot = await
         db.collection('features')
             .where('name', '==', name)
-            .where('sectionName', '==', secName)
+            // feature names are unique only within the same subsection
             .where('subsectionName', '==', subsecName)
+            // subsection names are unique only within the same section
+            .where('sectionName', '==', secName)
             .get();
     
     const feature = snapshot.docs[0];
@@ -64,9 +67,4 @@ export const createContentItem = async (id, name, url) => {
 
     await db.collection('content').doc(id).set(item);
     return item;
-}
-
-
-export const deleteContentItem = async id => {
-    db.collection('content').doc(id).delete();
 }
