@@ -386,9 +386,13 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
         throw Error(`The ${subsection} subsection does not exist within ${section}`)
     }
 
-    // delete the feature
+    // check whether a feature with the given name exists
     const id = await findFeatureID(name, section, subsection);
+    if (!id) throw Error(`The ${name} feature does not exist in ${section}/${subsection}`)
+
+    // delete the feature
     await db.collection('features').doc(id).delete();
+    await db.collection('content').doc(id).delete();
 
     batch(() => {
         dispatch(removeItems({
