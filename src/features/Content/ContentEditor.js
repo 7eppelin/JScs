@@ -8,6 +8,7 @@ import { createEditor, Editor, decorate } from './editor';
 import renderElement from './renderElement';
 import renderLeaf from './renderLeaf';
 
+import ToggleReadOnly from './ToggleReadOnly'
 import HoveringMenu from 'features/HoveringMenu/HoveringMenu';
 import EditorFooter from './EditorFooter';
 import Scrollbar from 'components/Scrollbar';
@@ -28,6 +29,7 @@ const Wrapper = styled(motion.div)`
     font-size: 1.4rem;
     color: var(--gray1); 
 `;
+
 
 const wrapper = {
     shown: {
@@ -134,6 +136,9 @@ const ContentEditor = ({ content, updateContent }) => {
                 initial='hidden'
                 animate='shown'
                 exit='hidden'>
+
+                <ToggleReadOnly readOnly={readOnly}
+                    toggle={() => setReadOnly(!readOnly)} />
 
                 <EditableContainer padding={isToolbarOpen ? '158px' : '118px'}>
                     <Scrollbar>
