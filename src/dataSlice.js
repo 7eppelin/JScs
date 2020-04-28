@@ -445,12 +445,9 @@ export const getSubsections = secName => async dispatch => {
     if (!subs.length) return;
     
     // get all the features with 
-    // feature.sectionName == secName && feature.subsectionName == any of subNames
-    const subNames = subs.map(sub => sub.name);
-
+    // feature.sectionName == secName
     const features = await db.collection('features')
         .where('sectionName', '==', secName)
-        .where('subsectionName', 'in', subNames)
         .get()
         .then(snapshot => snapshot.docs.map(doc => ({
             id: doc.id,
