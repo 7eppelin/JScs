@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { motion } from 'framer-motion';
 import Tooltip from 'components/Tooltip';
 
 
@@ -30,29 +29,15 @@ const StyledButton = styled.button`
 `;
 
 
-const child = {
-    open: {
-        x: 0,
-        scale: 1,
-        opacity: 1,
-    },
-    hidden: {
-        x: -40,
-        scale: 0,
-        opacity: 0,
-    }
-}
-
-
 const EditorToolbarButton = ({ onClick, children, tooltip }) => {
     return (
-        <motion.div variants={child}>
+        <div>
             <Tooltip tip={tooltip} >
                 <StyledButton onClick={onClick}>
                     {children}
                 </StyledButton>
             </Tooltip>
-        </motion.div>
+        </div>
     )
 }
 

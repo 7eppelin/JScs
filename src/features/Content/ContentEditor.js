@@ -61,7 +61,6 @@ const ContentEditor = ({ content, updateContent }) => {
 
     const [ editorState, setEditorState ] = useState(content.data);
     const [ readOnly, setReadOnly ] = useState(true);
-    const [ isToolbarOpen, setIsToolbarOpen ] = useState(true);
 
     console.log(editor);
 
@@ -140,7 +139,7 @@ const ContentEditor = ({ content, updateContent }) => {
                 <ToggleReadOnly readOnly={readOnly}
                     toggle={() => setReadOnly(!readOnly)} />
 
-                <EditableContainer padding={isToolbarOpen ? '158px' : '118px'}>
+                <EditableContainer padding={readOnly ? '40px' : '150px'}>
                     <Scrollbar>
                         <Editable readOnly={readOnly}
                             onKeyDown={handleKeyDown} 
@@ -150,8 +149,7 @@ const ContentEditor = ({ content, updateContent }) => {
                     </Scrollbar>  
                 </EditableContainer>
 
-                <EditorFooter isToolbarOpen={isToolbarOpen}
-                    toggleToolbar={() => setIsToolbarOpen(!isToolbarOpen)}
+                <EditorFooter readOnly={readOnly}
                     edited={content.edited}
                     saveChanges={saveChanges} />
 
