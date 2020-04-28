@@ -58,6 +58,7 @@ const ContentEditor = ({ content, updateContent }) => {
     const editor = useMemo(() => createEditor(), [content.id])
 
     const [ editorState, setEditorState ] = useState(content.data);
+    const [ readOnly, setReadOnly ] = useState(true);
     const [ isToolbarOpen, setIsToolbarOpen ] = useState(true);
 
     console.log(editor);
@@ -136,7 +137,8 @@ const ContentEditor = ({ content, updateContent }) => {
 
                 <EditableContainer padding={isToolbarOpen ? '158px' : '118px'}>
                     <Scrollbar>
-                        <Editable onKeyDown={handleKeyDown} 
+                        <Editable readOnly={readOnly}
+                            onKeyDown={handleKeyDown} 
                             decorate={decorate}
                             renderElement={renderElement}
                             renderLeaf={renderLeaf} />
