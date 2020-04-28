@@ -10,8 +10,9 @@ const Button = styled.button`
     z-index: 300;
     top: -2px;
     right: -2px;
-    box-shadow: -1px 1px 15px -1px var(--black);
+    box-shadow: -3px 3px 12px -3px var(--black);
     transition: .15s;
+    border-radius: 0 0 0 3px;
 
     &:focus { outline: none }
 

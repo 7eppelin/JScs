@@ -90,6 +90,7 @@ button {
 	cursor: pointer;
 	border: none;
 	outline: 1px solid transparent;
+	background: transparent;
 }
 
 button:focus {

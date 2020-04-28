@@ -7,10 +7,9 @@ import EditorToolbarButton from './EditorToolbarButton';
 
 
 const StyledToolbar = styled.div`
-    background-color: var(--gray4);
     display: flex;
     flex-wrap: wrap;
-    padding: 0 40px;
+    background: var(--gray5);
 `;
 
 

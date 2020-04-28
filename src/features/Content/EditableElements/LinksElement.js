@@ -7,6 +7,7 @@ import { useSlate, useReadOnly } from 'slate-react';
 
 import Links from './Links';
 import LinkForm from './LinkForm';
+import { findNonSerializableValue } from '@reduxjs/toolkit';
 
 
 const LinksContainer = styled(motion.div)`
@@ -47,6 +48,7 @@ const elem = {
 
 const addButtonVariants = {
     shown: {
+        display: '',
         opacity: 1,
         x: 0,
         scale: 1,
@@ -55,12 +57,15 @@ const addButtonVariants = {
             type: 'spring',
             stiffness: 150,
             damping: 8,
-        }
+        },
     },
     hidden: {
         opacity: 0,
         x: 80,
         scale: 0.7,
+        transitionEnd: {
+            display: 'none'
+        }
     }
 }
 

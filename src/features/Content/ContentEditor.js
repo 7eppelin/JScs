@@ -62,8 +62,6 @@ const ContentEditor = ({ content, updateContent }) => {
     const [ editorState, setEditorState ] = useState(content.data);
     const [ readOnly, setReadOnly ] = useState(true);
 
-    console.log(editor);
-
     const saveChanges = () => updateContent({
         ...content,
         edited: Date.now(),
