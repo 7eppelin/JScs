@@ -445,7 +445,7 @@ export const getSubsections = secName => async dispatch => {
     if (!subs.length) return;
     
     // get all the features with 
-    // feature.sectionName == secName && feature.subsectionName == any of subNames
+    // feature.sectionName == secName
     const features = await db.collection('features')
         .where('sectionName', '==', secName)
         .get()
