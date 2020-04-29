@@ -2,7 +2,6 @@ import { createEditor, Editor, Node, Text, Transforms } from 'slate';
 import { withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import Prism from 'prismjs';
-import isUrl from 'is-url';
 
 
 
