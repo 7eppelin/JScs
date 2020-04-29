@@ -16,7 +16,8 @@ const StyledSub = styled.div`
     }
 
     a.active {
-        background: var(--gray3);
+        background: var(--gray4);
+        color: var(--orange2);
     }
 `;
 
@@ -32,8 +33,7 @@ const StyledToggler = styled.i`
     cursor: pointer;
 
     &:hover {
-        border: 1px solid var(--gray2);
-        box-shadow: 0 0 3px 0 var(--black);     
+        color: var(--orange2);
     }
 `;
 

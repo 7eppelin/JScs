@@ -13,6 +13,7 @@ const StyledMenu = styled.section`
     position: relative;
     background: var(--gray6);
     padding: 5px;
+    padding-left: 8px;
     padding-right: 0;
     flex-basis: 160px;
 

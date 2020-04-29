@@ -6,22 +6,25 @@ import { NavLink } from 'react-router-dom'
 const StyledItem = styled.li`
     flex-basis: 50%;
     flex-grow: 1;
-    background: var(--gray5);
+    background: var(--gray6);
 
     a {
         display: block;
         height: 100%;
         padding-top: 8px;
         font-size: 1.4rem;
+        color: var(--gray2);
         transition: .2s;
     }
 
     a:hover {
-        background: var(--gray4);
+        background: var(--gray5);
+        color: var(--orange2);
     }
 
     a.active {
-        background: var(--gray4);
+        background: var(--gray5);
+        color: var(--orange2);
     }
 `;
 

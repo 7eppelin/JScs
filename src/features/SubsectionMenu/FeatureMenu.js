@@ -22,12 +22,14 @@ const makeFeaturesSelector = () =>
 
 
 const StyledFeatures = styled.li`
-    background: var(--gray4);
-    margin-bottom: 3px;
+    background: var(--gray5);
+    border-radius: 3px;
+    border: 1px solid var(--gray5);
+    margin-bottom: 2px;
     transition: .2s;
 
     &:hover {
-        background: var(--gray3);
+        background: var(--gray4);
     }
 
     a {

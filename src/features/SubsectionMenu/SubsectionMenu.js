@@ -26,6 +26,10 @@ const StyledMenu = styled.section`
     flex-basis: 250px;
     text-align: center;
     padding: 4px;
+
+    .subs {
+        padding-right: 12px;
+    }
 `;
 
 
@@ -51,7 +55,7 @@ const SubsectionMenu = () => {
     return (
         <StyledMenu>
             <Scrollbar>
-                <ul>
+                <ul className='subs'>
                     {subsections.map(sub => (
                         <FeatureMenu key={sub.id} sub={sub} />
                     ))}
