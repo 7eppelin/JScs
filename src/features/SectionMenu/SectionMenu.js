@@ -43,8 +43,16 @@ const list = {
 }
 
 const item = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+    hidden: { 
+        opacity: 0,
+        scaleY: 0.6,
+        y: -10
+    },
+    visible: { 
+        opacity: 1,
+        scaleY: 1,
+        y: 0
+    },
 }
 
 
