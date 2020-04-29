@@ -47,7 +47,12 @@ const Ul = styled.ul`
 `;
 
 
-const Links = ({ links, edit, deleteLink }) => (
+const Links = ({ 
+    readOnly,
+    links, 
+    edit, 
+    deleteLink 
+}) => (
     <Ul>
         {links.map((link, index) => (
             <Tooltip tip={link.href} offset={0} key={index}>
@@ -56,14 +61,18 @@ const Links = ({ links, edit, deleteLink }) => (
                         {link.text}
                     </a>
 
-                    <button onClick={() => edit(index)}>
-                        <i className="fas fa-pen-square"></i>
-                    </button>
+                    {!readOnly && (
+                        <button onClick={() => edit(index)}>
+                            <i className="fas fa-pen-square"></i>
+                        </button>
+                    )}
 
-                    <button className='close' 
-                        onClick={() => deleteLink(index)}>
-                        <i className="fas fa-times"></i>
-                    </button>
+                    {!readOnly && (
+                        <button className='close' 
+                            onClick={() => deleteLink(index)}>
+                            <i className="fas fa-times"></i>
+                        </button>
+                    )}
                 </li>
             </Tooltip>
         ))}
