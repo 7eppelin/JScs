@@ -52,20 +52,22 @@ const itemsSlice = createSlice({
             })
         },
 
+        moveSection: (state, action) => {
+            const { current, target } = action.payload;
+            const ids = state.sections.ids;
+            ids.splice(target, 0, ids.splice(current, 1)[0]);
+        },
+
         addContentItem: (state, action) => {
             state.content[action.payload.id] = action.payload;
         },
-
-        removeContentItem: (state, action) => {
-            delete state.content[action.payload];
-        }
     }
 });
 
 
 const { reducer, actions } = itemsSlice;
 
-export const { addItems, removeItems, addContentItem } = actions;
+export const { addItems, removeItems, moveSection, addContentItem } = actions;
 
 export default reducer;
 

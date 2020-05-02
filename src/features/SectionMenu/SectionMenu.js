@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
-import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
 
-import { getSections } from '../../dataSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSections, moveSection } from '../../dataSlice';
 
 import Scrollbar from 'components/Scrollbar';
 import Spinner from 'components/Spinner';
@@ -12,14 +12,14 @@ import SectionLink from './SectionLink';
 
 const SectionMenu = () => {
     const dispatch = useDispatch();
-    const sectionsObj = useSelector(state => state.data.sections.byID);
-    const sections = Object.values(sectionsObj);
+    const sections = useSelector(state => state.data.sections.byID);
+    const ids = useSelector(state => state.data.sections.ids);
 
     useEffect(() => {
         dispatch(getSections());
     }, [])
 
-    if (!sections.length) return <StyledMenu><Spinner /></StyledMenu>
+    if (!ids.length) return <StyledMenu><Spinner /></StyledMenu>
 
     return (
         <StyledMenu>
@@ -28,9 +28,13 @@ const SectionMenu = () => {
                     initial='hidden' 
                     animate='visible' >
 
-                    {sections.map(sec => (
-                        <SectionLink key={sec.id} 
-                            label={sec.name} />
+                    {ids.map((id, i) => (
+                        <SectionLink key={id} 
+                            i={i}
+                            moveItem={(current, target) => {
+                                dispatch(moveSection({ current, target })
+                            )}}
+                            label={sections[id].name} />
                     ))}
 
                 </motion.ul>
@@ -48,8 +52,10 @@ const StyledMenu = styled.section`
     flex-basis: 160px;
 
     ul {
+        background: var(--black);
         margin-right: 11px;
         height: 100%;
+        transition: background 2s;
     }
 `;
 
@@ -63,7 +69,8 @@ const list = {
             duration: 0.3,
             when: 'beforeChildren',
             staggerChildren: 0.08,
-        }
+        },
+        transitionEnd: { background: 'var(--gray6)'}
     }
 }
 
