@@ -56,31 +56,29 @@ const SectionLink = ({ label, i, moveItem, updateDB }) => {
 const StyledLink = styled(motion.li)`
     position: relative;
     margin: 2px 0;
-    background-color: var(--gray5);
     z-index: ${props => props.isDragging ? 5 : 0 };
-    transition-delay: ${props => props.isDragging ? 0 : 'z-index 0.3' };
     border: ${props => props.isDragging ? 
         '1px solid var(--black)' : 
         '1px solid transparent' };
-    box-shadow : ${props => props.isDragging ? '0 0 18px -3px black' : ''};
+    box-shadow : ${props => props.isDragging ? '0 0 20px -4px black' : ''};
 
     a {
         display: block;
         padding: 13px;
         height: 100%;
         border-radius: 3px;
+        background: ${props => props.isDragging ? 'var(--gray4)' : 'var(--gray5)'};
         color: var(--gray1);
         transition: .2s;
     }
 
     a:hover {
         background: var(--gray4);
-        color: var(--white);
     }
 
     a.active {
         background: var(--gray4);
-        box-shadow: inset 0 0 15px 0 var(--gray6);
+        box-shadow: inset 0 0 15px -3px var(--gray6);
         color: var(--white);
     }
 `;
