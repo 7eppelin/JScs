@@ -3,7 +3,8 @@ import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getSections, moveSection } from '../../dataSlice';
+import { getSections, setSectionsOrder } from '../../dataSlice';
+import { updateSectionsOrderInDB } from 'utils/db';
 
 import Scrollbar from 'components/Scrollbar';
 import Spinner from 'components/Spinner';
@@ -12,14 +13,42 @@ import SectionLink from './SectionLink';
 
 const SectionMenu = () => {
     const dispatch = useDispatch();
+
+    // object of sections { id: {section}, ... }
     const sections = useSelector(state => state.data.sections.byID);
+
+    // array of sections' ids that is responsible 
+    // for order in which items will appear in the menu
     const ids = useSelector(state => state.data.sections.ids);
+
+    const isAdmin = useSelector(state => state.user && state.user.isAdmin)
 
     useEffect(() => {
         dispatch(getSections());
     }, [])
 
     if (!ids.length) return <StyledMenu><Spinner /></StyledMenu>
+
+    // this function will be invoked
+    // every time the dragged elem was moved 
+    // by more than 32px up or down
+    const moveItem = (current, target) => {
+        // the args are the current and the target indexes
+        // of the dragged elem in the ids array
+        const newOrder = [...ids];
+
+        // delete the elem from the ids array
+        const el = newOrder.splice(current, 1)[0];
+        // and insert it in the target position
+        newOrder.splice(target, 0, el);
+
+        dispatch(setSectionsOrder(newOrder)) 
+    }
+
+    // invoked onDragEnd
+    const updateDB = () => {
+        if (isAdmin) updateSectionsOrderInDB(ids)
+    }
 
     return (
         <StyledMenu>
@@ -30,11 +59,11 @@ const SectionMenu = () => {
 
                     {ids.map((id, i) => (
                         <SectionLink key={id} 
+                            label={sections[id].name}
                             i={i}
-                            moveItem={(current, target) => {
-                                dispatch(moveSection({ current, target })
-                            )}}
-                            label={sections[id].name} />
+                            updateDB={updateDB}
+                            moveItem={moveItem}
+                        />
                     ))}
 
                 </motion.ul>

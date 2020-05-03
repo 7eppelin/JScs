@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { batch } from 'react-redux';
 import { setStatus } from 'features/AddForm/addFormStatusSlice';
-import { db } from 'firebase.js';
+import { db, arrayRemove, arrayUnion } from 'firebase.js';
 import { 
     findSectionID, 
     findSubsecID, 
@@ -52,10 +52,9 @@ const itemsSlice = createSlice({
             })
         },
 
-        moveSection: (state, action) => {
-            const { current, target } = action.payload;
-            const ids = state.sections.ids;
-            ids.splice(target, 0, ids.splice(current, 1)[0]);
+        setSectionsOrder: (state, action) => {
+            // action.payload is an array of ids in new order;
+            state.sections.ids = action.payload;
         },
 
         addContentItem: (state, action) => {
@@ -67,7 +66,12 @@ const itemsSlice = createSlice({
 
 const { reducer, actions } = itemsSlice;
 
-export const { addItems, removeItems, moveSection, addContentItem } = actions;
+export const { 
+    addItems, 
+    removeItems, 
+    setSectionsOrder,
+    addContentItem 
+} = actions;
 
 export default reducer;
 
@@ -126,6 +130,13 @@ const createSection = name => async dispatch => {
     const newSec = { name };
     const sec = await db.collection('sections').add(newSec);
     newSec.id = sec.id;
+
+
+    // create a reference to the section in the ids array
+    // responsible for the order in which items appear in the nav
+    await db.doc('order/sections')
+        .update({ ids: arrayUnion(sec.id) })
+
 
     // create a corresponding content item
     const url = `/${name}`;
@@ -266,6 +277,12 @@ export const deleteSection = name => async dispatch => {
     const secID = await findSectionID(name);
     if (!secID) throw Error("There's no such section in the database")
 
+
+    // delete the reference to the section from the 'ids'
+    await db.doc('order/sections')
+        .update({ ids: arrayRemove(secID) })
+
+
     // now, we need to not only delete the section
     // but all the items nested within it aswell
 
@@ -282,6 +299,7 @@ export const deleteSection = name => async dispatch => {
         .get()
         .then(features => features.docs.map(feature => feature.id));
     
+
     // delete the items from the db
     // aswell as related content items
 
@@ -417,17 +435,32 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
 // retrieve
 
 export const getSections = () => async dispatch => {
-    const sectionsSnapshot = await db.collection('sections').get()
 
-    const sections = sectionsSnapshot.docs.map(sec => ({
+    // get the sections
+    const secs = await db.collection('sections').get()
+
+    const sections = secs.docs.map(sec => ({
         id: sec.id,
         ...sec.data()
     }))
 
-    dispatch(addItems({
-        collection: 'sections',
-        items: sections
-    }))
+    // get the ids array responsible for the order
+    // in which sections will be rendered in the list
+    const ids = await db.doc('order/sections')
+        .get()
+        .then(doc => {
+            if (!doc.exists) return [];
+            return doc.data().ids;
+        })
+
+
+    batch(() => {
+        dispatch(addItems({
+            collection: 'sections',
+            items: sections
+        }));
+        dispatch(setSectionsOrder(ids))
+    })
 }
 
 
@@ -482,9 +515,13 @@ export const getContentItem = url => async dispatch => {
         id = await findFeatureID(featureName, secName, subsecName);
     } else if (subsecName) {
         id = await findSubsecID(subsecName, secName);
+    } else if (secName) {
+        id = await findSectionID(secName);
     } else {
-        id = await findSectionID(secName || 'JavaScript');
+        // id = await findSectionID('JavaScript')
     }
+
+    if (!id) return;
 
     // retrieve the corresponding content item
     const content = await db.collection('content')

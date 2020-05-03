@@ -4,7 +4,7 @@ import { motion, useMotionValue } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
 
 
-const SectionLink = ({ label, i, moveItem }) => {
+const SectionLink = ({ label, i, moveItem, updateDB }) => {
     const [ isDragging, setDragging ] = useState(false);
     const dragOriginY = useMotionValue(0);
 
@@ -22,15 +22,20 @@ const SectionLink = ({ label, i, moveItem }) => {
             
             onDrag={(e, info) => {
                 const dragged = info.point.y;
-                // if dragged elem was moved down by more than 32 px,
-                // swap positions with the next elem
-                if (dragged > 32) moveItem(i, i + 1)
-                // if it was moved up, swap with prev elem
-                if (dragged < -32) moveItem(i, i - 1)
+
+                // if the dragged elem was moved by 32px down, 
+                // swap it's position with the next elem
+                if (dragged > 32) moveItem(i, i + 1);
+
+                // if it was moved up, swap with prev elem 
+                if (dragged < -32) moveItem(i, i - 1);
             }}
 
             onDragStart={() => setDragging(true)}
-            onDragEnd={() => setDragging(false)}
+            onDragEnd={() => {
+                setDragging(false);
+                updateDB();
+            }}
             positionTransition={({ delta }) => {
                 if (isDragging) {
                     dragOriginY.set(dragOriginY.get() + delta.y)
