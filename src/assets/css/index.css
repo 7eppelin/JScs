@@ -102,3 +102,23 @@ button:focus {
 	display: block;
 	clear: both;
 }
+
+.scrollbar::-webkit-scrollbar {
+	width: 8px;
+	background: var(--gray5);
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+	border: 2px solid var(--gray5);
+	background: var(--black);
+	border-radius: 8px;
+}
+
+
+/* FF, Edge */
+.scrollbar {
+	scrollbar-width: thin;
+  	scrollbar-color: var(--black) var(--gray5);
+}

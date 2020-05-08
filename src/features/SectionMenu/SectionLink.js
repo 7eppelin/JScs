@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { motion, useMotionValue } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
 
 
-const SectionLink = ({ label, i, moveItem, updateDB }) => {
+const SectionLink = ({ 
+    label, 
+    i, 
+    container,
+    moveItem, 
+    updateDB 
+}) => {
     const [ isDragging, setDragging ] = useState(false);
+    const elemRef = useRef();
     const dragOriginY = useMotionValue(0);
 
     return (
@@ -14,6 +21,7 @@ const SectionLink = ({ label, i, moveItem, updateDB }) => {
             // not related to d'n'd
             variants={variants}
 
+            ref={elemRef}
             drag='y'
             dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={1}
@@ -21,21 +29,25 @@ const SectionLink = ({ label, i, moveItem, updateDB }) => {
             isDragging={isDragging}
             
             onDrag={(e, info) => {
-                const dragged = info.point.y;
-
                 // if the dragged elem was moved by 32px down, 
                 // swap it's position with the next elem
-                if (dragged > 32) moveItem(i, i + 1);
-
+                if (info.point.y > 30) moveItem(i, i + 1);
                 // if it was moved up, swap with prev elem 
-                if (dragged < -32) moveItem(i, i - 1);
+                if (info.point.y < -30) moveItem(i, i - 1);
+
+                // scroll while dragging
+                scroll(container.current, info.delta.y, dragOriginY)
             }}
 
-            onDragStart={() => setDragging(true)}
+            onDragStart={() => {
+                setDragging(true)
+            }}
+
             onDragEnd={() => {
                 setDragging(false);
                 updateDB();
             }}
+
             positionTransition={({ delta }) => {
                 if (isDragging) {
                     dragOriginY.set(dragOriginY.get() + delta.y)
@@ -51,6 +63,21 @@ const SectionLink = ({ label, i, moveItem, updateDB }) => {
         </StyledLink>
     )
 }
+
+
+const scroll = (scrollbar, y, dragOrigin) => {
+    scrollbar.scrollBy(0, y);
+
+    // adjust elem's position when scrolling
+    const scroll = scrollbar.scrollTop;
+    const scrollH = scrollbar.scrollHeight;
+    const clientH = scrollbar.clientHeight;
+
+    if (scroll > 0 && scroll < scrollH - clientH) {
+        dragOrigin.set(dragOrigin.get() + y)
+    }
+}
+
 
 
 const StyledLink = styled(motion.li)`
@@ -85,16 +112,8 @@ const StyledLink = styled(motion.li)`
 
 
 const variants = {
-    hidden: { 
-        opacity: 0,
-        scale: 0.7,
-        y: -20
-    },
-    visible: { 
-        opacity: 1,
-        scale: 1,
-        y: 0
-    },
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
 }
 
 

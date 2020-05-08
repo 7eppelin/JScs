@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSections, setSectionsOrder } from '../../dataSlice';
 import { updateSectionsOrderInDB } from 'utils/db';
 
-import Scrollbar from 'components/Scrollbar';
 import Spinner from 'components/Spinner';
 import SectionLink from './SectionLink';
 
@@ -23,11 +22,14 @@ const SectionMenu = () => {
 
     const isAdmin = useSelector(state => state.user && state.user.isAdmin)
 
+    const container = useRef();
+
     useEffect(() => {
         dispatch(getSections());
     }, [])
 
     if (!ids.length) return <StyledMenu><Spinner /></StyledMenu>
+
 
     // this function will be invoked
     // every time the dragged elem was moved 
@@ -35,6 +37,7 @@ const SectionMenu = () => {
     const moveItem = (current, target) => {
         // the args are the current and the target indexes
         // of the dragged elem in the ids array
+        if (target < 0) return;
         const newOrder = [...ids];
 
         // delete the elem from the ids array
@@ -45,29 +48,32 @@ const SectionMenu = () => {
         dispatch(setSectionsOrder(newOrder)) 
     }
 
+
     // invoked onDragEnd
     const updateDB = () => {
         if (isAdmin) updateSectionsOrderInDB(ids)
     }
 
+
     return (
         <StyledMenu>
-            <Scrollbar>
-                <motion.ul variants={list} 
-                    initial='hidden' 
-                    animate='visible' >
+            <motion.ul ref={container}
+                className='scrollbar'
+                variants={list} 
+                initial='hidden' 
+                animate='visible' >
 
-                    {ids.map((id, i) => (
-                        <SectionLink key={id} 
-                            label={sections[id].name}
-                            i={i}
-                            updateDB={updateDB}
-                            moveItem={moveItem}
-                        />
-                    ))}
+                {ids.map((id, i) => (
+                    <SectionLink key={id} 
+                        label={sections[id].name}
+                        i={i}
+                        container={container}
+                        updateDB={updateDB}
+                        moveItem={moveItem}
+                    />
+                ))}
 
-                </motion.ul>
-            </Scrollbar>
+            </motion.ul>
         </StyledMenu>
     )
 }
@@ -77,14 +83,15 @@ const SectionMenu = () => {
 const StyledMenu = styled.section`
     position: relative;
     background: var(--gray6);
-    padding: 5px 0 5px 8px;
     flex-basis: 160px;
+    padding: 5px 0 5px 8px;
 
     ul {
         background: var(--black);
         margin-right: 11px;
         height: 100%;
         transition: background 2s;
+        overflow-y: auto;
     }
 `;
 
