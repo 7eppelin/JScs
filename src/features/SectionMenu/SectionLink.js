@@ -7,13 +7,22 @@ import { NavLink } from 'react-router-dom';
 const SectionLink = ({ 
     label, 
     i, 
-    container,
+    scrollbar,
+    ul,
     moveItem, 
     updateDB 
 }) => {
     const [ isDragging, setDragging ] = useState(false);
+    const [ boundary, setBoundary ] = useState(false);
     const elemRef = useRef();
     const dragOriginY = useMotionValue(0);
+
+    const isOnTop = () => {
+        const el = elemRef.current.getBoundingClientRect();
+        const ulTop = ul.current.getBoundingClientRect().top;
+
+        return el.top <= ulTop;
+    }
 
     return (
         <StyledLink
@@ -24,11 +33,18 @@ const SectionLink = ({
             ref={elemRef}
             drag='y'
             dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={1}
+            dragElastic={boundary ? 0.01 : 1}
             dragOriginY={dragOriginY}
             isDragging={isDragging}
             
             onDrag={(e, info) => {
+
+                if (isOnTop()) {
+                    setBoundary(true)
+                } else if (boundary) {
+                    setBoundary(false)
+                }
+
                 // if the dragged elem was moved by 32px down, 
                 // swap it's position with the next elem
                 if (info.point.y > 30) moveItem(i, i + 1);
@@ -36,7 +52,7 @@ const SectionLink = ({
                 if (info.point.y < -30) moveItem(i, i - 1);
 
                 // scroll while dragging
-                scroll(container.current, info.delta.y, dragOriginY)
+                scroll(scrollbar.current, info.delta.y, dragOriginY)
             }}
 
             onDragStart={() => {

@@ -22,7 +22,8 @@ const SectionMenu = () => {
 
     const isAdmin = useSelector(state => state.user && state.user.isAdmin)
 
-    const container = useRef();
+    const scrollbar = useRef();
+    const ul = useRef();
 
     useEffect(() => {
         dispatch(getSections());
@@ -37,7 +38,9 @@ const SectionMenu = () => {
     const moveItem = (current, target) => {
         // the args are the current and the target indexes
         // of the dragged elem in the ids array
-        if (target < 0) return;
+
+        if (target < 0 || target > ids.length - 1) return;
+
         const newOrder = [...ids];
 
         // delete the elem from the ids array
@@ -57,23 +60,27 @@ const SectionMenu = () => {
 
     return (
         <StyledMenu>
-            <motion.ul ref={container}
-                className='scrollbar'
+            <motion.div className='scrollbar'
+                ref={scrollbar}
                 variants={list} 
                 initial='hidden' 
-                animate='visible' >
+                animate='visible'>
 
-                {ids.map((id, i) => (
-                    <SectionLink key={id} 
-                        label={sections[id].name}
-                        i={i}
-                        container={container}
-                        updateDB={updateDB}
-                        moveItem={moveItem}
-                    />
-                ))}
+                <ul ref={ul} >
 
-            </motion.ul>
+                    {ids.map((id, i) => (
+                        <SectionLink key={id} 
+                            label={sections[id].name}
+                            i={i}
+                            scrollbar={scrollbar}
+                            ul={ul}
+                            updateDB={updateDB}
+                            moveItem={moveItem}
+                        />
+                    ))}
+
+                </ul>
+            </motion.div>
         </StyledMenu>
     )
 }
@@ -86,12 +93,15 @@ const StyledMenu = styled.section`
     flex-basis: 160px;
     padding: 5px 0 5px 8px;
 
-    ul {
-        background: var(--black);
-        margin-right: 11px;
+    .scrollbar {
         height: 100%;
+        background: var(--black);
         transition: background 2s;
         overflow-y: auto;
+    }
+
+    ul {
+        max-height: 100%;
     }
 `;
 
