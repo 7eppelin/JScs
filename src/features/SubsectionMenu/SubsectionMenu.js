@@ -11,7 +11,7 @@ import FeatureMenu from './FeatureMenu';
 
 
 const selectSubsections = createSelector(
-    state => state.data.subsections.byID,
+    state => state.data.subsections,
     (_, sectionName) => sectionName,
     (subs, sectionName) => {
         const subsArr = Object.values(subs)

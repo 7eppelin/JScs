@@ -8,7 +8,7 @@ import FeatureList from './FeatureList';
 
 const makeFeaturesSelector = () => 
     createSelector(
-        state => state.data.features.byID,
+        state => state.data.features,
         (_, subsec) => subsec,
         (features, subsec) => {
             const featuresArr = Object.values(features);

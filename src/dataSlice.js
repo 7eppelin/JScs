@@ -2,7 +2,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { batch } from 'react-redux';
 import { setStatus } from 'features/AddForm/addFormStatusSlice';
-import { db, arrayRemove, arrayUnion } from 'firebase.js';
+
+import { 
+    db, 
+    arrayRemove, 
+    arrayUnion 
+} from 'firebase.js';
+
 import { 
     findSectionID, 
     findSubsecID, 
@@ -16,18 +22,9 @@ const itemsSlice = createSlice({
     name: 'data',
 
     initialState: {
-        sections: {
-            byID: {},
-            ids: []
-        },
-        subsections: {
-            byID: {},
-            ids: []
-        },
-        features: {
-            byID: {},
-            ids: []
-        }, 
+        sections: { byID: {}, ids: [] },
+        subsections: {},
+        features: {}, 
         content: {}
     },
 
@@ -36,26 +33,81 @@ const itemsSlice = createSlice({
         // immerjs internally https://github.com/immerjs/immer
         // which allows us to 'mutate' the state
 
-        addItems: (state, action) => {
-            const { collection, items } = action.payload;
-            items.forEach(item => {
-                state[collection].byID[item.id] = item;
-                state[collection].ids.push(item.id)
-            });
-        },
+        addSections: (state, action) => {
+            const items = action.payload;
 
-        removeItems: (state, action) => {
-            const { collection, items } = action.payload;
             items.forEach(item => {
-                delete state[collection].byID[item];
-                state[collection].ids = state[collection].ids.filter(id => id !== item);
+                state.sections.byID[item.id] = item;
+                state.sections.ids.push(item.id)
             })
         },
 
+        addSubsections: (state, action) => {
+            const items = action.payload;
+            const sec = items[0].sectionID
+
+            items.forEach(item => {
+                state.subsections[item.id] = item
+                state.sections.byID[sec].children.push(item.id)
+            })
+        },
+
+        addFeatures: (state, action) => {
+            const items = action.payload;
+            const sub = items[0].subsectionID
+
+            items.forEach(item => {
+                state.features[item.id] = item
+                state.subsections[sub].children.push(item.id)
+            })
+        },
+
+
+        removeSection: (state, action) => {
+            const itemID = action.payload;
+
+            // not only delete the section
+            // but all the nested items aswell
+            const secs = state.sections.byID;
+            const subs = secs[itemID].children;
+            let features = [];
+
+            for (let id of subs) {
+                features = [ 
+                    ...features, 
+                    ...state.subsections[id].children 
+                ]
+                delete state.subsections[id]
+            }
+
+            features.forEach(id => delete state.features[id])
+
+            delete secs[itemID];
+            state.sections.ids = state.sections.ids.filter(id => id !== itemID)
+        },
+
+        removeSubsection: (state, action) => {
+            const itemID = action.payload;
+
+            // not only delete the subsection
+            // but all the nested items aswell
+            const subs = state.subsections;
+            
+            subs[itemID].children.forEach(id => delete state.features[id])
+            delete subs[itemID]
+        },
+
+        removeFeature: (state, action) => {
+            const id = action.payload;
+            delete state.features[id]
+        },
+
+
         setSectionsOrder: (state, action) => {
-            // action.payload is an array of ids in new order;
+            // action.payload is an array of ids in a new order;
             state.sections.ids = action.payload;
         },
+
 
         addContentItem: (state, action) => {
             state.content[action.payload.id] = action.payload;
@@ -67,8 +119,12 @@ const itemsSlice = createSlice({
 const { reducer, actions } = itemsSlice;
 
 export const { 
-    addItems, 
-    removeItems, 
+    addSections,
+    addSubsections,
+    addFeatures, 
+    removeSection,
+    removeSubsection,
+    removeFeature,
     setSectionsOrder,
     addContentItem 
 } = actions;
@@ -127,7 +183,11 @@ const createSection = name => async dispatch => {
     }
 
     //  create the section
-    const newSec = { name };
+    const newSec = { 
+        name, 
+        children: [] 
+    };
+
     const sec = await db.collection('sections').add(newSec);
     newSec.id = sec.id;
 
@@ -143,10 +203,7 @@ const createSection = name => async dispatch => {
     await createContentItem(newSec.id, name, url);
 
     batch(() => {
-        dispatch(addItems({
-            collection: 'sections',
-            items: [ newSec ]
-        }))
+        dispatch(addSections([ newSec ]))
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} section has been created`
@@ -169,19 +226,28 @@ const createSubsection = (name, sectionName) => async dispatch => {
     }
 
     // create the subsection
-    const subsec = { name, sectionID, sectionName }
+    const subsec = { 
+        name, 
+        sectionID, 
+        sectionName, 
+        children: [] 
+    }
+
     const newSubsec = await db.collection('subsections').add(subsec);
     subsec.id = newSubsec.id;
+
+    // create a reference to the subsection
+    // in the parent section's children array
+    await db.doc(`sections/${sectionID}`).update({
+        children: arrayUnion(subsec.id)
+    })
 
     // create a corresponding content item
     const url = `/${sectionName}/${name}`
     await createContentItem(subsec.id, name, url);
 
     batch(() => {
-        dispatch(addItems({ 
-            collection: 'subsections',
-            items: [ subsec ]
-        }));
+        dispatch(addSubsections([ subsec ]));
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} subsections has been created in ${sectionName}`
@@ -218,21 +284,24 @@ const createFeature = (name, subsecName, secName) => async dispatch => {
         sectionID: secID, 
         sectionName: secName, 
         subsectionID: subsecID, 
-        subsectionName: subsecName 
+        subsectionName: subsecName,
     }
 
     const newFeature = await db.collection('features').add(feature);
     feature.id = newFeature.id;
+
+    // create a reference to the feature
+    // in the parent subsection's children array
+    await db.doc(`subsections/${subsecID}`).update({
+        children: arrayUnion(feature.id)
+    })
 
     // create a corresponding content item
     const url = `/${secName}/${subsecName}/${name}`
     await createContentItem(feature.id, name, url);
 
     batch(() => {
-        dispatch(addItems({
-            collection: 'features',
-            items: [feature]
-        }));
+        dispatch(addFeatures([ feature ]));
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} feature has been created in ${secName}/${subsecName}`
@@ -325,18 +394,7 @@ export const deleteSection = name => async dispatch => {
 
 
     batch(() => {
-        dispatch(removeItems({
-            collection: 'features',
-            items: features
-        }));
-        dispatch(removeItems({
-            collection: 'subsections',
-            items: subs
-        }))
-        dispatch(removeItems({
-            collection: 'sections',
-            items: [secID]
-        }));
+        dispatch(removeSection(secID))
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} section has been deleted`
@@ -356,6 +414,12 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
     // check whether the target subsection exists
     const subsecID = await findSubsecID(name, sectionName);
     if (!subsecID) throw Error(`The ${name} subsection does not exist in ${sectionName}`)
+
+
+    // delete the reference to the subsection
+    // from the parent section's children field
+    await db.doc(`sections/${secID}`)
+        .update({ children: arrayRemove(subsecID) })
 
     // delete the subsection and all nested features
 
@@ -381,14 +445,7 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
     await firestoreBatch.commit();
 
     batch(() => {
-        dispatch(removeItems({
-            collection: 'features',
-            items: features
-        }));
-        dispatch(removeItems({
-            collection: 'subsections',
-            items: [subsecID]
-        }));
+        dispatch(removeSubsection(subsecID))
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} subsection has been deleted from ${sectionName}`
@@ -413,15 +470,18 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
     const id = await findFeatureID(name, section, subsection);
     if (!id) throw Error(`The ${name} feature does not exist in ${section}/${subsection}`)
 
+
+    // delete the reference to the feature
+    // from the parent subsection's children field
+    await db.doc(`subsections/${subsecID}`)
+        .update({ children: arrayRemove(id) })
+
     // delete the feature
     await db.collection('features').doc(id).delete();
     await db.collection('content').doc(id).delete();
 
     batch(() => {
-        dispatch(removeItems({
-            collection: 'features',
-            items: [id]
-        }));
+        dispatch(removeFeature(id));
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} feature has been deleted from ${section}/${subsection}`
@@ -455,10 +515,7 @@ export const getSections = () => async dispatch => {
 
 
     batch(() => {
-        dispatch(addItems({
-            collection: 'sections',
-            items: sections
-        }));
+        dispatch(addSections(sections))
         dispatch(setSectionsOrder(ids))
     })
 }
@@ -490,14 +547,8 @@ export const getSubsections = secName => async dispatch => {
         })))
 
     batch(() => {
-        dispatch(addItems({
-            collection: 'features',
-            items: features
-        }));
-        dispatch(addItems({
-            collection: 'subsections',
-            items: subs
-        }))
+        dispatch(addSubsections(subs))
+        dispatch(addFeatures(features))
     })
 }
 
