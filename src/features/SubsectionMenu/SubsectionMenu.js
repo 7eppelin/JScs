@@ -10,26 +10,33 @@ import Scrollbar from 'components/Scrollbar';
 import FeatureMenu from './FeatureMenu';
 
 
-const selectSubsections = createSelector(
-    state => state.data.subsections,
-    (_, secName) => secName,
-    (subs, secName) => {
-        if (!secName) return [];
-        const subsArr = Object.values(subs)
-        return subsArr.filter(sub => sub.sectionName === secName)
-    }
-)
 
 const selectIDs = createSelector(
     state => state.data.sections.byID,
-    (_, secName) => secName,
+    (state, secName) => secName,
+
     (sections, secName) => {
-        if (!secName) return [];
-        const secsArr = Object.values(sections);
-        const sec = secsArr.filter(sec => sec.name === secName)[0];
-        return sec.children;
+        if (!secName) return []
+        const secsArr = Object.values(sections)
+        // if sections hasn't finished fetching yet, skip
+        if (!secsArr.length) return [];
+
+        const sec = secsArr.filter(sec => sec.name === secName)[0]
+        return sec.children
     }
-    
+)
+
+const selectAndSortSubsecs = createSelector(
+    state => state.data.subsections,
+    (state, secName) => selectIDs(state, secName),
+
+    (subs, ids) => {
+        // if either secs or subsecs
+        // hasn't finished fetching yet, skip
+        if (!ids.length || !Object.keys(subs).length) return [];
+
+        return ids.map(id => subs[id])
+    }
 )
 
 
@@ -37,18 +44,16 @@ const SubsectionMenu = () => {
     let { sectionName } = useParams();
     const dispatch = useDispatch();
 
-    // array of subsections
-    const subsecs = useSelector(state => selectSubsections(state, sectionName))
+    // array of subsections in the right order
+    const subsecs = useSelector(state => selectAndSortSubsecs(state, sectionName))
 
-    // array of subsections' ids to render the subsecs in the correct order
-    const ids = useSelector(state => selectIDs(state, sectionName))
-
+    // fetch subsections and features whenever the url changes
     useEffect(() => {
-        // if subsections were fetched before, return
         if (!sectionName || subsecs.length) return;
         dispatch(getSubsections(sectionName));
     }, [sectionName])
 
+    // wait for the fetching to complete
     if (!sectionName || !subsecs.length) return (
         <StyledMenu>
             <Spinner />
@@ -59,8 +64,8 @@ const SubsectionMenu = () => {
         <StyledMenu>
             <Scrollbar>
                 <ul className='subs'>
-                    {ids.map(id => (
-                        <FeatureMenu key={id} sub={subsecs[id]} />
+                    {subsecs.map(sub => (
+                        <FeatureMenu key={sub.id} sub={sub} />
                     ))}
                 </ul>
             </Scrollbar>

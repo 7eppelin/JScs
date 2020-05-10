@@ -44,21 +44,17 @@ const itemsSlice = createSlice({
 
         addSubsections: (state, action) => {
             const items = action.payload;
-            const sec = items[0].sectionID
 
             items.forEach(item => {
                 state.subsections[item.id] = item
-                state.sections.byID[sec].children.push(item.id)
             })
         },
 
         addFeatures: (state, action) => {
             const items = action.payload;
-            const sub = items[0].subsectionID
 
             items.forEach(item => {
                 state.features[item.id] = item
-                state.subsections[sub].children.push(item.id)
             })
         },
 

@@ -11,16 +11,21 @@ const makeFeaturesSelector = () => createSelector(
     state => state.data.features,
     (_, ids) => ids,
 
-    (features, ids) => ids.map(id => features[id])
+    (features, ids) => {
+        // make sure the subsection with features finished fetching
+        // otherwise, skip
+        if (!ids || !ids.length) return [];
+        return ids.map(id => features[id])
+    }
 )
 
 
 const FeatureMenu = ({ sub }) => {
     const [ featuresOpen, setFeaturesOpen ] = useState(false);
-    const featuresSelector = useMemo(makeFeaturesSelector, []);
+    const selectFeatures = useMemo(makeFeaturesSelector, []);
 
-    // array of features
-    const features = useSelector(state => featuresSelector(state, sub.children));
+    // array of features in the right order
+    const features = useSelector(state => selectFeatures(state, sub.children));
 
     return (
         <StyledFeatures>
