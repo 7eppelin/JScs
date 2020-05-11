@@ -152,8 +152,8 @@ const itemsSlice = createSlice({
         },
 
         reorderFeatures: (state, action) => {
-            const { subsectionID, newOrder } = action.payload
-            state.subsections[subsectionID].children = newOrder
+            const { subsecID, newOrder } = action.payload
+            state.subsections[subsecID].children = newOrder
         },
 
 

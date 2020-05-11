@@ -7,7 +7,7 @@ import FeatureMenu from './FeatureMenu';
 
 
 const SubsectionMenu = ({ subs }) => {
-
+    
     return (
         <Scrollbar>
             <Ul className='subs'>

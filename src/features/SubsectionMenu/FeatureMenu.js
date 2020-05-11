@@ -27,6 +27,7 @@ const FeatureMenu = ({ sub }) => {
     // array of features in the right order
     const features = useSelector(state => selectFeatures(state, sub.children));
 
+
     return (
         <StyledFeatures>
             <SubsectionLink 
@@ -36,7 +37,8 @@ const FeatureMenu = ({ sub }) => {
                 toggleFeatures={setFeaturesOpen}
                 featuresOpen={featuresOpen} />
 
-            <FeatureList 
+            <FeatureList subsecID={sub.id}
+                ids={sub.children}
                 features={features} 
                 isOpen={featuresOpen} />
         </StyledFeatures>
@@ -53,10 +55,6 @@ const StyledFeatures = styled.li`
 
     &:hover {
         background: var(--gray4);
-    }
-
-    a {
-        color: var(--white);
     }
 `;
 
