@@ -14,7 +14,7 @@ const makeFeaturesSelector = () => createSelector(
     (features, ids) => {
         // make sure the subsection with features finished fetching
         // otherwise, skip
-        if (!ids || !ids.length) return [];
+        if (!ids?.length) return [];
         return ids.map(id => features[id])
     }
 )

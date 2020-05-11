@@ -9,30 +9,47 @@ import SubsectionMenu from './SubsectionMenu'
 import Spinner from 'components/Spinner'
 
 
+// returns an object of subsections
+const selectSubs = createSelector(
+    state => state.data.subsections,
+    (state, secName) => secName,
+
+    (subs, secName) => {
+        const result = {}
+        if (!secName) return result
+        for (let i in subs) {
+            const sub = subs[i]
+            if (sub.sectionName === secName) {
+                result[sub.id] = sub
+            }
+        }
+        return result
+    }
+)
+
+// returns section.children - an array of subsections' ids
 const selectIDs = createSelector(
     state => state.data.sections.byID,
     (state, secName) => secName,
 
     (sections, secName) => {
-        if (!secName) return []
         const secsArr = Object.values(sections)
         // if sections hasn't finished fetching yet, skip
-        if (!secsArr.length) return [];
+        if (!secName || !secsArr.length) return []
 
         const sec = secsArr.filter(sec => sec.name === secName)[0]
+        if (!sec) return []
         return sec.children
     }
 )
 
 const selectAndSortSubsecs = createSelector(
-    state => state.data.subsections,
-    (state, secName) => selectIDs(state, secName),
+    selectSubs,
+    selectIDs,
 
     (subs, ids) => {
-        // if either secs or subsecs
-        // hasn't finished fetching yet, skip
-        if (!ids.length || !Object.keys(subs).length) return [];
-
+        const subsArr = Object.keys(subs)
+        if (!subsArr.length) return []
         return ids.map(id => subs[id])
     }
 )
@@ -55,7 +72,9 @@ const SubsectionsContainer = () => {
     return (
         <StyledMenu>
             {!sectionName || !subsecs.length ? 
-                <Spinner /> : <SubsectionMenu subs={subsecs} />
+                <Spinner /> 
+                : 
+                <SubsectionMenu subs={subsecs} />
             }
         </StyledMenu>
     )

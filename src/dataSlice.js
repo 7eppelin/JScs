@@ -33,6 +33,7 @@ const itemsSlice = createSlice({
         // immerjs internally https://github.com/immerjs/immer
         // which allows us to 'mutate' the state
 
+        // add* are dispatched when retrieving items from the db
         addSections: (state, action) => {
             const items = action.payload;
 
@@ -56,6 +57,32 @@ const itemsSlice = createSlice({
             items.forEach(item => {
                 state.features[item.id] = item
             })
+        },
+
+
+        // addNew* are dispatch when creating a new item
+        // addSection is used in both retrieving
+        // and creating scenatios for sections
+        addNewSubsection: (state, action) => {
+            const item = action.payload
+
+            state.subsections[item.id] = item
+
+            // add a reference to the subsec
+            // to the parent section's children field
+            const sec = state.sections.byID[item.sectionID]
+            sec.children.push(item.id)
+        },
+
+        addNewFeature: (state, action) => {
+            const item = action.payload
+
+            state.features[item.id] = item
+
+            // add a reference to the feature
+            // to the parent subsection's children field
+            const sub = state.subsections[item.subsectionID]
+            sub.children.push(item.id)
         },
 
 
@@ -87,15 +114,30 @@ const itemsSlice = createSlice({
 
             // not only delete the subsection
             // but all the nested items aswell
-            const subs = state.subsections;
-            
-            subs[itemID].children.forEach(id => delete state.features[id])
-            delete subs[itemID]
+            const sub = state.subsections[itemID];
+
+            sub.children.forEach(id => delete state.features[id])
+
+            // del the reference to the subsec
+            // from the parent section's children field
+            const sec = state.sections.byID[sub.sectionID]
+            sec.children = sec.children.filter(id => id !== itemID)
+
+            // del the subsection
+            delete state.subsections[itemID]
         },
 
         removeFeature: (state, action) => {
-            const id = action.payload;
-            delete state.features[id]
+            const itemID = action.payload;
+
+            // delete the reference to the feature
+            // from the parent subsection's children field
+            const f = state.features[itemID]
+            const sub = state.subsections[f.subsectionID]
+            sub.children = sub.children.filter(id => id !== itemID)
+
+            // del the subsection
+            delete state.features[itemID]
         },
 
 
@@ -118,6 +160,8 @@ export const {
     addSections,
     addSubsections,
     addFeatures, 
+    addNewSubsection,
+    addNewFeature,
     removeSection,
     removeSubsection,
     removeFeature,
@@ -243,7 +287,7 @@ const createSubsection = (name, sectionName) => async dispatch => {
     await createContentItem(subsec.id, name, url);
 
     batch(() => {
-        dispatch(addSubsections([ subsec ]));
+        dispatch(addNewSubsection(subsec));
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} subsections has been created in ${sectionName}`
@@ -297,7 +341,7 @@ const createFeature = (name, subsecName, secName) => async dispatch => {
     await createContentItem(feature.id, name, url);
 
     batch(() => {
-        dispatch(addFeatures([ feature ]));
+        dispatch(addNewFeature(feature));
         dispatch(setStatus({
             type: 'success',
             message: `The ${name} feature has been created in ${secName}/${subsecName}`
