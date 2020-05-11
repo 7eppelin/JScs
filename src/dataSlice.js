@@ -141,9 +141,19 @@ const itemsSlice = createSlice({
         },
 
 
-        setSectionsOrder: (state, action) => {
+        reorderSections: (state, action) => {
             // action.payload is an array of ids in a new order;
             state.sections.ids = action.payload;
+        },
+
+        reorderSubsections: (state, action) => {
+            const { sectionID, newOrder } = action.payload
+            state.sections.byID[sectionID].children = newOrder
+        },
+
+        reorderFeatures: (state, action) => {
+            const { subsectionID, newOrder } = action.payload
+            state.subsections[subsectionID].children = newOrder
         },
 
 
@@ -165,7 +175,9 @@ export const {
     removeSection,
     removeSubsection,
     removeFeature,
-    setSectionsOrder,
+    reorderSections,
+    reorderSubsections,
+    reorderFeatures,
     addContentItem 
 } = actions;
 
@@ -556,7 +568,7 @@ export const getSections = () => async dispatch => {
 
     batch(() => {
         dispatch(addSections(sections))
-        dispatch(setSectionsOrder(ids))
+        dispatch(reorderSections(ids))
     })
 }
 

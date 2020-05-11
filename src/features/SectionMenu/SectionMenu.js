@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getSections, setSectionsOrder } from '../../dataSlice';
+import { getSections, reorderSections } from '../../dataSlice';
 import { updateSectionsOrderInDB } from 'utils/db';
 import { arrayMove } from 'utils'
 
@@ -21,7 +21,7 @@ const SectionMenu = () => {
     // for order in which items will appear in the menu
     const ids = useSelector(state => state.data.sections.ids);
 
-    const isAdmin = useSelector(state => state.user && state.user.isAdmin)
+    const isAdmin = useSelector(state => state.user?.isAdmin)
 
     const scrollbar = useRef();
     const ul = useRef();
@@ -38,7 +38,7 @@ const SectionMenu = () => {
     // by more than 32px up or down
     const moveItem = (current, target) => {
         const newOrder = arrayMove(ids, current, target)
-        dispatch(setSectionsOrder(newOrder)) 
+        dispatch(reorderSections(newOrder)) 
     }
 
 
