@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSections, setSectionsOrder } from '../../dataSlice';
 import { updateSectionsOrderInDB } from 'utils/db';
+import { arrayMove } from 'utils'
 
 import Spinner from 'components/Spinner';
 import SectionLink from './SectionLink';
@@ -36,18 +37,7 @@ const SectionMenu = () => {
     // every time the dragged elem was moved 
     // by more than 32px up or down
     const moveItem = (current, target) => {
-        // the args are the current and the target indexes
-        // of the dragged elem in the ids array
-
-        if (target < 0 || target > ids.length - 1) return;
-
-        const newOrder = [...ids];
-
-        // delete the elem from the ids array
-        const el = newOrder.splice(current, 1)[0];
-        // and insert it in the target position
-        newOrder.splice(target, 0, el);
-
+        const newOrder = arrayMove(ids, current, target)
         dispatch(setSectionsOrder(newOrder)) 
     }
 
