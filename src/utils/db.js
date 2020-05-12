@@ -77,10 +77,10 @@ export const updateSectionsOrderInDB = ids => {
 
 export const updateSubsectionsOrderInDB = (sectionID, newOrder) => {
     db.doc(`sections/${sectionID}`)
-        .update({ newOrder })
+        .update({ children: newOrder })
 }
 
 export const updateFeaturesOrderInDB = (subsecID, newOrder) => {
     db.doc(`subsections/${subsecID}`)
-        .update({ newOrder })
+        .update({ children: newOrder })
 }
