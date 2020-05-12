@@ -31,3 +31,10 @@ export const scroll = (scrollbar, y, dragOrigin) => {
         dragOrigin.set(dragOrigin.get() + y)
     }
 }
+
+
+export {
+    updateSectionsOrderInDB,
+    updateSubsectionsOrderInDB,
+    updateFeaturesOrderInDB,
+} from './db'

@@ -43,6 +43,8 @@ const SubsectionsContainer = () => {
     let { sectionName } = useParams();
     const dispatch = useDispatch();
 
+    const isAdmin = useSelector(state => state.user?.isAdmin)
+
     // array of subsections
     const subsecs = useSelector(state => selectSubsections(state, sectionName))
 
@@ -62,6 +64,7 @@ const SubsectionsContainer = () => {
                 <Spinner /> 
                 : 
                 <SubsectionMenu 
+                    isAdmin={isAdmin}
                     items={subsecs} 
                     ids={ids} />
             }

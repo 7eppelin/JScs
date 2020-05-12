@@ -10,6 +10,10 @@ import SubsectionLink from './SubsectionLink';
 import FeatureList from './FeatureList';
 
 
+// this component is way too big and messy
+// probably need to extract smth
+// not sure what though
+
 const makeFeaturesSelector = () => createSelector(
     state => state.data.features,
     (_, ids) => ids,
@@ -28,29 +32,22 @@ const FeatureMenu = ({
     heights, 
     subsection, 
     moveSubsection,
-    scrollbar
+    scrollbar,
+    updateOrderInDB
 }) => {
-    const [ featuresOpen, setFeaturesOpen ] = useState(false);
-    const selectFeatures = useMemo(makeFeaturesSelector, []);
+    const [ featuresOpen, setFeaturesOpen ] = useState(false)
+    const [ isDragging, setDragging ] = useState(false)
+    const dragOriginY = useMotionValue(0)
+    const selectFeatures = useMemo(makeFeaturesSelector, [])
+
+    const { name, id, sectionName, children: featuresIDs } = subsection
 
     // set the item's current height, so the siblings can know it
     heights.current[i] = featuresOpen ? 
-        47 + subsection.children.length * 32 : 47
-
-
-    const { 
-        name, 
-        id, 
-        sectionName, 
-        children: featuresIDs
-    } = subsection
+        47 + featuresIDs.length * 32 : 47
 
     // array of features in the right order
     const features = useSelector(state => selectFeatures(state, featuresIDs));
-
-    const [ isDragging, setDragging ] = useState(false)
-
-    const dragOriginY = useMotionValue(0);
 
     // dragging starts onMouseDown on a nested component (SubsectionLink)
     const dragControls = useDragControls();
@@ -97,7 +94,10 @@ const FeatureMenu = ({
 
             onDrag={onDrag}
             onDragStart={() => setDragging(true)}
-            onDragEnd={() => setDragging(false)}
+            onDragEnd={() => {
+                setDragging(false)
+                updateOrderInDB()
+            }}
             
             positionTransition={({ delta }) => {
                 if (isDragging) dragOriginY.set(dragOriginY.get() + delta.y)

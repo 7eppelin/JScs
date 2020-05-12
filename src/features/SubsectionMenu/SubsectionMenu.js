@@ -2,13 +2,13 @@ import React, { useRef } from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
 import { reorderSubsections } from 'dataSlice';
-import { arrayMove } from 'utils'
+import { arrayMove, updateSubsectionsOrderInDB } from 'utils'
 
 import FeatureMenu from './FeatureMenu';
 
 
 
-const SubsectionMenu = ({ items, ids }) => {
+const SubsectionMenu = ({ items, ids, isAdmin }) => {
     const dispatch = useDispatch();
     const scrollbar = useRef();
 
@@ -18,6 +18,11 @@ const SubsectionMenu = ({ items, ids }) => {
         const newOrder = arrayMove(ids, current, target);
         if (ids === newOrder) return;
         dispatch(reorderSubsections({ sectionID, newOrder }));
+    }
+
+    // update DB onDragEnd (subsections)
+    const updateOrderInDB = () => {
+        if (isAdmin) updateSubsectionsOrderInDB(items[0].sectionID, ids)
     }
 
     // sort items in the id's order
@@ -41,7 +46,8 @@ const SubsectionMenu = ({ items, ids }) => {
                     key={item.id} 
                     subsection={item}
                     moveSubsection={moveSubsection}
-                    scrollbar={scrollbar} />
+                    scrollbar={scrollbar}
+                    updateOrderInDB={updateOrderInDB} />
             ))}
         </Ul>
     )
