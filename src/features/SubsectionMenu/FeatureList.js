@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { arrayMove } from 'utils'
 import { reorderFeatures } from 'dataSlice'
+import { updateFeaturesOrderInDB } from 'utils'
 
 import FeatureItem from './FeatureItem';
 
@@ -15,6 +16,11 @@ const FeatureList = ({
     isOpen 
 }) => {
     const dispatch = useDispatch()
+    const isAdmin = useSelector(state => state.user?.isAdmin)
+
+    const updateOrderInDB = () => {
+        if (isAdmin) updateFeaturesOrderInDB(subsecID, ids)
+    }
 
     const moveItem = (current, target) => {
         const newOrder = arrayMove(ids, current, target);
@@ -30,7 +36,8 @@ const FeatureList = ({
                 <FeatureItem i={i}
                     key={feature.id} 
                     feature={feature}
-                    moveItem={moveItem} />
+                    moveItem={moveItem}
+                    updateOrderInDB={updateOrderInDB} />
             ))}
         </StyledList>
 )}

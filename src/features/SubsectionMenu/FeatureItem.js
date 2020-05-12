@@ -7,7 +7,8 @@ import { NavLink } from 'react-router-dom'
 const FeatureItem = ({ 
     i,
     feature,
-    moveItem 
+    moveItem,
+    updateOrderInDB
 }) => {
     const [ isDragging, setDragging ] = useState(false)
     const dragOriginY = useMotionValue(0);
@@ -37,7 +38,10 @@ const FeatureItem = ({
             }}
 
             onDragStart={() => setDragging(true)}
-            onDragEnd={() => setDragging(false)}
+            onDragEnd={() => {
+                setDragging(false)
+                updateOrderInDB()
+            }}
 
             positionTransition={({ delta }) => {
                 if (isDragging) {
