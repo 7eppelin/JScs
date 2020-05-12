@@ -6,7 +6,7 @@ import SectionMenu from 'features/SectionMenu/SectionMenu';
 import SubsectionsContainer from 'features/SubsectionMenu/SubsectionsContainer';
 
 const StyledNav = styled.nav`
-    box-shadow: 0 0 8px 1px var(--black);
+    box-shadow: 0 0 30px -5px black;
     flex-basis: 400px;
     margin-right: 30px;
     display: flex;
