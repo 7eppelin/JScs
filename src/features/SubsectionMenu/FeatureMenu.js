@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 import { motion, useMotionValue, useDragControls } from 'framer-motion'
+import { scroll } from 'utils'
 
 
 import SubsectionLink from './SubsectionLink';
@@ -121,19 +122,6 @@ const FeatureMenu = ({
 
         </StyledFeatures>
     )
-}
-
-export const scroll = (scrollbar, y, dragOrigin) => {
-    scrollbar.scrollBy(0, y);
-
-    // adjust elem's position when scrolling
-    const scroll = scrollbar.scrollTop;
-    const scrollH = scrollbar.scrollHeight;
-    const clientH = scrollbar.clientHeight;
-
-    if (scroll > 0 && scroll < scrollH - clientH) {
-        dragOrigin.set(dragOrigin.get() + y)
-    }
 }
 
 

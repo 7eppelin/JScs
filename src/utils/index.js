@@ -15,3 +15,19 @@ export const arrayMove = (arr, current, target) => {
     
     return newArr
 }
+
+
+// takes a scrollbar elem, value to scroll by, 
+// and dragOrigin to update the dragged elem's position while scrolling
+export const scroll = (scrollbar, y, dragOrigin) => {
+    scrollbar.scrollBy(0, y);
+
+    // adjust elem's position when scrolling
+    const scroll = scrollbar.scrollTop;
+    const scrollH = scrollbar.scrollHeight;
+    const clientH = scrollbar.clientHeight;
+
+    if (scroll > 0 && scroll < scrollH - clientH) {
+        dragOrigin.set(dragOrigin.get() + y)
+    }
+}

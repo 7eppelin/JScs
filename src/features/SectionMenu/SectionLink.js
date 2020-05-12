@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { motion, useMotionValue } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
+import { scroll } from 'utils'
 
 
 const SectionLink = ({ 
@@ -79,21 +80,6 @@ const SectionLink = ({
         </StyledLink>
     )
 }
-
-
-const scroll = (scrollbar, y, dragOrigin) => {
-    scrollbar.scrollBy(0, y);
-
-    // adjust elem's position when scrolling
-    const scroll = scrollbar.scrollTop;
-    const scrollH = scrollbar.scrollHeight;
-    const clientH = scrollbar.clientHeight;
-
-    if (scroll > 0 && scroll < scrollH - clientH) {
-        dragOrigin.set(dragOrigin.get() + y)
-    }
-}
-
 
 
 const StyledLink = styled(motion.li)`
