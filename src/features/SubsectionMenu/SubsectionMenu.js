@@ -1,64 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components/macro';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { createSelector } from 'reselect';
-import { getSubsections } from '../../dataSlice';
+import { useDispatch } from 'react-redux';
+import { reorderSubsections } from 'dataSlice';
+import { arrayMove, updateSubsectionsOrderInDB } from 'utils'
 
-import Spinner from 'components/Spinner';
-import Scrollbar from 'components/Scrollbar';
 import FeatureMenu from './FeatureMenu';
 
 
-const selectSubsections = createSelector(
-    state => state.data.subsections.byID,
-    (_, sectionName) => sectionName,
-    (subs, sectionName) => {
-        const subsArr = Object.values(subs)
-        return subsArr.filter(sub => sub.sectionName === sectionName)
-    }
-)
 
-
-const StyledMenu = styled.section`
-    height: 100%;
-    background: var(--gray6);
-    flex-basis: 250px;
-    text-align: center;
-    padding: 4px;
-`;
-
-
-const SubsectionMenu = () => {
-    let { sectionName } = useParams();
-    sectionName = sectionName || 'JavaScript';
+const SubsectionMenu = ({ items, ids, isAdmin }) => {
     const dispatch = useDispatch();
+    const scrollbar = useRef();
 
-    const subsections = useSelector(state => selectSubsections(state, sectionName))
+    // swap subsections when dragging
+    const moveSubsection = (current, target) => {
+        const sectionID = items[0].sectionID;
+        const newOrder = arrayMove(ids, current, target);
+        if (ids === newOrder) return;
+        dispatch(reorderSubsections({ sectionID, newOrder }));
+    }
 
-    useEffect(() => {
-        // if subsections were fetched before, return
-        if (subsections.length) return;
-        dispatch(getSubsections(sectionName));
-    }, [sectionName])
+    // update DB onDragEnd (subsections)
+    const updateOrderInDB = () => {
+        if (isAdmin) updateSubsectionsOrderInDB(items[0].sectionID, ids)
+    }
 
-    if (!subsections.length) return (
-        <StyledMenu>
-            <Spinner />
-        </StyledMenu>
-    )
+    // sort items in the id's order
+    const sortedItems = ids.map(id => {
+        return items.find(i => i.id === id)
+    })
 
+    // feature menus' heights vary as the user toggles open/close
+    // we need to collect all menu's current heights in an array
+    // this way each FeatureMenu will know the height of the prev/next item
+    // so it can know when to swap positions when dragging
+    const heights = useRef([])
+    
     return (
-        <StyledMenu>
-            <Scrollbar>
-                <ul>
-                    {subsections.map(sub => (
-                        <FeatureMenu key={sub.id} sub={sub} />
-                    ))}
-                </ul>
-            </Scrollbar>
-        </StyledMenu>
+        <Ul className='scrollbar'
+            ref={scrollbar}>
+
+            {sortedItems.map((item, i) => (
+                <FeatureMenu i={i}
+                    heights={heights}
+                    key={item.id} 
+                    subsection={item}
+                    moveSubsection={moveSubsection}
+                    scrollbar={scrollbar}
+                    updateOrderInDB={updateOrderInDB} />
+            ))}
+        </Ul>
     )
 }
+
+
+const Ul = styled.ul`
+`;
 
 export default SubsectionMenu;

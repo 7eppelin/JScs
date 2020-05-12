@@ -1,22 +1,61 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { motion, useMotionValue } from 'framer-motion';
+
 import { NavLink } from 'react-router-dom';
 
-const StyledSub = styled.div`
+
+const SubsectionLink = ({ 
+    to, 
+    label, 
+    withToggler, 
+    featuresOpen, 
+    toggleFeatures,
+    startDrag,
+    isDragging
+}) => {
+    return (
+        <StyledSub isDragging={isDragging}>
+
+            <NavLink to={to} 
+                activeClassName='active'
+                onMouseDown={startDrag}>
+                {label}
+            </NavLink>
+
+            {withToggler && (
+                <StyledToggler 
+                    rotate={featuresOpen ? '180deg' : '0deg'} 
+                    className="fas fa-angle-up"
+                    onClick={() => toggleFeatures(!featuresOpen)} 
+                />
+            )}
+        </StyledSub>
+)}
+
+
+const StyledSub = styled(motion.div)`
     position: relative;
     text-align: left;
 
     a {
-        padding: 10px;
-        padding-left: 16px;
+        color: var(--gray1);
+        background: ${props => props.isDragging ? 'var(--gray4)' : 'var(--gray5)'};
+        padding: 12px;
+        padding-left: 22px;
         display: block;
         height: 100%;
         font-size: 1.4rem;
         transition: .2s;
     }
 
+    a:hover {
+        background: var(--gray4);
+    }
+
     a.active {
-        background: var(--gray3);
+        background: var(--gray4);
+        color: var(--orange2);
     }
 `;
 
@@ -32,26 +71,9 @@ const StyledToggler = styled.i`
     cursor: pointer;
 
     &:hover {
-        border: 1px solid var(--gray2);
-        box-shadow: 0 0 3px 0 var(--black);     
+        color: var(--orange2);
     }
 `;
 
-
-const SubsectionLink = ({ to, label, withToggler, featuresOpen, toggleFeatures }) => (
-    <StyledSub>
-        <NavLink to={to} activeClassName='active'>
-            {label}
-        </NavLink>
-
-        {withToggler && (
-            <StyledToggler 
-                rotate={featuresOpen ? '180deg' : '0deg'} 
-                className="fas fa-angle-up"
-                onClick={() => toggleFeatures(!featuresOpen)} 
-            />
-        )}
-    </StyledSub>
-)
 
 export default SubsectionLink;

@@ -68,3 +68,19 @@ export const createContentItem = async (id, name, url) => {
     await db.collection('content').doc(id).set(item);
     return item;
 }
+
+
+export const updateSectionsOrderInDB = ids => {
+    db.doc('order/sections')
+        .update({ ids })
+}
+
+export const updateSubsectionsOrderInDB = (sectionID, newOrder) => {
+    db.doc(`sections/${sectionID}`)
+        .update({ children: newOrder })
+}
+
+export const updateFeaturesOrderInDB = (subsecID, newOrder) => {
+    db.doc(`subsections/${subsecID}`)
+        .update({ children: newOrder })
+}

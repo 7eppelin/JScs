@@ -1,30 +1,95 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
-import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
 
-import { getSections } from '../../dataSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSections, reorderSections } from '../../dataSlice';
+import { updateSectionsOrderInDB } from 'utils/db';
+import { arrayMove } from 'utils'
 
-import Scrollbar from 'components/Scrollbar';
 import Spinner from 'components/Spinner';
 import SectionLink from './SectionLink';
+
+
+const SectionMenu = () => {
+    const dispatch = useDispatch();
+
+    // object of sections { id: {section}, ... }
+    const sections = useSelector(state => state.data.sections.byID);
+
+    // array of sections' ids that is responsible 
+    // for order in which items will appear in the menu
+    const ids = useSelector(state => state.data.sections.ids);
+
+    const isAdmin = useSelector(state => state.user?.isAdmin)
+
+    const scrollbar = useRef();
+    const ul = useRef();
+
+    useEffect(() => {
+        dispatch(getSections());
+    }, [])
+
+    if (!ids.length) return <StyledMenu><Spinner /></StyledMenu>
+
+
+    // this function will be invoked
+    // every time the dragged elem was moved 
+    // by more than 32px up or down
+    const moveItem = (current, target) => {
+        const newOrder = arrayMove(ids, current, target)
+        dispatch(reorderSections(newOrder)) 
+    }
+
+
+    // invoked onDragEnd
+    const updateDB = () => {
+        if (isAdmin) updateSectionsOrderInDB(ids)
+    }
+
+
+    return (
+        <StyledMenu>
+            <motion.div className='scrollbar'
+                ref={scrollbar}
+                variants={list} 
+                initial='hidden' 
+                animate='visible'>
+
+                <ul ref={ul} >
+
+                    {ids.map((id, i) => (
+                        <SectionLink key={id} 
+                            label={sections[id].name}
+                            i={i}
+                            scrollbar={scrollbar}
+                            ul={ul}
+                            updateDB={updateDB}
+                            moveItem={moveItem}
+                        />
+                    ))}
+
+                </ul>
+            </motion.div>
+        </StyledMenu>
+    )
+}
+
+
 
 const StyledMenu = styled.section`
     position: relative;
     background: var(--gray6);
-    padding: 5px;
-    padding-right: 0;
     flex-basis: 160px;
+    padding: 5px 0 5px 8px;
 
-    ul {
-        background: var(--gray5);
-        margin-right: 10px;
-        height: 100%;
+    .scrollbar {
+        background: var(--black);
+        transition: background 2s;
     }
 
-    li {
-        display: block;
-        border-bottom: 3px solid var(--gray6);
+    ul {
+        max-height: 100%;
     }
 `;
 
@@ -38,42 +103,10 @@ const list = {
             duration: 0.3,
             when: 'beforeChildren',
             staggerChildren: 0.08,
-        }
+        },
+        transitionEnd: { background: 'var(--gray6)'}
     }
 }
 
-const item = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-}
-
-
-const SectionMenu = () => {
-    const dispatch = useDispatch();
-    const sectionsObj = useSelector(state => state.data.sections.byID);
-    const sections = Object.values(sectionsObj);
-
-    useEffect(() => {
-        dispatch(getSections());
-    }, [])
-
-    if (!sections.length) return <StyledMenu><Spinner /></StyledMenu>
-
-    return (
-        <StyledMenu>
-            <Scrollbar>
-                <motion.ul variants={list} 
-                        initial='hidden' 
-                        animate='visible' >
-                    {sections.map(sec => (
-                        <motion.li key={sec.id} variants={item} >
-                            <SectionLink label={sec.name} />
-                        </motion.li>
-                    ))}
-                </motion.ul>
-            </Scrollbar>
-        </StyledMenu>
-    )
-}
 
 export default SectionMenu;
