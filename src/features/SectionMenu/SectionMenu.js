@@ -81,7 +81,7 @@ const StyledMenu = styled.section`
     position: relative;
     background: var(--gray6);
     flex-basis: 160px;
-    padding: 5px 0 5px 8px;
+    padding: 5px 2px 5px 8px;
 
     .scrollbar {
         background: var(--black);
@@ -90,17 +90,22 @@ const StyledMenu = styled.section`
 
     ul {
         max-height: 100%;
+        padding-right: 2px;
     }
 `;
 
 
 // framer-motion's variants
 const list = {
-    hidden: { scale: 0 },
+    hidden: { 
+        scale: 0.3,
+        opacity: 0,
+    },
     visible: { 
+        opacity: 1,
         scale: 1,
         transition: { 
-            duration: 0.3,
+            // duration: 0.3,
             when: 'beforeChildren',
             staggerChildren: 0.08,
         },
