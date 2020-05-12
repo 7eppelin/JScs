@@ -9,21 +9,16 @@ import SubsectionMenu from './SubsectionMenu'
 import Spinner from 'components/Spinner'
 
 
-// returns an object of subsections
-const selectSubs = createSelector(
+// returns an array of subsections
+const selectSubsections = createSelector(
     state => state.data.subsections,
     (state, secName) => secName,
 
     (subs, secName) => {
-        const result = {}
-        if (!secName) return result
-        for (let i in subs) {
-            const sub = subs[i]
-            if (sub.sectionName === secName) {
-                result[sub.id] = sub
-            }
-        }
-        return result
+        const subsArr = Object.values(subs)
+            .filter(sub => sub.sectionName === secName)
+        
+        return subsArr
     }
 )
 
@@ -43,24 +38,16 @@ const selectIDs = createSelector(
     }
 )
 
-const selectAndSortSubsecs = createSelector(
-    selectSubs,
-    selectIDs,
-
-    (subs, ids) => {
-        const subsArr = Object.keys(subs)
-        if (!subsArr.length) return []
-        return ids.map(id => subs[id])
-    }
-)
-
 
 const SubsectionsContainer = () => {
     let { sectionName } = useParams();
     const dispatch = useDispatch();
 
-    // array of subsections in the right order
-    const subsecs = useSelector(state => selectAndSortSubsecs(state, sectionName))
+    // array of subsections
+    const subsecs = useSelector(state => selectSubsections(state, sectionName))
+
+    // array of subsec's ids in the right order
+    const ids = useSelector(state => selectIDs(state, sectionName))
 
     // fetch subsections and features whenever the url changes
     useEffect(() => {
@@ -74,7 +61,9 @@ const SubsectionsContainer = () => {
             {!sectionName || !subsecs.length ? 
                 <Spinner /> 
                 : 
-                <SubsectionMenu subs={subsecs} />
+                <SubsectionMenu 
+                    items={subsecs} 
+                    ids={ids} />
             }
         </StyledMenu>
     )
@@ -86,11 +75,7 @@ const StyledMenu = styled.section`
     background: var(--gray6);
     flex-basis: 250px;
     text-align: center;
-    padding: 4px;
-
-    .subs {
-        padding-right: 12px;
-    }
+    padding: 7px;
 `;
 
 

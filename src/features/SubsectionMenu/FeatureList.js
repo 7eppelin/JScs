@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { motion } from 'framer-motion';
 import { useDispatch } from 'react-redux'
 import { arrayMove } from 'utils'
 import { reorderFeatures } from 'dataSlice'
@@ -22,7 +23,8 @@ const FeatureList = ({
     }
 
     return (
-        <StyledList height={isOpen ? features.length * 34 + 'px' : '0px'}>
+        <StyledList variants={variants}
+            animate={isOpen ? 'open' : 'closed'}>
 
             {features.map((feature, i) => (
                 <FeatureItem i={i}
@@ -33,13 +35,22 @@ const FeatureList = ({
         </StyledList>
 )}
 
-const StyledList = styled.ul`
-    overflow: hidden;
-    height: ${props => props.height};
-    transition: .2s;
+const StyledList = styled(motion.ul)`
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    transform-origin: 50% 0;
 `;
+
+const variants = {
+    open: {
+        display: 'flex',
+        scaleY: 1
+    },
+    closed: {
+        scaleY: 0,
+        transitionEnd: { display: 'none' }
+    }
+}
 
 export default FeatureList;
