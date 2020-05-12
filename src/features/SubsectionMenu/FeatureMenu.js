@@ -26,7 +26,8 @@ const FeatureMenu = ({
     i, 
     heights, 
     subsection, 
-    moveSubsection
+    moveSubsection,
+    scrollbar
 }) => {
     const [ featuresOpen, setFeaturesOpen ] = useState(false);
     const selectFeatures = useMemo(makeFeaturesSelector, []);
@@ -72,6 +73,10 @@ const FeatureMenu = ({
         if (dragged < -prev) {
             moveSubsection(i, i - 1)
         }
+
+        // scroll when dragging
+        scroll(scrollbar.current, info.delta.y, dragOriginY)
+
     }, [ i, moveSubsection ])
 
     return (
@@ -116,6 +121,19 @@ const FeatureMenu = ({
 
         </StyledFeatures>
     )
+}
+
+export const scroll = (scrollbar, y, dragOrigin) => {
+    scrollbar.scrollBy(0, y);
+
+    // adjust elem's position when scrolling
+    const scroll = scrollbar.scrollTop;
+    const scrollH = scrollbar.scrollHeight;
+    const clientH = scrollbar.clientHeight;
+
+    if (scroll > 0 && scroll < scrollH - clientH) {
+        dragOrigin.set(dragOrigin.get() + y)
+    }
 }
 
 

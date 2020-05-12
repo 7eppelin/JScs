@@ -84,10 +84,8 @@ const StyledMenu = styled.section`
     padding: 5px 0 5px 8px;
 
     .scrollbar {
-        height: 100%;
         background: var(--black);
         transition: background 2s;
-        overflow-y: auto;
     }
 
     ul {
