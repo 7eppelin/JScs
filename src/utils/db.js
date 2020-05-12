@@ -74,3 +74,13 @@ export const updateSectionsOrderInDB = ids => {
     db.doc('order/sections')
         .update({ ids })
 }
+
+export const updateSubsectionsOrderInDB = (sectionID, newOrder) => {
+    db.doc(`sections/${sectionID}`)
+        .update({ newOrder })
+}
+
+export const updateFeaturesOrderInDB = (subsecID, newOrder) => {
+    db.doc(`subsections/${subsecID}`)
+        .update({ newOrder })
+}
