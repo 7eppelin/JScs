@@ -30,7 +30,7 @@ const SubsectionMenu = ({ items, ids, isAdmin }) => {
         return items.find(i => i.id === id)
     })
 
-    // feature menus' heights vary as the user toggles open/close
+    // feature menus' heights change as the user toggles open/close
     // we need to collect all menu's current heights in an array
     // this way each FeatureMenu will know the height of the prev/next item
     // so it can know when to swap positions when dragging
@@ -55,6 +55,7 @@ const SubsectionMenu = ({ items, ids, isAdmin }) => {
 
 
 const Ul = styled.ul`
+    padding-right: 4px;
 `;
 
 export default SubsectionMenu;

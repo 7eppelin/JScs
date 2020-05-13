@@ -13,28 +13,21 @@ const FeatureItem = ({
     const [ isDragging, setDragging ] = useState(false)
     const dragOriginY = useMotionValue(0);
 
+    const { name, sectionName, subsectionName } = feature;
+
     return (
         <StyledItem drag='y'
-            isDragging={isDragging}
             dragElastic={1}
             dragConstraints={{ top: 0, bottom: 0 }}
             dragOriginY={dragOriginY}
-            animate={isDragging ? 
-                { zIndex: 5 } 
-                : 
-                { zIndex: 1, transition: { delay: .3} }
-            }
+
+            isDragging={isDragging}
+            animate={isDragging ? { scale: .92 } : { scale: 1 } }
 
             onDrag={(e, info) => {
                 const dragged = info.point.y;
-
-                if (dragged > 18) {
-                    moveItem(i, i + 1)
-                } 
-
-                if (dragged < -18) {
-                    moveItem(i, i - 1)
-                }
+                if (dragged > 20) moveItem(i, i + 1)
+                if (dragged < -20) moveItem(i, i - 1)
             }}
 
             onDragStart={() => setDragging(true)}
@@ -48,13 +41,11 @@ const FeatureItem = ({
                     dragOriginY.set(dragOriginY.get() + delta.y)
                 }
                 return !isDragging
-            }}
-
-            >
+            }} >
 
             <NavLink activeClassName='active'
-                to={`/${feature.sectionName}/${feature.subsectionName}/${feature.name}`} >
-                    {feature.name}
+                to={`/${sectionName}/${subsectionName}/${name}`} >
+                    {name}
             </NavLink>
         </StyledItem>
     )
@@ -62,20 +53,19 @@ const FeatureItem = ({
 
 
 const StyledItem = styled(motion.li)`
-    flex-grow: 1;
-    box-shadow: ${props => props.isDragging && '0 0 25px -5px black'};
+    box-shadow: ${props => props.isDragging && '0 0 30px -6px black'};
+    position: relative;
+    z-index: ${props => props.isDragging ? 5 : 0 };
 
     a {
         display: block;
-        transform: scale(${props => props.isDragging ? 1.15 : 1});
         height: 100%;
-        padding-top: 8px;
+        padding: 7px;
+        padding-left: 36px;
         font-size: 1.4rem;
         text-align: left;
-        padding-left: 36px;
         background: ${props => props.isDragging ? 'var(--black)' : 'var(--gray6)'};
         color: ${props => props.isDragging ? 'var(--orange2)' : 'var(--gray2)'};
-        transition: .2s, transform .35s;
     }
 
     a:hover {

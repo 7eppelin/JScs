@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux'
+import { createSelector } from '@reduxjs/toolkit';
+
 import { arrayMove } from 'utils'
 import { reorderFeatures } from 'dataSlice'
 import { updateFeaturesOrderInDB } from 'utils'
@@ -9,14 +11,33 @@ import { updateFeaturesOrderInDB } from 'utils'
 import FeatureItem from './FeatureItem';
 
 
+
+const makeFeaturesSelector = () => createSelector(
+    state => state.data.features,
+    (_, ids) => ids,
+
+    (features, ids) => {
+        // make sure the subsection with features
+        // has finished fetching. Otherwise, skip
+        if (!ids?.length) return [];
+        return ids.map(id => features[id])
+    }
+)
+
+
 const FeatureList = ({ 
     subsecID,
-    ids,
-    features, 
+    ids, 
     isOpen 
 }) => {
     const dispatch = useDispatch()
+    const selectFeatures = useMemo(makeFeaturesSelector, [])
+
+    // array of features in the right order
+    const features = useSelector(state => selectFeatures(state, ids));
+
     const isAdmin = useSelector(state => state.user?.isAdmin)
+
 
     const updateOrderInDB = () => {
         if (isAdmin) updateFeaturesOrderInDB(subsecID, ids)
@@ -44,7 +65,7 @@ const FeatureList = ({
 )}
 
 const StyledList = styled(motion.ul)`
-    
+    background: var(--gray5);
 `;
 
 const variants = {
