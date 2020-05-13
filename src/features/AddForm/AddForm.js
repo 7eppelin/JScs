@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import StyledAddForm from './StyledAddForm';
-import Tooltip from 'components/Tooltip';
-dataSlice/dataSlice
-import { createItem, deleteItem } from '../../dataSlice';
+import { createItem, deleteItem } from 'dataSlice/dataSlice';
 
 
 const AddForm = ({ hide }) => {
