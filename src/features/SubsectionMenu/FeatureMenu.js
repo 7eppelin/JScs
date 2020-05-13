@@ -88,8 +88,8 @@ const FeatureMenu = ({
             isDragging={isDragging}
 
             animate={isDragging ? 
-                { zIndex: 5, scale: 0.9 } : 
-                { zIndex: 0, scale: 1, transition: { delay: 0.3 } }
+                { zIndex: 5, scale: 0.92 } : 
+                { zIndex: 1, scale: 1, transition: { delay: 0.3 } }
             }
 
             onDrag={onDrag}
@@ -128,6 +128,7 @@ const FeatureMenu = ({
 const StyledFeatures = styled(motion.li)`
     position: relative;
     border-radius: 3px;
+    overflow: hidden;
     border: 1px solid var(--gray5);
     margin-bottom: 2px;
     box-shadow: ${props => props.isDragging && '0 0 35px -5px black'};

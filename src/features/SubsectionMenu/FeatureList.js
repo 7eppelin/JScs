@@ -30,6 +30,7 @@ const FeatureList = ({
 
     return (
         <StyledList variants={variants}
+            initial={isOpen ? 'open' : 'closed'}
             animate={isOpen ? 'open' : 'closed'}>
 
             {features.map((feature, i) => (
@@ -43,21 +44,12 @@ const FeatureList = ({
 )}
 
 const StyledList = styled(motion.ul)`
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    transform-origin: 50% 0;
+    
 `;
 
 const variants = {
-    open: {
-        display: 'flex',
-        scaleY: 1
-    },
-    closed: {
-        scaleY: 0,
-        transitionEnd: { display: 'none' }
-    }
+    open: { height: 'auto' },
+    closed: { height: 0 }
 }
 
 export default FeatureList;
