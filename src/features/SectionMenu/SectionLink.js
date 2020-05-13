@@ -84,12 +84,11 @@ const SectionLink = ({
 
 const StyledLink = styled(motion.li)`
     position: relative;
-    margin: 2px 0;
+    margin-bottom: 3px;
     z-index: ${props => props.isDragging ? 5 : 0 };
-    border: ${props => props.isDragging ? 
-        '1px solid var(--black)' : 
-        '1px solid transparent' };
-    box-shadow : ${props => props.isDragging ? '0 0 20px -4px black' : ''};
+    box-shadow: ${props => props.isDragging 
+        ? '0 0 30px -6px black' 
+        : '0 0 6px -3px black'};
 
     a {
         display: block;
