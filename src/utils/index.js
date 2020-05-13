@@ -1,4 +1,15 @@
 
+export {
+    findSectionID,
+    findSubsecID,
+    findFeatureID,
+    createContentItem,
+    updateSectionsOrderInDB,
+    updateSubsectionsOrderInDB,
+    updateFeaturesOrderInDB,
+} from './db'
+
+
 
 // takes an array, current and target indexex of an item, 
 // moves the item from current to target index
@@ -31,10 +42,3 @@ export const scroll = (scrollbar, y, dragOrigin) => {
         dragOrigin.set(dragOrigin.get() + y)
     }
 }
-
-
-export {
-    updateSectionsOrderInDB,
-    updateSubsectionsOrderInDB,
-    updateFeaturesOrderInDB,
-} from './db'
