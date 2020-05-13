@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion'
+
 import { reorderSubsections } from 'dataSlice';
 import { arrayMove, updateSubsectionsOrderInDB } from 'utils'
 
@@ -38,6 +40,9 @@ const SubsectionMenu = ({ items, ids, isAdmin }) => {
     
     return (
         <Ul className='scrollbar'
+            variants={variants}
+            initial='hide'
+            animate='appear'
             ref={scrollbar}>
 
             {sortedItems.map((item, i) => (
@@ -54,8 +59,19 @@ const SubsectionMenu = ({ items, ids, isAdmin }) => {
 }
 
 
-const Ul = styled.ul`
+const Ul = styled(motion.ul)`
     padding-right: 4px;
 `;
+
+const variants = {
+    appear: {
+        opacity: 1,
+        scale: 1,
+    },
+    hide: {
+        opacity: 0,
+        scale: 0.85,
+    }
+}
 
 export default SubsectionMenu;
