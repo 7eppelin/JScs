@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createSelector } from '@reduxjs/toolkit';
 
 import { arrayMove } from 'utils'
-import { reorderFeatures } from 'dataSlice'
+import { reorderFeatures } from 'dataSlice/dataSlice'
 import { updateFeaturesOrderInDB } from 'utils'
 
 import FeatureItem from './FeatureItem';

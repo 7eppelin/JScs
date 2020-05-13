@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { createSelector } from 'reselect';
 
-import { getContentItem, updateContentItem } from '../../dataSlice';
+import { getContentItem, updateContentItem } from '../../dataSlice/dataSlice';
 
 import ContentEditor from './ContentEditor';
 

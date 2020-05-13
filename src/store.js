@@ -3,7 +3,7 @@ import { createLogger } from 'redux-logger';
 
 import userReducer from 'userSlice';
 import addFormStatusReducer from 'features/AddForm/addFormStatusSlice';
-import dataReducer from 'dataSlice.js';
+import dataReducer from 'dataSlice/dataSlice.js';
 import editorStatusReducer from 'features/Content/editorSlice';
 
 

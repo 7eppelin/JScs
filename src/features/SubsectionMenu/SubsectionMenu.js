@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { reorderSubsections } from 'dataSlice';
+import { reorderSubsections } from 'dataSlice/dataSlice';
 import { arrayMove, updateSubsectionsOrderInDB } from 'utils'
 
 import FeatureMenu from './FeatureMenu';
