@@ -1,5 +1,5 @@
 import reducer from './slice'
-export default dataReducer
+export default reducer
 
 export { 
     addSections,

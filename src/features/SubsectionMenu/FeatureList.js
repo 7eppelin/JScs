@@ -4,9 +4,8 @@ import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux'
 import { createSelector } from '@reduxjs/toolkit';
 
-import { arrayMove } from 'utils'
-import { reorderFeatures } from 'dataSlice/dataSlice'
-import { updateFeaturesOrderInDB } from 'utils'
+import { arrayMove, updateFeaturesOrderInDB } from 'utils'
+import { reorderFeatures } from 'dataSlice'
 
 import FeatureItem from './FeatureItem';
 

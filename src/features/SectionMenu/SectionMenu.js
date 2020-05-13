@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getSections, reorderSections } from 'dataSlice/dataSlice';
+import { getSections, reorderSections } from 'dataSlice';
 import { updateSectionsOrderInDB, arrayMove } from 'utils';
 
 import Spinner from 'components/Spinner';
