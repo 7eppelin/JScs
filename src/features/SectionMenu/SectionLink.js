@@ -18,6 +18,9 @@ const SectionLink = ({
     const elemRef = useRef();
     const dragOriginY = useMotionValue(0);
 
+    // set dragged onDragEnd
+    const [ dragged, setDragged ] = useState(false);
+
     const isOnTop = () => {
         const el = elemRef.current.getBoundingClientRect();
         const ulTop = ul.current.getBoundingClientRect().top;
@@ -61,6 +64,11 @@ const SectionLink = ({
             }}
 
             onDragEnd={() => {
+                // prevent clicks
+                // see NavLink onClick below
+                setDragged(true);
+                setTimeout(() => setDragged(false), 50)
+
                 setDragging(false);
                 updateDB();
             }}
@@ -73,8 +81,12 @@ const SectionLink = ({
             }}
         >
 
-            <NavLink to={`/${label}`} activeClassName='active'>
-                {label}
+            <NavLink to={`/${label}`} 
+                activeClassName='active'
+                onClick={e => {
+                    if (dragged) e.preventDefault()
+                }}>
+                    {label}
             </NavLink>
 
         </StyledLink>
