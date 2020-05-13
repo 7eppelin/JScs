@@ -61,11 +61,10 @@ const StyledSub = styled(motion.div)`
 
 const StyledToggler = styled.i`
     position: absolute;
-    top: 6px;
-    right: 10px;
+    top: 7px;
+    right: 8px;
     padding: 5px 8px;
-    border-radius: 50%;
-    border: 1px solid transparent;
+    color: var(--gray2);
     transition: .2s;
     transform: ${props => `rotate(${props.rotate})`};
     cursor: pointer;
