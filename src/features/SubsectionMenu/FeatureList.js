@@ -64,7 +64,7 @@ const FeatureList = ({
 )}
 
 const StyledList = styled(motion.ul)`
-    background: var(--gray5);
+    
 `;
 
 const variants = {
