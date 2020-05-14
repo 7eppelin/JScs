@@ -7,18 +7,18 @@ const Div = styled.div`
     margin-top: 3px;
     overflow: hidden;
     transition: .12s;
-    width: 210px;
+    width: 225px;
     height: ${props => props.isShown ? '36px' : 0};
 
     input {
         border: none;
         width: 100%;
-        padding: 10px 32px 10px 15px;
+        padding: 10px 35px 10px 15px;
         background: var(--gray5);
         color: var(--gray1);
         outline: 1px solid transparent;
         outline-offset: -5px;
-        box-shadow: inset 0 0 8px -1px var(--black);
+        box-shadow: inset 0 0 12px -5px black;
         transition: .25s;
         font-size: 1.3rem;
     }
@@ -26,22 +26,21 @@ const Div = styled.div`
     input:focus {
         outline: 1px solid var(--orange1);
         outline-offset: -1px;
-        /* border: none; */
     }
 
     button {
         position: absolute;
         background: var(--black);
-        top: 5px;
-        right: 6px;
+        top: 4px;
+        right: 7px;
         font-size: 1.3rem;
         padding: 4px;
         border: 1px solid var(--gray5);
         border-radius: 3px;
-        box-shadow: 0 0 5px 0 var(--black);
-        color: var(--white);
+        box-shadow: 0 0 6px -1px black;
+        color: var(--gray1);
         opacity: ${props => props.isShown ? 1 : 0};
-        transition: .5s;
+        transition: opacity 3s, .5s;
     }
 
     button:hover {
