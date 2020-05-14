@@ -75,7 +75,8 @@ const HoveringMenu = () => {
 
 const Div = styled(motion.div)`
     background: var(--black);
-    opacity: .8;
+    border-radius: 5px;
+    border: 1px solid var(--gray4);
     position: absolute;
     z-index: 200;
     top: ${props => `${props.coords.y}px`};
@@ -87,7 +88,6 @@ const variants = {
     hidden: {
         scale: 0.5,
         opacity: 0,
-        transition: { duration: 0.1 }
     },
     shown: {
         scale: 1,
