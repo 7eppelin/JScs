@@ -23,7 +23,6 @@ const Tooltip = ({
     children 
 }) => (
     <StyledTippy animation='scale'
-        interactive={true}
         offset={[0, offset]}
         content={tip}
         delay={[200, 50]}

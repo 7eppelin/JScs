@@ -28,40 +28,40 @@ const HoveringMenuControls = ({
             <HoveringButton 
                 isActive={Editor.isMarkActive(editor, 'bold')}
                 tooltip='toggle Bold. Ctrl + B'
-                onClick={() => Editor.toggleMark(editor, 'bold')} >
+                handleClick={() => Editor.toggleMark(editor, 'bold')} >
                     <b>B</b>
             </HoveringButton>
 
             <HoveringButton 
                 isActive={Editor.isMarkActive(editor, 'italic')}
                 tooltip='toggle Italic. Ctrl + i'
-                onClick={() => Editor.toggleMark(editor, 'italic')}>
+                handleClick={() => Editor.toggleMark(editor, 'italic')}>
                     <i>I</i>
             </HoveringButton>
 
             <HoveringButton 
                 isActive={Editor.isMarkActive(editor, 'code')}
                 tooltip='toggle Code. Ctrl + `'
-                onClick={() => Editor.toggleMark(editor, 'code')} >
+                handleClick={() => Editor.toggleMark(editor, 'code')} >
                     {`</>`}
             </HoveringButton>
 
             <HoveringButton
                 isActive={inputType === 'link'}
                 tooltip='transform into a link'
-                onClick={() => {
+                handleClick={() => {
                     inputType === 'link' ? setInputType(null) : setInputType('link')
                 }}>
-                    <i className="fas fa-link"></i>
+                    <i className="fas fa-link" />
             </HoveringButton>
 
             <HoveringButton 
                 isActive={inputType === 'tooltip'}
                 tooltip='add a tooltip'
-                onClick={() => {
+                handleClick={() => {
                     inputType === 'tooltip' ? setInputType(null) : setInputType('tooltip');
                 }}>
-                    <i className="far fa-comment-alt"></i>
+                    <i className="far fa-comment-alt" />
             </HoveringButton>
 
             <HoveringMenuInput 

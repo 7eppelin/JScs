@@ -59,7 +59,10 @@ const HoveringMenuInput = ({
         <input ref={inputRef} 
             placeholder={placeholder} />
 
-        <button onClick={submit} >
+        <button 
+            onClick={submit}
+            // prevent focus
+            onMouseDown={e => e.preventDefault()} >
             <i className="fas fa-check-double"/>
         </button>
     </Div>

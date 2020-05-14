@@ -5,7 +5,6 @@ import Tooltip from 'components/Tooltip';
 const Btn = styled.button`
     display: inline-block;
     width: 45px;
-    background: transparent;
     color: var(--gray2);
     text-shadow: 1px 1px 1px var(--gray4);
     padding: 10px 0;
@@ -21,9 +20,14 @@ const Btn = styled.button`
 `;
 
 
-const HoveringButton = ({ onClick, isActive, tooltip, children }) => (
+const HoveringButton = ({ handleClick, isActive, tooltip, children }) => (
     <Tooltip tip={tooltip}>
-        <Btn onMouseDown={onClick} className={isActive ? 'active' : ''}>
+        <Btn onMouseDown={e => {
+            // prevent focus
+            e.preventDefault()
+            handleClick(e)
+        }} 
+        className={isActive ? 'active' : ''}>
             {children}
         </Btn>
     </Tooltip>
