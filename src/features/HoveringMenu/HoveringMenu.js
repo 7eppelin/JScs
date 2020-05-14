@@ -9,28 +9,6 @@ import Portal from 'components/Portal';
 import HoveringMenuControls from './HoveringMenuControls';
 
 
-const Div = styled(motion.div)`
-    background: var(--black);
-    opacity: .8;
-    position: absolute;
-    z-index: 200;
-    top: ${props => `${props.coords.y}px`};
-    left: ${props => `${props.coords.x}px`};
-    box-shadow: 0 2px 5px 2px var(--black);
-`;
-
-const variants = {
-    hidden: {
-        scale: 0.5,
-        opacity: 0,
-        transition: { duration: 0.1 }
-    },
-    shown: {
-        scale: 1,
-        opacity: 1,
-    }
-}
-
 const HoveringMenu = () => {
     const editor = useSlate();
     const menuRef = useRef();
@@ -93,5 +71,29 @@ const HoveringMenu = () => {
             </Div>
         </Portal>
 )}
+
+
+const Div = styled(motion.div)`
+    background: var(--black);
+    opacity: .8;
+    position: absolute;
+    z-index: 200;
+    top: ${props => `${props.coords.y}px`};
+    left: ${props => `${props.coords.x}px`};
+    box-shadow: 0 2px 5px 2px var(--black);
+`;
+
+const variants = {
+    hidden: {
+        scale: 0.5,
+        opacity: 0,
+        transition: { duration: 0.1 }
+    },
+    shown: {
+        scale: 1,
+        opacity: 1,
+    }
+}
+
 
 export default HoveringMenu;
