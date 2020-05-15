@@ -20,7 +20,7 @@ const Btn = styled.button`
 `;
 
 
-const HoveringButton = ({ handleClick, isActive, tooltip, children }) => (
+const Button = ({ handleClick, isActive, tooltip, children }) => (
     <Tooltip tip={tooltip}>
         <Btn onMouseDown={e => {
             // prevent focus
@@ -33,4 +33,4 @@ const HoveringButton = ({ handleClick, isActive, tooltip, children }) => (
     </Tooltip>
 )
 
-export default HoveringButton;
+export default Button;
