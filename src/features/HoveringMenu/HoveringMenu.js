@@ -7,7 +7,7 @@ import useHoveringMenu from './useHoveringMenu'
 import useMenuCoords from './useMenuCoords'
 
 import Portal from 'components/Portal';
-import HoveringMenuControls from './HoveringMenuControls';
+import Menu from './Menu';
 
 
 const HoveringMenu = () => {
@@ -43,7 +43,7 @@ const HoveringMenu = () => {
                 positionTransition={transition} 
                 >
 
-                <HoveringMenuControls 
+                <Menu
                     inputRef={inputRef} 
                     inputType={inputType}
                     setInputType={setInputType}

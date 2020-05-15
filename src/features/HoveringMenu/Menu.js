@@ -3,10 +3,10 @@ import { useSlate } from 'slate-react';
 
 import { Editor } from 'features/Content/editor';
 import HoveringButton from './HoveringButton';
-import HoveringMenuInput from '../HoveringMenu/HoveringMenuInput';
+import HoveringMenuInput from './HoveringMenuInput';
 
 
-const HoveringMenuControls = ({ 
+const Menu = ({ 
     inputRef, 
     inputType, 
     setInputType,
@@ -73,4 +73,4 @@ const HoveringMenuControls = ({
     )
 }
 
-export default HoveringMenuControls;
+export default Menu;
