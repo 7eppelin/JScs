@@ -1,77 +1,47 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
-import { Range } from 'slate';
-import { Editor } from 'features/Content/editor';
-import { useSlate, ReactEditor } from 'slate-react';
+import { useSlate } from 'slate-react'
+
+import useHoveringMenu from './useHoveringMenu'
+import useMenuCoords from './useMenuCoords'
 
 import Portal from 'components/Portal';
 import HoveringMenuControls from './HoveringMenuControls';
 
 
 const HoveringMenu = () => {
-    const editor = useSlate()
     const inputRef = useRef(null)
+    const editor = useSlate()
+
+    // null || 'link' || 'tooltip'
     const [inputType, setInputType] = useState(null)
-    const [isShown, setIsShown] = useState(false)
 
-    const readOnly = ReactEditor.isReadOnly(editor)
-    const editorSelection = useRef(null)
+    // in order to transform the selected text, we need the current selection
+    // but it's getting lost once the user focuses on the input
+    // we'll keep it in a ref, and update it every time
+    // but only if it exists
+    const editorSelection = useRef()
+    if (editor.selection) editorSelection.current = editor.selection
 
-    const [coords, setCoords] = useState({})
+    // decides whether to show or to hide the menu
+    const isShown = useHoveringMenu(inputRef)
 
+    // returns the menu's coords
+    const { x, y } = useMenuCoords(isShown, inputType)
+
+    // hide input along with menu
     useEffect(() => {
-
-        const { selection } = editor;
-
-        // don't let the menu to hide when the user focuses on the input
-        if (inputRef.current === document.activeElement) return;
-
-        // if there's no selection, hide the menu
-        if (!selection 
-            || Range.isCollapsed(selection) 
-            || Editor.isInsideCode(editor)
-            || readOnly
-        ) {
-            setInputType(null)
-            setIsShown(false)
-            return;
-        }
-
-        // when the user presses a button or focuses on the input
-        // in the HoveringMenu, editor's selection is lost
-        // memoize it, so we can pass it to Editor's transforming functions
-        editorSelection.current = selection
-
-        // show the menu
-        const domSelection = window.getSelection();
-        const domRange = domSelection.getRangeAt(0);
-        const rect = domRange.getBoundingClientRect();
-
-        const input = inputType ? 39 : 0;
-
-        const elHeight = 41 + input;
-        const elWidth = 227;
-
-        const y = rect.top - elHeight - 16;
-        const x = rect.left - elWidth / 2 + rect.width / 2;
-
-        setCoords({ x, y })
-        setIsShown(true);
-    }, [editor.selection, inputType, readOnly])
-
+        if (!isShown && inputType) setInputType(null)
+    }, [isShown, inputType])
 
     return (
         <Portal>
-            <Div style={{ left: coords.x, top: coords.y }}
+            <Div style={{ left: x, top: y }}
                 variants={variants}
                 animate={isShown ? 'shown' : 'hidden'}
-                positionTransition={{
-                    type: 'spring',
-                    damping: 14,
-                    stiffness: 150,
-                    mass: 0.7,
-                }} >
+                positionTransition={transition} 
+                >
 
                 <HoveringMenuControls 
                     inputRef={inputRef} 
@@ -85,6 +55,27 @@ const HoveringMenu = () => {
     )
 }
 
+const transition = {
+    type: 'spring',
+    damping: 14,
+    stiffness: 150,
+    mass: 0.7,
+}
+
+const variants = {
+    hidden: {
+        scale: 0.4,
+        opacity: 0,
+        transition: { duration: .15, delay: .25 },
+        transitionEnd: { display: 'none' }
+    },
+    shown: {
+        display: '',
+        scale: 1,
+        opacity: 1,
+    }
+}
+
 
 const Div = styled(motion.div)`
     background: var(--black);
@@ -94,20 +85,6 @@ const Div = styled(motion.div)`
     z-index: 200;
     box-shadow: 0 2px 10px 2px var(--black);
 `;
-
-const variants = {
-    hidden: {
-        scale: 0.3,
-        opacity: 0,
-        transition: { duration: .2, delay: .25 },
-        transitionEnd: { display: 'none' }
-    },
-    shown: {
-        display: '',
-        scale: 1,
-        opacity: 1,
-    }
-}
 
 
 export default HoveringMenu;

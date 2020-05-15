@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
 import 'assets/css/prism-atom-dark.css';
 import { motion } from 'framer-motion';
@@ -9,9 +9,9 @@ import renderElement from './renderElement';
 import renderLeaf from './renderLeaf';
 
 import ToggleReadOnly from './ToggleReadOnly'
-import HoveringMenu from 'features/HoveringMenu/HoveringMenu';
 import EditorFooter from './EditorFooter';
 import Scrollbar from 'components/Scrollbar';
+import HoveringMenu from 'features/HoveringMenu/HoveringMenu'
 
 
 const EditableContainer = styled.div`
