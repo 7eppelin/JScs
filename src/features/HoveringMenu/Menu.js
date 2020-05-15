@@ -3,7 +3,7 @@ import { useSlate } from 'slate-react';
 
 import { Editor } from 'features/Content/editor';
 import Button from './Button';
-import HoveringMenuInput from './HoveringMenuInput';
+import Input from './Input';
 
 
 const Menu = ({ 
@@ -64,7 +64,7 @@ const Menu = ({
                     <i className="far fa-comment-alt" />
             </Button>
 
-            <HoveringMenuInput 
+            <Input 
                 submit={onInputSubmit}
                 inputRef={inputRef} 
                 inputType={inputType}

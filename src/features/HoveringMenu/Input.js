@@ -49,7 +49,7 @@ const Div = styled.div`
 `;
 
 
-const HoveringMenuInput = ({ 
+const Input = ({ 
     inputRef,
     inputType,
     placeholder,
@@ -68,4 +68,4 @@ const HoveringMenuInput = ({
     </Div>
 )
 
-export default HoveringMenuInput;
+export default Input;
