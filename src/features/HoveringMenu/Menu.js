@@ -21,9 +21,8 @@ const Menu = ({ inputRef }) => {
     const memoizedSelection = useRef()
     if (editor.selection) memoizedSelection.current = editor.selection
 
-    const elem = useRef()
     // menu's coords
-    const { x, y } = useMenuCoords(elem, inputType, memoizedSelection.current)
+    const { x, y } = useMenuCoords(inputType, memoizedSelection.current)
 
     // this is to prevent the initial left/top animation
     // see Div's positionTransition
@@ -34,7 +33,7 @@ const Menu = ({ inputRef }) => {
 
 
     return (
-        <Div ref={elem}
+        <Div
             style={{ left: x, top: y }}
             variants={variants}
             initial='hidden'
