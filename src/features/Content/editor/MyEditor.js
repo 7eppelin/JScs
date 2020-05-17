@@ -1,22 +1,6 @@
-import { createEditor, Editor, Node, Text, Transforms } from 'slate';
-import { withReact, ReactEditor } from 'slate-react';
-import { withHistory } from 'slate-history';
-import Prism from 'prismjs';
 
-
-
-const withVoids = editor => {
-    const { isVoid } = editor;
-
-    editor.isVoid = element => {
-        return element.type === 'links' ? true : isVoid(element);
-    }
-    return editor;
-}
-
-const createMyEditor = () => withVoids(withHistory(withReact(createEditor())))
-
-
+import { Editor, Node, Text, Transforms } from 'slate';
+import { ReactEditor } from 'slate-react'
 
 //      extending the original Editor's commands
 
@@ -123,55 +107,4 @@ const MyEditor = {
     }
 }
 
-
-
-//      integrating prismjs with slate
-
-const decorate = ([ node, path ]) => {
-    if (node.type !== 'code-block') return [];
-
-    const code = Node.string(node)
-    const ranges = [];
-    const tokens = Prism.tokenize(code, Prism.languages.javascript);
-    let start = 0;
-
-    for (const token of tokens) {
-        const length = getTokenLength(token);
-        const end = start + length;
-
-        if (typeof token !== 'string') {
-            ranges.push({
-                token: token.type,
-                anchor: { path, offset: start },
-                focus: { path, offset: end }
-            })
-        }
-
-        start = end;
-    }
-    return ranges;
-}
-
-const getTokenLength = token => {
-    if (typeof token === 'string') {
-        return token.length
-      } else if (typeof token.content === 'string') {
-        return token.content.length
-      } else {
-        return token.content.reduce((l, t) => l + getTokenLength(t), 0)
-      }
-}
-
-const isInsideCode = (node, path) => {
-    for (const el of Node.ancestors(node, path)) {
-        if (el.type === 'code-block') return true;
-    }
-    return false;
-}
-
-
-export { 
-    createMyEditor as createEditor,
-    MyEditor as Editor,
-    decorate
-};
+export { MyEditor as Editor }

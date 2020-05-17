@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
 import 'assets/css/prism-atom-dark.css';
 import { motion } from 'framer-motion';
