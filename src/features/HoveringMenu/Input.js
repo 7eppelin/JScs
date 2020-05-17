@@ -1,6 +1,27 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
+
+const Input = ({ 
+    inputRef,
+    isShown,
+    placeholder,
+    submit
+}) => (
+    <Div isShown={isShown}>
+        <input ref={inputRef} 
+            placeholder={placeholder} />
+
+        <button 
+            onClick={submit}
+            // prevent focus
+            onMouseDown={e => e.preventDefault()} >
+            <i className="fas fa-check-double"/>
+        </button>
+    </Div>
+)
+
+
 const Div = styled.div`
     position: relative;
     padding: 0 3px;
@@ -47,25 +68,5 @@ const Div = styled.div`
         color: var(--orange1);
     }
 `;
-
-
-const Input = ({ 
-    inputRef,
-    inputType,
-    placeholder,
-    submit,
-}) => (
-    <Div isShown={inputType !== null}>
-        <input ref={inputRef} 
-            placeholder={placeholder} />
-
-        <button 
-            onClick={submit}
-            // prevent focus
-            onMouseDown={e => e.preventDefault()} >
-            <i className="fas fa-check-double"/>
-        </button>
-    </Div>
-)
 
 export default Input;

@@ -1,76 +1,88 @@
-import React, { useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components/macro';
+import { motion } from 'framer-motion';
 import { useSlate } from 'slate-react';
 
-import { Editor } from 'features/Content/editor';
-import Button from './Button';
-import Input from './Input';
+import MenuControls from './MenuControls'
+import useMenuCoords from './useMenuCoords'
 
 
-const Menu = ({ 
-    inputRef, 
-    inputType, 
-    setInputType,
-    selection
-}) => {
+const Menu = ({ inputRef }) => {
     const editor = useSlate();
-    const inputPlaceholder = inputType === 'link' ? 'link URL...' :
-        inputType === 'tooltip' ? 'tooltip text...' : '' 
 
-    const onInputSubmit = useCallback(() => {
-        const val = inputRef.current.value;
-        if (inputType === 'link') Editor.linkify(editor, val, selection);
-        if (inputType === 'tooltip') Editor.tooltipify(editor, val, selection);
-    }, [inputRef, inputType]);
+    // null || 'link' || 'tooltip'
+    const [inputType, setInputType] = useState(null)
+    
+    // in order to be able to apply text formatting 
+    // to the selected text, we need the current selection
+    // but it's getting lost once the user focuses on the input
+    // we'll create a ref, and keep it updated
+    // with the latest non-null selection
+    const memoizedSelection = useRef()
+    if (editor.selection) memoizedSelection.current = editor.selection
+
+    const elem = useRef()
+    // menu's coords
+    const { x, y } = useMenuCoords(elem, inputType, memoizedSelection.current)
+
+    // this is to prevent the initial left/top animation
+    // see Div's positionTransition
+    const justMounted = useRef(true)
+    useEffect(() => {
+        setTimeout(() => justMounted.current = false, 50)
+    }, [])
+
 
     return (
-        <div>
+        <Div ref={elem}
+            style={{ left: x, top: y }}
+            variants={variants}
+            initial='hidden'
+            animate='shown'
+            exit='hidden'
+            positionTransition={() => {
+                if (justMounted.current) return { duration: 0 }
+                return transition
+            }} >
 
-            <Button 
-                isActive={Editor.isMarkActive(editor, 'bold')}
-                tooltip='toggle Bold. Ctrl + B'
-                handleClick={() => Editor.toggleMark(editor, 'bold')} >
-                    <b>B</b>
-            </Button>
-
-            <Button 
-                isActive={Editor.isMarkActive(editor, 'italic')}
-                tooltip='toggle Italic. Ctrl + i'
-                handleClick={() => Editor.toggleMark(editor, 'italic')}>
-                    <i>I</i>
-            </Button>
-
-            <Button 
-                isActive={Editor.isMarkActive(editor, 'code')}
-                tooltip='toggle Code. Ctrl + `'
-                handleClick={() => Editor.toggleMark(editor, 'code')} >
-                    {`</>`}
-            </Button>
-
-            <Button
-                isActive={inputType === 'link'}
-                tooltip='transform into a link'
-                handleClick={() => {
-                    inputType === 'link' ? setInputType(null) : setInputType('link')
-                }}>
-                    <i className="fas fa-link" />
-            </Button>
-
-            <Button 
-                isActive={inputType === 'tooltip'}
-                tooltip='add a tooltip'
-                handleClick={() => {
-                    inputType === 'tooltip' ? setInputType(null) : setInputType('tooltip');
-                }}>
-                    <i className="far fa-comment-alt" />
-            </Button>
-
-            <Input 
-                submit={onInputSubmit}
-                inputRef={inputRef} 
+            <MenuControls
                 inputType={inputType}
-                placeholder={inputPlaceholder} />
-        </div>
+                setInputType={setInputType}
+                inputRef={inputRef}
+                selection={memoizedSelection} />
+
+        </Div>
     )
 }
+
+
+const transition = {
+    type: 'spring',
+    damping: 14,
+    stiffness: 150,
+    mass: 0.7,
+}
+
+const variants = {
+    hidden: {
+        scale: 0.3,
+        opacity: 0,
+        transition: { duration: .25, delay: .25 },
+    },
+    shown: {
+        scale: 1,
+        opacity: 1,
+    }
+}
+
+
+const Div = styled(motion.div)`
+    background: var(--black);
+    border-radius: 5px;
+    border: 1px solid var(--gray4);
+    position: absolute;
+    z-index: 200;
+    box-shadow: 0 2px 10px 2px var(--black);
+`;
 
 export default Menu;

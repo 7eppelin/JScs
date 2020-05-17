@@ -2,6 +2,27 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Tooltip from 'components/Tooltip';
 
+
+const Button = ({ 
+    handleMouseDown, 
+    isActive, 
+    tooltip, 
+    children 
+}) => (
+    <Tooltip tip={tooltip}>
+        <Btn onMouseDown={e => {
+            // prevent focus
+            e.preventDefault()
+            if (e.button !== 0) return;
+            handleMouseDown(e)
+        }} 
+        className={isActive ? 'active' : ''}>
+            {children}
+        </Btn>
+    </Tooltip>
+)
+
+
 const Btn = styled.button`
     display: inline-block;
     width: 45px;
@@ -19,18 +40,5 @@ const Btn = styled.button`
     &.active { color: var(--orange2) }
 `;
 
-
-const Button = ({ handleClick, isActive, tooltip, children }) => (
-    <Tooltip tip={tooltip}>
-        <Btn onMouseDown={e => {
-            // prevent focus
-            e.preventDefault()
-            handleClick(e)
-        }} 
-        className={isActive ? 'active' : ''}>
-            {children}
-        </Btn>
-    </Tooltip>
-)
 
 export default Button;

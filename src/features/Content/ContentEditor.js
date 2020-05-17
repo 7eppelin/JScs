@@ -60,7 +60,7 @@ const ContentEditor = ({ content, updateContent }) => {
     const editor = useMemo(() => createEditor(), [content.id])
 
     const [ editorState, setEditorState ] = useState(content.data);
-    const [ readOnly, setReadOnly ] = useState(false);
+    const [ readOnly, setReadOnly ] = useState(true);
 
     const saveChanges = () => updateContent({
         ...content,
@@ -135,7 +135,10 @@ const ContentEditor = ({ content, updateContent }) => {
                 exit='hidden'>
 
                 <ToggleReadOnly readOnly={readOnly}
-                    toggle={() => setReadOnly(!readOnly)} />
+                    toggle={() => {
+                        if (!readOnly) editor.selection = null
+                        setReadOnly(!readOnly)
+                    }} />
 
                 <EditableContainer padding={readOnly ? '40px' : '150px'}>
                     <Scrollbar>

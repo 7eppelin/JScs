@@ -1,5 +1,5 @@
 import { createEditor, Editor, Node, Text, Transforms } from 'slate';
-import { withReact } from 'slate-react';
+import { withReact, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
 import Prism from 'prismjs';
 
@@ -39,9 +39,8 @@ const MyEditor = {
 
     toggleMark: (editor, mark) => {
         const isActive = MyEditor.isMarkActive(editor, mark);
-        Transforms.setNodes(
-            editor,
-            { [mark]: isActive ? false : true },
+        Transforms.setNodes(editor, 
+            { [mark]: isActive ? false : true }, 
             { match: n => Text.isText(n), split: true }
         )
     },
@@ -76,6 +75,11 @@ const MyEditor = {
             type: 'code-block',
             children: [{ text }]
         })
+    },
+
+    setSelection: (editor, selection) => {
+        ReactEditor.focus(editor)
+        Transforms.select(editor, selection)
     },
 
     handleEnter: (editor, event) => {
