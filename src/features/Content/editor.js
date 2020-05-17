@@ -14,13 +14,7 @@ const withVoids = editor => {
     return editor;
 }
 
-const createMyEditor = () => (
-    withVoids(
-        withHistory(
-            withReact(createEditor())
-        )
-    )
-);
+const createMyEditor = () => withVoids(withHistory(withReact(createEditor())))
 
 
 
@@ -37,6 +31,7 @@ const MyEditor = {
         return !!match
     },
 
+
     toggleMark: (editor, mark) => {
         const isActive = MyEditor.isMarkActive(editor, mark);
         Transforms.setNodes(editor, 
@@ -45,23 +40,41 @@ const MyEditor = {
         )
     },
 
+
     linkify: (editor, href, selection) => {
-        Transforms.setNodes(
-            editor, { href }, { 
+        if (href) {
+            Transforms.setNodes(editor, { href }, { 
                 at: selection,
                 match: n => Text.isText(n), 
                 split: true 
-            }
-        )
+            })
+
+        } else if (MyEditor.isMarkActive(editor, 'href')) {
+            Transforms.unsetNodes(editor, 'href', { 
+                at: selection,
+                match: n => Text.isText(n), 
+                split: true 
+            })
+        }
     },
 
+
     tooltipify: (editor, tooltip, selection) => {
-        Transforms.setNodes(editor, { tooltip }, { 
-            at: selection,
-            match: n => Text.isText(n),
-            split: true 
-        })
+        if (tooltip) {
+            Transforms.setNodes(editor, { tooltip }, { 
+                at: selection,
+                match: n => Text.isText(n),
+                split: true 
+            })
+        } else if (MyEditor.isMarkActive(editor, 'tooltip')) {
+            Transforms.unsetNodes(editor, 'tooltip', { 
+                at: selection,
+                match: n => Text.isText(n), 
+                split: true 
+            })
+        }
     },
+
 
     insertBlockElem: (editor, elemType) => {  
         Transforms.insertNodes(editor, {
@@ -70,6 +83,7 @@ const MyEditor = {
         })
     },
 
+
     insertCodeBlock: (editor, text) => {
         Transforms.insertNodes(editor, {
             type: 'code-block',
@@ -77,10 +91,12 @@ const MyEditor = {
         })
     },
 
+
     setSelection: (editor, selection) => {
         ReactEditor.focus(editor)
         Transforms.select(editor, selection)
     },
+
 
     handleEnter: (editor, event) => {
         if (MyEditor.isInsideCode(editor)) {
@@ -89,12 +105,14 @@ const MyEditor = {
         }
     },
 
+
     isInsideCode: editor => {
         const path = [...editor.selection.anchor.path];
         const parentPath = path.slice(0, path.length - 1);
         const parent = Node.get(editor, parentPath);
         return parent.type === 'code-block';
     },
+
 
     setLinks: (editor, links) => {
         Transforms.setNodes(
