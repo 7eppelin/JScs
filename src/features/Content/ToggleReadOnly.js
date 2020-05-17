@@ -7,7 +7,7 @@ const Button = styled.button`
     color: ${props => props.readOnly ? 'var(--gray1)' : 'var(--green)'};
     padding: 8px 30px;
     position: absolute;
-    z-index: 300;
+    z-index: 10;
     top: -2px;
     right: -2px;
     box-shadow: -3px 3px 12px -3px var(--black);
