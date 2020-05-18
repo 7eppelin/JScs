@@ -5,4 +5,6 @@ export { Editor } from './MyEditor'
 export {
     isMarkActive,
     setMark,
+    isInside,
+    insertElem,
 } from './commands'

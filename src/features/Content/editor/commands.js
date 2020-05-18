@@ -47,3 +47,15 @@ export const isInside = (editor, type) => {
     
       return !!match
 }
+
+
+
+export const insertElem = (editor, type) => {
+
+    Transforms.insertNodes(editor, {
+        type,
+        children: [{ text: `[${type}]` }]
+    })
+
+    ReactEditor.focus(editor)
+}

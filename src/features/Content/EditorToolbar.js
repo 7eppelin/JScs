@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { useSlate } from 'slate-react';
-import { Editor } from './editor';
+import { insertElem } from './editor';
 
 import EditorToolbarButton from './EditorToolbarButton';
 
@@ -20,27 +20,27 @@ const EditorToolbar = () => {
         <StyledToolbar>
 
             <EditorToolbarButton tooltip='Insert a <p>. Ctrl + P'
-                onClick={() => Editor.insertBlockElem(editor, 'paragraph')}>
+                onClick={() => insertElem(editor, 'paragraph')}>
                     P
             </EditorToolbarButton>
 
             <EditorToolbarButton tooltip='Insert an <h2>. Ctrl + 2'
-                onClick={() => Editor.insertBlockElem(editor, 'h2')}>
+                onClick={() => insertElem(editor, 'h2')}>
                     H2
             </EditorToolbarButton>
 
             <EditorToolbarButton tooltip='Insert an <h3>. Ctrl + 3'
-                onClick={() => Editor.insertBlockElem(editor, 'h3')}>
+                onClick={() => insertElem(editor, 'h3')}>
                     H3
             </EditorToolbarButton>
 
             <EditorToolbarButton tooltip='Insert an <UL>. Ctrl + U'
-                onClick={() => Editor.insertBlockElem(editor, 'ul')}>
+                onClick={() => insertElem(editor, 'ul')}>
                     UL
             </EditorToolbarButton>
 
             <EditorToolbarButton tooltip='Insert a <code>. Ctrl + ?'
-                onClick={() => Editor.insertCodeBlock(editor, 'const a = b + c;')} >
+                onClick={() => insertElem(editor, 'code-block')} >
                     C
             </EditorToolbarButton>
 
