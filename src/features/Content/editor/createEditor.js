@@ -6,13 +6,13 @@ import { compose } from '@reduxjs/toolkit'
 const withVoids = editor => {
     const { isVoid } = editor;
 
-    editor.isVoid = element => {
-        return element.type === 'links' ? true : isVoid(element);
+    editor.isVoid = el => {
+        return el.type === 'links' ? true : isVoid(el);
     }
+    
     return editor;
 }
 
-// export const createMyEditor = () => withVoids(withHistory(withReact(createEditor())))
 const createMyEditor = compose(
     withVoids, 
     withHistory, 
