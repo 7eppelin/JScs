@@ -9,6 +9,7 @@ import useMenuCoords from './useMenuCoords'
 
 const Menu = ({ inputRef }) => {
     const editor = useSlate();
+    const menu = useRef()
 
     // null || 'link' || 'tooltip'
     const [inputType, setInputType] = useState(null)
@@ -22,7 +23,7 @@ const Menu = ({ inputRef }) => {
     if (editor.selection) memoizedSelection.current = editor.selection
 
     // menu's coords
-    const { x, y } = useMenuCoords(inputType, memoizedSelection.current)
+    const { x, y } = useMenuCoords(menu, inputType, memoizedSelection.current)
 
     // this is to prevent the initial left/top animation
     // see Div's positionTransition
@@ -33,7 +34,7 @@ const Menu = ({ inputRef }) => {
 
 
     return (
-        <Div
+        <Div ref={menu}
             style={{ left: x, top: y }}
             variants={variants}
             initial='hidden'
