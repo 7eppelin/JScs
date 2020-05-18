@@ -6,11 +6,32 @@ import Tooltip from 'components/Tooltip';
 import EditorToolbar from './EditorToolbar';
 
 
+const EditorFooter = ({ 
+    readOnly,
+    saveChanges, 
+    edited 
+}) => (
+    <StyledFooter variants={variants}
+        animate={readOnly ? 'hidden' : 'shown'}>
+
+        <div className='edited'>
+            Edited: {new Date(edited).toLocaleDateString()}
+        </div>
+
+        <EditorToolbar />
+
+        <Tooltip tip="Save changes">
+            <button className='control-btn' 
+                onClick={saveChanges}>
+                <i className="far fa-save" />
+            </button>
+        </Tooltip>
+
+    </StyledFooter>
+)
+
+
 const StyledFooter = styled(motion.div)`
-    /* position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0; */
     background: var(--gray6);
     overflow: hidden;
 
@@ -50,34 +71,10 @@ const variants = {
         transition
     },
     shown: {
-        height: 150,
+        height: 190,
         transition
     }
 }
 
-
-const EditorFooter = ({ 
-    readOnly,
-    saveChanges, 
-    edited 
-}) => (
-    <StyledFooter variants={variants}
-        animate={readOnly ? 'hidden' : 'shown'}>
-
-        <div className='edited'>
-            Edited: {new Date(edited).toLocaleDateString()}
-        </div>
-
-        <EditorToolbar />
-
-        <Tooltip tip="Save changes">
-            <button className='control-btn' 
-                onClick={saveChanges}>
-                <i className="far fa-save" />
-            </button>
-        </Tooltip>
-
-    </StyledFooter>
-)
 
 export default EditorFooter;
