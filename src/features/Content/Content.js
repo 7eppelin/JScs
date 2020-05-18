@@ -14,7 +14,7 @@ const StyledContent = styled.section`
     flex-basis: 600px;
     flex-grow: 1;
     background: var(--gray6);
-    box-shadow: 0 0 12px 0px var(--black);
+    box-shadow: 0 0 30px -5px black;
     height: 100%;
 `;
 
