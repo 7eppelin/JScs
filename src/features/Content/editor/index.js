@@ -4,6 +4,5 @@ export { Editor } from './MyEditor'
 
 export {
     isMarkActive,
-    toggleMark,
-    toggleComplexMark,
+    setMark,
 } from './commands'

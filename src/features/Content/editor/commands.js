@@ -19,46 +19,19 @@ export const isMarkActive = (editor, mark) => {
 
 
 
-// toggles simple marks on the currently selected text
-// simple marks are the marks that can only have true/false values
+// sets a mark on the selected text
+// there are scenarios where editor's selection is lost
+// for these cases setMark accepts the selection arg 
 
-export const toggleMark = (editor, mark) => {
-    const isActive = isMarkActive(editor, mark);
-    Transforms.setNodes(editor, 
-        { [mark]: isActive ? false : true }, 
-        { match: n => Text.isText(n), split: true }
-    )
-}
+export const setMark = (editor, mark, value, selection) => {
 
-
-
-// toggles link/tooltip marks
-// these marks have strings as values
-
-// normally, we wouldn't need the selection arg, 
-// because setNodes oparates with the editor's selection by default
-// but in our case, the user enters the value in the input,
-// which means that selection is lost (since the input is focused)
-
-export const toggleComplexMark = (editor, mark, value, selection) => {
-
-    // add mark
-    if (value !== '') {
-        Transforms.setNodes(
-            editor, 
-            { [mark]: value }, 
-            { at: selection, match: n => Text.isText(n), split: true }
-        )
-        return
+    if (selection) {
+        Transforms.select(editor, selection)
     }
 
-    // if the mark is active, remove it
-    const isActive = isMarkActive(editor, mark)
-    if (isActive) {
-        Transforms.unsetNodes(editor, mark, { 
-            at: selection,
-            match: n => Text.isText(n), 
-            split: true 
-        })
+    if (value) {
+        editor.addMark(mark, value)
+    } else {
+        editor.removeMark(mark)
     }
 }
