@@ -4,7 +4,7 @@ import 'assets/css/prism-atom-dark.css';
 import { motion } from 'framer-motion';
 
 import { Slate, Editable } from 'slate-react';
-import { createEditor, Editor, decorate } from './editor';
+import { createEditor, handleKeyDown, decorate } from './editor';
 import renderElement from './renderElement';
 import renderLeaf from './renderLeaf';
 
@@ -44,7 +44,7 @@ const ContentEditor = ({ content, updateContent }) => {
                 <EditableContainer className='scrollbar'>
 
                         <Editable readOnly={readOnly}
-                            onKeyDown={e => Editor.handleKeyDown(e, editor)} 
+                            onKeyDown={e => handleKeyDown(e, editor)} 
                             decorate={decorate}
                             renderElement={renderElement}
                             renderLeaf={renderLeaf} />

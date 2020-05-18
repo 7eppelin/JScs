@@ -1,0 +1,78 @@
+
+import { isInside, isMarkActive, setMark, insertElem } from './'
+
+
+// the default behavior 'onEnter' is to insert a new elem
+// of the same type as the elem at the selection
+
+// if inside code-block, we don't want the block to split into two
+// but to simply create a new line
+
+const handleEnter = (editor, event) => {
+    if (isInside(editor, 'code-block')) {
+        editor.insertText('\n');
+        event.preventDefault();
+    }
+}
+
+
+export const handleKeyDown = (event, editor) => {
+    const char = event.nativeEvent.code
+
+    if (char === 'Enter') {
+        handleEnter(editor, event);
+    }
+
+    if (!event.ctrlKey) return;
+
+    let isActive;
+
+    switch (char) {
+
+        // text formatting
+        case 'KeyB': 
+            event.preventDefault();
+            isActive = isMarkActive(editor, 'bold')
+            setMark(editor, 'bold', !isActive);
+            break;
+        
+        case 'KeyI':
+            event.preventDefault();
+            isActive = isMarkActive(editor, 'italic')
+            setMark(editor, 'italic', !isActive);
+            break;
+
+        case 'Backquote':
+            event.preventDefault();
+            isActive = isMarkActive(editor, 'code')
+            setMark(editor, 'code', !isActive);
+            break;
+
+            
+        // block insertion
+        case 'Digit2':
+            event.preventDefault();
+            insertElem(editor, 'h2');
+            break
+
+        case 'Digit3':
+            event.preventDefault();
+            insertElem(editor, 'h3');
+            break;
+
+        case 'KeyP':
+            event.preventDefault();
+            insertElem(editor, 'paragraph');
+            break;
+
+        case 'KeyU':
+            event.preventDefault();
+            insertElem(editor, 'ul');
+            break;
+
+        case 'KeyH':
+            event.preventDefault();
+            insertElem(editor, 'code-block');
+            break;
+    }  
+}

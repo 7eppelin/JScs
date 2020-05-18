@@ -8,3 +8,5 @@ export {
     isInside,
     insertElem,
 } from './commands'
+
+export { handleKeyDown } from './handleKeyDown'

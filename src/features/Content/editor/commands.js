@@ -38,7 +38,7 @@ export const setMark = (editor, mark, value, selection) => {
 
 
 // checks whether the caret is currently
-// inside an elem with the given type
+// inside of an elem of the given type
 
 export const isInside = (editor, type) => {
     const [match] = Editor.nodes(editor, {
@@ -49,6 +49,10 @@ export const isInside = (editor, type) => {
 }
 
 
+
+// inserts an elem with the given type at the current selection
+// if there's no selection, inserts at the end of the doc
+// focuses the editor
 
 export const insertElem = (editor, type) => {
 
