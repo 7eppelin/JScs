@@ -2,6 +2,7 @@
 import { Editor, Node, Text, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react'
 
+
 //      extending the original Editor's commands
 
 const MyEditor = {
@@ -82,14 +83,6 @@ const MyEditor = {
     },
 
 
-    handleEnter: (editor, event) => {
-        if (MyEditor.isInsideCode(editor)) {
-            editor.insertText('\n');
-            event.preventDefault();
-        }
-    },
-
-
     isInsideCode: editor => {
         const path = [...editor.selection.anchor.path];
         const parentPath = path.slice(0, path.length - 1);
@@ -104,6 +97,68 @@ const MyEditor = {
             { links }, 
             { at: [1] }
         )
+    },
+
+
+    handleEnter: (editor, event) => {
+        if (MyEditor.isInsideCode(editor)) {
+            editor.insertText('\n');
+            event.preventDefault();
+        }
+    },
+
+
+    handleKeyDown: (event, editor) => {
+        const char = event.nativeEvent.code
+
+        if (char === 'Enter') {
+            MyEditor.handleEnter(editor, event);
+        }
+
+        if (!event.ctrlKey) return;
+
+        switch (char) {
+            case 'KeyB': 
+                event.preventDefault();
+                MyEditor.toggleMark(editor, 'bold');
+                break;
+            
+            case 'KeyI':
+                event.preventDefault();
+                MyEditor.toggleMark(editor, 'italic');
+                break;
+
+            case 'Backquote':
+                event.preventDefault();
+                MyEditor.toggleMark(editor, 'code');
+                break;
+
+            // block insertion
+            case 'Digit2':
+                event.preventDefault();
+                MyEditor.insertBlockElem(editor, 'h2');
+                break
+
+            case 'Digit3':
+                event.preventDefault();
+                MyEditor.insertBlockElem(editor, 'h3');
+                break;
+
+            case 'KeyP':
+                event.preventDefault();
+                MyEditor.insertBlockElem(editor, 'paragraph');
+                break;
+
+            case 'KeyU':
+                event.preventDefault();
+                MyEditor.insertBlockElem(editor, 'ul');
+                break;
+
+            case 'KeyH':
+                event.preventDefault();
+                MyEditor.insertBlockElem(editor, 'code-block', 'Code here!');
+                break;
+        }  
     }
 }
 

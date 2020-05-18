@@ -25,62 +25,6 @@ const ContentEditor = ({ content, updateContent }) => {
         data: editorState
     })
 
-    // hot keys
-    const handleKeyDown = e => {
-
-        if (e.nativeEvent.code === 'Enter') {
-            Editor.handleEnter(editor, e);
-        }
-
-        if (!e.ctrlKey) return;
-
-        switch (e.nativeEvent.code) {
-
-            // text formatting
-            case 'KeyB': 
-                e.preventDefault();
-                Editor.toggleMark(editor, 'bold');
-                break;
-            
-            case 'KeyI':
-                e.preventDefault();
-                Editor.toggleMark(editor, 'italic');
-                break;
-
-            case 'Backquote':
-                e.preventDefault();
-                Editor.toggleMark(editor, 'code');
-                break;
-
-            // block insertion
-            case 'Digit2':
-                e.preventDefault();
-                Editor.insertBlockElem(editor, 'h2');
-                break
-
-            case 'Digit3':
-                e.preventDefault();
-                Editor.insertBlockElem(editor, 'h3');
-                break;
-
-            case 'KeyP':
-                e.preventDefault();
-                Editor.insertBlockElem(editor, 'paragraph');
-                break;
-
-            case 'KeyU':
-                e.preventDefault();
-                Editor.insertBlockElem(editor, 'ul');
-                break;
-
-            case 'KeyH':
-                e.preventDefault();
-                Editor.insertBlockElem(editor, 'code-block', 'Code here!');
-                break;
-        }  
-    }
-
-
     return (
         <Slate editor={editor} 
             value={editorState} 
@@ -100,7 +44,7 @@ const ContentEditor = ({ content, updateContent }) => {
                 <EditableContainer className='scrollbar'>
 
                         <Editable readOnly={readOnly}
-                            onKeyDown={handleKeyDown} 
+                            onKeyDown={e => Editor.handleKeyDown(e, editor)} 
                             decorate={decorate}
                             renderElement={renderElement}
                             renderLeaf={renderLeaf} />
