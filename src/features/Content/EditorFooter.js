@@ -7,10 +7,10 @@ import EditorToolbar from './EditorToolbar';
 
 
 const StyledFooter = styled(motion.div)`
-    position: absolute;
+    /* position: absolute;
     bottom: 0;
     left: 0;
-    right: 0;
+    right: 0; */
     background: var(--gray6);
     overflow: hidden;
 

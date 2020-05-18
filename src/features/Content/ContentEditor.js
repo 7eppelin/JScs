@@ -10,50 +10,7 @@ import renderLeaf from './renderLeaf';
 
 import ToggleReadOnly from './ToggleReadOnly'
 import EditorFooter from './EditorFooter';
-import Scrollbar from 'components/Scrollbar';
 import HoveringMenu from 'features/HoveringMenu/HoveringMenu'
-
-
-const EditableContainer = styled.div`
-    background-color: var(--gray5);
-    box-shadow: inset 0 -3px 10px -2px var(--gray6);
-    height: 100%;
-    padding-bottom: ${props => props.padding};
-    transition: .2s;
-`;
-
-const Wrapper = styled(motion.div)`
-    position: relative;
-    margin: 6px 9px;
-    height: calc(100% - 12px);
-    font-size: 1.4rem;
-    color: var(--gray1); 
-`;
-
-
-const wrapper = {
-    shown: {
-        scale: 1,
-        opacity: 1,
-        transition: {
-            duration: 0.4,
-            when: 'beforeChildren',
-            staggerChildren: 0.15,
-            ease: 'circOut'
-        }
-    },
-    hidden: {
-        scale: 0.65,
-        opacity: 0,
-        transition: {
-            duration: 0.3,
-            when: 'afterChildren',
-            staggerChildren: 0.06,
-            staggerDirection: -1,
-            ease: 'circOut'
-        }
-    }
-}
 
 
 const ContentEditor = ({ content, updateContent }) => {
@@ -140,14 +97,13 @@ const ContentEditor = ({ content, updateContent }) => {
                         setReadOnly(!readOnly)
                     }} />
 
-                <EditableContainer padding={readOnly ? '40px' : '150px'}>
-                    <Scrollbar>
+                <EditableContainer className='scrollbar'>
+
                         <Editable readOnly={readOnly}
                             onKeyDown={handleKeyDown} 
                             decorate={decorate}
                             renderElement={renderElement}
                             renderLeaf={renderLeaf} />
-                    </Scrollbar>  
                 </EditableContainer>
 
                 <EditorFooter readOnly={readOnly}
@@ -155,11 +111,51 @@ const ContentEditor = ({ content, updateContent }) => {
                     saveChanges={saveChanges} />
 
                 <HoveringMenu />
-
             </Wrapper>
-
         </Slate>
     )
+}
+
+
+const EditableContainer = styled.div`
+    background-color: var(--gray5);
+    box-shadow: inset 0 -3px 10px -2px var(--gray6);
+    overflow-x: hidden;
+`;
+
+const Wrapper = styled(motion.div)`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 6px 9px;
+    height: calc(100% - 12px);
+    font-size: 1.4rem;
+    color: var(--gray1); 
+`;
+
+
+const wrapper = {
+    shown: {
+        scale: 1,
+        opacity: 1,
+        transition: {
+            duration: 0.4,
+            when: 'beforeChildren',
+            staggerChildren: 0.15,
+            ease: 'circOut'
+        }
+    },
+    hidden: {
+        scale: 0.65,
+        opacity: 0,
+        transition: {
+            duration: 0.3,
+            when: 'afterChildren',
+            staggerChildren: 0.06,
+            staggerDirection: -1,
+            ease: 'circOut'
+        }
+    }
 }
 
 export default ContentEditor;
