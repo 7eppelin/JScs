@@ -3,5 +3,6 @@ export { createEditor } from './createEditor'
 export { Editor } from './MyEditor'
 
 export {
-    isMarkActive
+    isMarkActive,
+    toggleMark,
 } from './commands'
