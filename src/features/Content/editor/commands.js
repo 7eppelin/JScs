@@ -35,3 +35,15 @@ export const setMark = (editor, mark, value, selection) => {
         editor.removeMark(mark)
     }
 }
+
+
+// checks whether the caret is currently
+// inside an elem with the given type
+
+export const isInside = (editor, type) => {
+    const [match] = Editor.nodes(editor, {
+        match: n => n.type === type,
+      })
+    
+      return !!match
+}
