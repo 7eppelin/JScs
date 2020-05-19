@@ -3,7 +3,7 @@ import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react'
 
 
-// commands to manipulate the content
+// commands to manipulate the editor
 
 
 // checks whether the given mark is active 
@@ -19,12 +19,27 @@ export const isMarkActive = (editor, mark) => {
 
 
 
+// checks whether the caret is currently
+// inside of an elem of the given type
+
+export const isInside = (editor, type) => {
+    const [match] = Editor.nodes(editor, {
+        match: n => n.type === type,
+      })
+    
+    return !!match
+}
+
+
+
 // sets a mark on the selected text
-// there are scenarios where editor's selection is lost
-// for these cases setMark accepts the selection arg 
 
 export const setMark = (editor, mark, value, selection) => {
 
+    // add/removeMark operates on the currently selected text
+    // in some scenarios selection is being lost, 
+    // e.g. when the user has focused on an input
+    // in such cases the caller must provide the selection arg
     if (selection) {
         Transforms.select(editor, selection)
     }
@@ -34,18 +49,6 @@ export const setMark = (editor, mark, value, selection) => {
     } else {
         editor.removeMark(mark)
     }
-}
-
-
-// checks whether the caret is currently
-// inside of an elem of the given type
-
-export const isInside = (editor, type) => {
-    const [match] = Editor.nodes(editor, {
-        match: n => n.type === type,
-      })
-    
-      return !!match
 }
 
 
@@ -67,8 +70,13 @@ export const insertElem = (editor, type) => {
 
 
 // sets a new links array as a property of the links bar
+// the bar is always located at [1] (where [0] is the title of the page)
 // see EditableElements/LinksElement
 
 export const setLinks = (editor, links) => {
-    Transforms.setNodes(editor, { links }, { at: [1] })
+    Transforms.setNodes(
+        editor, 
+        { links }, 
+        { at: [1] }
+    )
 }
