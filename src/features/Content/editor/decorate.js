@@ -15,7 +15,6 @@ export const decorate = ([ node, path ]) => {
     let start = 0;
 
     for (const token of tokens) {
-        console.log(token)
         const length = getTokenLength(token);
         const end = start + length;
 

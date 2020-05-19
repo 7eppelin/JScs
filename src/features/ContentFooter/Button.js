@@ -1,18 +1,17 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
+
 import Tooltip from 'components/Tooltip';
 
 
-const Button = ({ onClick, children, tooltip }) => {
-    return (
-        <Tooltip tip={tooltip} >
-            <StyledButton onClick={onClick}>
-                {children}
-            </StyledButton>
-        </Tooltip>
-    )
-}
+const Button = ({ tooltip, onClick, icon }) => (
+    <Tooltip tip={tooltip} >
+        <StyledButton onClick={onClick}>
+            {icon}
+        </StyledButton>
+    </Tooltip>
+)
 
 
 const StyledButton = styled.button`

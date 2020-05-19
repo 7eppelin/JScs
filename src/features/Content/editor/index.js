@@ -1,5 +1,6 @@
 export { decorate } from './decorate'
 export { createEditor } from './createEditor'
+export { ELEMS, HOTKEYS, ICONS } from './constants'
 
 export {
     isMarkActive,
