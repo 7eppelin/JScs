@@ -1,13 +1,13 @@
 import Prism from 'prismjs';
 import { Node } from 'slate'
 
-//      integrating prismjs with slate
+// integrating prismjs with slate
 
-// this is going to get attached to Editable
-// see ContentEditor
+// this is going to get attached to Editable in ContentEditor
+
 
 export const decorate = ([ node, path ]) => {
-    if (node.type !== 'code-block') return [];
+    if (node.type !== 'code-block') return []
 
     const code = Node.string(node)
     const ranges = [];
@@ -15,6 +15,7 @@ export const decorate = ([ node, path ]) => {
     let start = 0;
 
     for (const token of tokens) {
+        console.log(token)
         const length = getTokenLength(token);
         const end = start + length;
 

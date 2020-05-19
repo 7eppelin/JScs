@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components/macro';
-import 'assets/css/prism-atom-dark.css';
 import { motion } from 'framer-motion';
+
+// prismjs theme
+import 'assets/css/prism-atom-dark.css';
 
 import { Slate, Editable } from 'slate-react';
 import { createEditor, handleKeyDown, decorate } from './editor';

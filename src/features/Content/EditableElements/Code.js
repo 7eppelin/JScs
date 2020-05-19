@@ -9,7 +9,9 @@ const elem = {
 
 
 const Code = styled(motion.pre)`
-    padding: 15px 30px 15px 50px;
+    margin: 0 30px;
+    border-radius: 3px;
+    padding: 15px 50px;
 `;
 
 const CodeElement = ({ attributes, children }) => (
