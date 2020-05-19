@@ -63,7 +63,7 @@ const ContentEditor = ({ content, updateContent }) => {
 
 const EditableContainer = styled.div`
     background-color: var(--gray5);
-    box-shadow: inset 0 -3px 10px -2px var(--gray6);
+    box-shadow: inset 0 0 45px -10px black;
     overflow-x: hidden;
 `;
 
