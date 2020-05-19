@@ -2,26 +2,15 @@
 import { isInside, isMarkActive, setMark, insertElem } from './'
 
 
-// the default behavior 'onEnter' is to insert a new elem
-// of the same type as the elem at the selection
-
-
-const handleEnter = (editor, event) => {
-    if (isInside(editor, 'code-block') || event.shiftKey) {
-        editor.insertText('\n');
-        event.preventDefault();
-    }
-}
-
 
 export const handleKeyDown = (event, editor) => {
     const char = event.nativeEvent.code
 
-    if (char === 'Enter') {
-        handleEnter(editor, event);
-    }
+    // func definitions below
+    if (char === 'Enter') handleEnter(editor, event)
+    if (char === 'Tab') handleTab(editor, event)
 
-    if (!event.ctrlKey) return;
+    if (!event.ctrlKey && !event.metaKey) return;
 
     let isActive;
 
@@ -73,4 +62,23 @@ export const handleKeyDown = (event, editor) => {
             insertElem(editor, 'code-block');
             break;
     }  
+}
+
+
+
+// default behavior 'onEnter' is to insert a new elem
+// of the same type as the elem at the selection
+
+const handleEnter = (editor, event) => {
+    if (isInside(editor, 'code-block') || event.shiftKey) {
+        editor.insertText('\n');
+        event.preventDefault();
+    }
+}
+
+const handleTab = (editor, event) => {
+    if (isInside(editor, 'code-block')) {
+        event.preventDefault()
+        editor.insertText('    ')
+    }
 }
