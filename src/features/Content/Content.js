@@ -2,21 +2,12 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { AnimatePresence } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
-import { useRouteMatch } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { createSelector } from 'reselect';
 
 import { getContentItem, updateContentItem } from 'dataSlice';
 
 import ContentEditor from './ContentEditor';
-
-
-const StyledContent = styled.section`
-    flex-basis: 600px;
-    flex-grow: 1;
-    background: var(--gray6);
-    box-shadow: 0 0 30px -5px black;
-    height: 100%;
-`;
 
 
 const selectContent = createSelector(
@@ -31,19 +22,19 @@ const selectContent = createSelector(
 
 
 const Content = () => {
-    const dispatch = useDispatch();
-    const { url, params } = useRouteMatch('/:secName?/:subsecName?/:featureName?');
-    const { secName, subsecName, featureName } = params;
-    const name = featureName ? featureName :
-                subsecName ? subsecName :
-                secName ? secName : 'JavaScript';
+    const dispatch = useDispatch()
+    const location = useLocation()
+    const url = location.pathname
 
     const content = useSelector(state => selectContent(state, url));
 
+    // set document title on url change
     useEffect(() => {
-        document.title = `JScs | ${name}`
-    }, [name]);
+        if (!content?.name) return
+        document.title = `JScs | ${content.name}`
+    }, [content]);
 
+    // get content item on url change
     useEffect(() => {
         if (content) return;
         dispatch(getContentItem(url))
@@ -65,5 +56,14 @@ const Content = () => {
         </StyledContent>
     )
 }
+
+
+const StyledContent = styled.section`
+    flex-basis: 600px;
+    flex-grow: 1;
+    background: var(--gray6);
+    box-shadow: 0 0 30px -5px black;
+    height: 100%;
+`;
 
 export default Content;
