@@ -1,36 +1,23 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
-import { useSelector, useDispatch } from 'react-redux';
 
-import Tooltip from 'components/Tooltip';
 import Toolbar from './Toolbar';
+import SaveButton from './SaveButton'
 
 
-const ContentFooter = ({ 
-    readOnly,
-    saveChanges, 
-    edited 
-}) => {
-    return (
-        <StyledFooter variants={variants}
-            animate={readOnly ? 'hidden' : 'shown'}>
+const ContentFooter = ({ readOnly, saveChanges, edited }) => (
+    <StyledFooter variants={variants}
+        animate={readOnly ? 'hidden' : 'shown'}>
 
-            <div className='edited'>
-                Edited: {new Date(edited).toLocaleDateString()}
-            </div>
+        <div className='edited'>
+            Edited: {new Date(edited).toLocaleDateString()}
+        </div>
+        <Toolbar />
+        <SaveButton save={saveChanges} />
 
-            <Toolbar />
-
-            <Tooltip tip="Save changes">
-                <button className='control-btn' 
-                    onClick={saveChanges}>
-                    <i className="far fa-save" />
-                </button>
-            </Tooltip>
-
-        </StyledFooter>
-)}
+    </StyledFooter>
+)
 
 
 const StyledFooter = styled(motion.div)`
@@ -43,19 +30,6 @@ const StyledFooter = styled(motion.div)`
         color: var(--gray3);
         font-size: 1.2rem;
     }
-
-    .control-btn {
-        margin: 20px;
-        margin-left: 50px;
-        font-size: 2.5rem;
-        color: var(--orange1);
-        background-color: transparent;
-        margin-right: 30px;
-    }
-
-    .control-btn:hover i { color: var(--orange3) }
-    .control-btn:active { transform: scale(.96) }
-    .control-btn:focus { outline: none }
 `;
 
 
