@@ -3,7 +3,79 @@ import styled from 'styled-components/macro';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useSlate } from 'slate-react';
-import { setLinks } from './../editor';
+import { setLinks } from '../../editor';
+
+
+
+const Form = ({ links, editing, closeForm }) => {
+    const editor = useSlate();
+
+    const [ text, setText ] = useState('');
+    const [ href, setHref ] = useState('');
+
+    useEffect(() => {
+        if (typeof editing === 'number') {
+            setText(links[editing].text);
+            setHref(links[editing].href);
+        } else {
+            setText('');
+            setHref('');
+        }
+    }, [editing])
+
+    const submit = e => {
+        e.preventDefault();
+        let newLinks;
+
+        // if editing an existing link
+        if (typeof editing === 'number') {
+            newLinks = links.map((link, i) => {
+                if (editing !== i) return link;
+                return { text, href };
+            })
+        } else {
+            // if creating a new link
+            newLinks = [ ...links, { text, href } ];
+        }
+        
+        setLinks(editor, newLinks);
+        closeForm();
+    }
+
+    return (
+        <AnimatePresence>
+            {editing !== false && (
+                <StyledForm variants={variants}
+                    onSubmit={submit}
+                    initial='hidden'
+                    animate='shown'
+                    exit='hidden'>
+
+                    <input 
+                        type='text'
+                        placeholder='text...'
+                        value={text} 
+                        onChange={e => setText(e.target.value)} />
+
+                    <input
+                        type='text'
+                        placeholder='href...' 
+                        value={href} 
+                        onChange={e => setHref(e.target.value)} />
+
+                    <button>
+                        <i className="fas fa-plus"></i>
+                    </button>
+
+                    <button className='close' type='reset' onClick={closeForm}>
+                        <i className="fas fa-times"></i>
+                    </button>
+
+                </StyledForm>
+            )}
+        </AnimatePresence>
+    )
+}
 
 
 const variants = {
@@ -18,7 +90,7 @@ const variants = {
 }
 
 
-const Form = styled(motion.form)`
+const StyledForm = styled(motion.form)`
     position: absolute;
     top: 0;
     bottom: 0;
@@ -57,75 +129,4 @@ const Form = styled(motion.form)`
     button.close:hover { color: var(--red); }
 `;
 
-
-const LinkForm = ({ links, editing, closeForm }) => {
-    const editor = useSlate();
-
-    const [ text, setText ] = useState('');
-    const [ href, setHref ] = useState('');
-
-    useEffect(() => {
-        if (typeof editing === 'number') {
-            setText(links[editing].text);
-            setHref(links[editing].href);
-        } else {
-            setText('');
-            setHref('');
-        }
-    }, [editing])
-
-    const submit = e => {
-        e.preventDefault();
-        let newLinks;
-
-        // if editing an existing link
-        if (typeof editing === 'number') {
-            newLinks = links.map((link, i) => {
-                if (editing !== i) return link;
-                return { text, href };
-            })
-        } else {
-            // if creating a new link
-            newLinks = [ ...links, { text, href } ];
-        }
-        
-        setLinks(editor, newLinks);
-        closeForm();
-    }
-
-    return (
-        <AnimatePresence>
-            {editing !== false && (
-                <Form variants={variants}
-                    onSubmit={submit}
-                    initial='hidden'
-                    animate='shown'
-                    exit='hidden'>
-
-                    <input 
-                        type='text'
-                        placeholder='text...'
-                        value={text} 
-                        onChange={e => setText(e.target.value)} />
-
-                    <input
-                        type='text'
-                        placeholder='href...' 
-                        value={href} 
-                        onChange={e => setHref(e.target.value)} />
-
-                    <button>
-                        <i className="fas fa-plus"></i>
-                    </button>
-
-                    <button className='close' type='reset' onClick={closeForm}>
-                        <i className="fas fa-times"></i>
-                    </button>
-
-                </Form>
-            )}
-        </AnimatePresence>
-    )
-}
-
-export default LinkForm;
+export default Form;

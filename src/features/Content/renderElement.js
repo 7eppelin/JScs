@@ -1,42 +1,46 @@
-import React from 'react';
+import React from 'react'
 
 
-import TitleElement from './EditableElements/TitleElement';
-import LinksElement from './EditableElements/LinksElement';
-import H2Element from './EditableElements/H2Element';
-import H3Element from './EditableElements/H3Element';
-import ParagraphElement from './EditableElements/ParagraphElement';
-import UlElement from './EditableElements/UlElement';
-import CodeElement from './EditableElements/CodeElement';
+import Title from './EditableElements/Title'
+import Links from './EditableElements/Links'
+import H2 from './EditableElements/H2'
+import H3 from './EditableElements/H3'
+import Paragraph from './EditableElements/Paragraph'
+import Ul from './EditableElements/Ul'
+import Li from './EditableElements/Li'
+import Code from './EditableElements/Code'
 
 
 
 const renderElement = props => {
     switch (props.element.type) {
         case 'title':
-            return <TitleElement {...props} />
+            return <Title {...props} />
 
         case 'links':
-            return <LinksElement {...props} />;
+            return <Links {...props} />
         
         case 'h2':
-            return <H2Element {...props} />
+            return <H2 {...props} />
         
         case 'h3':
-            return <H3Element {...props} />
+            return <H3 {...props} />
         
         case 'paragraph':
-            return <ParagraphElement {...props} />
+            return <Paragraph {...props} />
         
         case 'ul':
-            return <UlElement {...props} />
+            return <Ul {...props} />
+
+        case 'li':
+            return <Li {...props} />
 
         case 'code-block':
-            return <CodeElement {...props} />
+            return <Code {...props} />
 
         default:
             return <p {...props.attributes}>{props.children}</p>
     }
 }
 
-export default renderElement;
+export default renderElement
