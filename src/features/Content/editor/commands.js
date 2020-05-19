@@ -58,20 +58,38 @@ export const setMark = (editor, mark, value, selection) => {
 // focuses the editor
 
 export const insertElem = (editor, type) => {
+    ReactEditor.focus(editor)
+
+    if (type === 'ul') {
+        insertUl(editor)
+        return
+    }
 
     Transforms.insertNodes(editor, {
         type,
-        children: [{ text: `[${type}]` }]
+        children: [{ text: `[ ${type} ]` }]
     })
+}
 
-    ReactEditor.focus(editor)
+
+const insertUl = editor => {
+    const li = { 
+        type: 'li', 
+        children: [{ text: '[ list-item ]'}] 
+    }
+    const ul ={
+        type: 'ul',
+    }
+
+    Transforms.insertNodes(editor, li)
+    Transforms.wrapNodes(editor, ul)
 }
 
 
 
-// sets a new links array as a property of the links bar
-// the bar is always located at [1] (where [0] is the title of the page)
-// see EditableElements/LinksElement
+// sets a new links array as a property of the links panel
+// the panel is always located at [1] (where [0] is the title of the page)
+// see EditableElements/Links
 
 export const setLinks = (editor, links) => {
     Transforms.setNodes(
