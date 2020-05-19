@@ -11,7 +11,7 @@ import renderElement from './renderElement';
 import renderLeaf from './renderLeaf';
 
 import ToggleReadOnly from './ToggleReadOnly'
-import EditorFooter from './EditorFooter';
+import ContentFooter from 'features/ContentFooter/ContentFooter';
 import HoveringMenu from 'features/HoveringMenu/HoveringMenu'
 
 
@@ -52,7 +52,7 @@ const ContentEditor = ({ content, updateContent }) => {
                             renderLeaf={renderLeaf} />
                 </EditableContainer>
 
-                <EditorFooter readOnly={readOnly}
+                <ContentFooter readOnly={readOnly}
                     edited={content.edited}
                     saveChanges={saveChanges} />
 

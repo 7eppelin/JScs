@@ -4,6 +4,17 @@ import styled from 'styled-components/macro';
 import Tooltip from 'components/Tooltip';
 
 
+const Button = ({ onClick, children, tooltip }) => {
+    return (
+        <Tooltip tip={tooltip} >
+            <StyledButton onClick={onClick}>
+                {children}
+            </StyledButton>
+        </Tooltip>
+    )
+}
+
+
 const StyledButton = styled.button`
     margin: 0 1px;
     flex-basis: 60px;
@@ -26,15 +37,4 @@ const StyledButton = styled.button`
     }
 `;
 
-
-const EditorToolbarButton = ({ onClick, children, tooltip }) => {
-    return (
-        <Tooltip tip={tooltip} >
-            <StyledButton onClick={onClick}>
-                {children}
-            </StyledButton>
-        </Tooltip>
-    )
-}
-
-export default EditorToolbarButton;
+export default Button;

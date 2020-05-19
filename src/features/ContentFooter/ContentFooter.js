@@ -1,34 +1,36 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Tooltip from 'components/Tooltip';
-import EditorToolbar from './EditorToolbar';
+import Toolbar from './Toolbar';
 
 
-const EditorFooter = ({ 
+const ContentFooter = ({ 
     readOnly,
     saveChanges, 
     edited 
-}) => (
-    <StyledFooter variants={variants}
-        animate={readOnly ? 'hidden' : 'shown'}>
+}) => {
+    return (
+        <StyledFooter variants={variants}
+            animate={readOnly ? 'hidden' : 'shown'}>
 
-        <div className='edited'>
-            Edited: {new Date(edited).toLocaleDateString()}
-        </div>
+            <div className='edited'>
+                Edited: {new Date(edited).toLocaleDateString()}
+            </div>
 
-        <EditorToolbar />
+            <Toolbar />
 
-        <Tooltip tip="Save changes">
-            <button className='control-btn' 
-                onClick={saveChanges}>
-                <i className="far fa-save" />
-            </button>
-        </Tooltip>
+            <Tooltip tip="Save changes">
+                <button className='control-btn' 
+                    onClick={saveChanges}>
+                    <i className="far fa-save" />
+                </button>
+            </Tooltip>
 
-    </StyledFooter>
-)
+        </StyledFooter>
+)}
 
 
 const StyledFooter = styled(motion.div)`
@@ -77,4 +79,4 @@ const variants = {
 }
 
 
-export default EditorFooter;
+export default ContentFooter;
