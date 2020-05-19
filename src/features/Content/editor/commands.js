@@ -1,5 +1,5 @@
 
-import { Editor, Node, Text, Transforms } from 'slate';
+import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react'
 
 
@@ -62,4 +62,13 @@ export const insertElem = (editor, type) => {
     })
 
     ReactEditor.focus(editor)
+}
+
+
+
+// sets a new links array as a property of the links bar
+// see EditableElements/LinksElement
+
+export const setLinks = (editor, links) => {
+    Transforms.setNodes(editor, { links }, { at: [1] })
 }

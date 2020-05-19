@@ -2,12 +2,11 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
-import { Editor } from './../editor';
+import { setLinks } from './../editor';
 import { useSlate, useReadOnly } from 'slate-react';
 
 import Links from './Links';
 import LinkForm from './LinkForm';
-import { findNonSerializableValue } from '@reduxjs/toolkit';
 
 
 const LinksContainer = styled(motion.div)`
@@ -77,7 +76,7 @@ const LinksElement = ({ element, attributes, children }) => {
     const readOnly = useReadOnly();
 
     const deleteLink = useCallback(index => {
-        Editor.setLinks(editor,
+        setLinks(editor,
             links.filter((l, i) => i !== index))
     }, [links])
 

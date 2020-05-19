@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useSlate } from 'slate-react';
-import { Editor } from './../editor';
+import { setLinks } from './../editor';
 
 
 const variants = {
@@ -89,7 +89,7 @@ const LinkForm = ({ links, editing, closeForm }) => {
             newLinks = [ ...links, { text, href } ];
         }
         
-        Editor.setLinks(editor, newLinks);
+        setLinks(editor, newLinks);
         closeForm();
     }
 

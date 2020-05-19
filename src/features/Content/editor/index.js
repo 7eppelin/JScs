@@ -1,12 +1,12 @@
 export { decorate } from './decorate'
 export { createEditor } from './createEditor'
-export { Editor } from './MyEditor'
 
 export {
     isMarkActive,
     setMark,
     isInside,
     insertElem,
+    setLinks,
 } from './commands'
 
 export { handleKeyDown } from './handleKeyDown'
