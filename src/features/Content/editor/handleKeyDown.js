@@ -5,11 +5,9 @@ import { isInside, isMarkActive, setMark, insertElem } from './'
 // the default behavior 'onEnter' is to insert a new elem
 // of the same type as the elem at the selection
 
-// if inside code-block, we don't want the block to split into two
-// but to simply create a new line
 
 const handleEnter = (editor, event) => {
-    if (isInside(editor, 'code-block')) {
+    if (isInside(editor, 'code-block') || event.shiftKey) {
         editor.insertText('\n');
         event.preventDefault();
     }
