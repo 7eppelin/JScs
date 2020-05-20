@@ -5,9 +5,10 @@ import styled from 'styled-components/macro';
 import Tooltip from 'components/Tooltip';
 
 
-const Button = ({ tooltip, onClick, icon }) => (
+const Button = ({ tooltip, isActive, onClick, icon }) => (
     <Tooltip tip={tooltip} >
-        <StyledButton onClick={onClick}>
+        <StyledButton onClick={onClick} 
+            className={isActive ? 'active' : ''}>
             {icon}
         </StyledButton>
     </Tooltip>
@@ -25,7 +26,9 @@ const StyledButton = styled.button`
     transition: .15s;
     font-size: 1.2rem;
 
-    &:hover {
+
+    &:hover,
+    &.active {
         color: var(--orange3);
         outline: 1px solid var(--orange1);
     }
