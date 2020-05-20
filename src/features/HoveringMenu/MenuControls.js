@@ -39,6 +39,12 @@ const MenuControls = ({
         [editor.children, selection.current]
     )
 
+    // TODO
+    // figure out how to render buttons in a map 
+    // using features/Content/editor/constants
+    // the problem is that the 'href' and 'tooltip' buttons
+    // don't set marks, but toggle the input instead
+
     return (
         <>
             <Button tooltip='toggle Bold. Ctrl + B'
