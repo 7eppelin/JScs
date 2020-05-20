@@ -12,11 +12,12 @@ const List = ({
 }) => (
     <Ul>
         {links.map((link, index) => (
-            <Tooltip tip={link.href} offset={0} key={index}>
-                <li>
-                    <a href={link.href} alt={link.href} target='_blank'>
-                        {link.text}
-                    </a>
+                <li key={link.href}>
+                    <Tooltip tip={link.href} offset={10} >
+                        <a href={link.href} alt={link.href} target='_blank'>
+                            {link.text}
+                        </a>
+                    </Tooltip>
 
                     {!readOnly && (
                         <button onClick={() => edit(index)}>
@@ -31,7 +32,6 @@ const List = ({
                         </button>
                     )}
                 </li>
-            </Tooltip>
         ))}
     </Ul>
 )
@@ -39,6 +39,7 @@ const List = ({
 
 const Ul = styled.ul`
     height: 100%;
+    padding-right: 40px;
     overflow: hidden;
     
     li { 

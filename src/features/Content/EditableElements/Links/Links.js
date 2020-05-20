@@ -56,11 +56,7 @@ const LinksContainer = styled(motion.div)`
     height: 45px;
     background: var(--gray6);
     margin-bottom: 20px;
-    box-shadow: 0 3px 12px -3px var(--black);
-
-    ul {
-        padding-right: 40px;
-    }
+    box-shadow: 0 3px 15px -5px black;
 `;
 
 const AddButton = styled(motion.button)`
