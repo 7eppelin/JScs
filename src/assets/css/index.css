@@ -106,6 +106,7 @@ button:focus {
 
 .scrollbar::-webkit-scrollbar {
 	width: 8px;
+	height: 8px;
 	background: var(--gray5);
 	border-radius: 3px;
 	cursor: pointer;

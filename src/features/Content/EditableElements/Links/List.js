@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro'
 
-import Tooltip from 'components/Tooltip';
+import Link from './Link'
 
 
 const List = ({ 
@@ -10,75 +10,34 @@ const List = ({
     edit, 
     deleteLink 
 }) => (
-    <Ul>
-        {links.map((link, index) => (
-                <li key={link.href}>
-                    <Tooltip tip={link.href} offset={10} >
-                        <a href={link.href} alt={link.href} target='_blank'>
-                            {link.text}
-                        </a>
-                    </Tooltip>
-
-                    {!readOnly && (
-                        <button onClick={() => edit(index)}>
-                            <i className="fas fa-pen-square"></i>
-                        </button>
-                    )}
-
-                    {!readOnly && (
-                        <button className='close' 
-                            onClick={() => deleteLink(index)}>
-                            <i className="fas fa-times"></i>
-                        </button>
-                    )}
-                </li>
-        ))}
-    </Ul>
+    <Wrapper className='scrollbar'>
+        <ul>
+            {links.map(({ text, href }, index) => (
+                <Link key={text}
+                    text={text}
+                    href={href}
+                    readOnly={readOnly}
+                    editLink={() => edit(index)}
+                    deleteLink={() => deleteLink(index)} />
+            ))}
+        </ul>
+    </Wrapper>
 )
 
 
-const Ul = styled.ul`
+const Wrapper = styled.div`
     height: 100%;
+    width: 0;
+    min-width: 100%;
     padding-right: 40px;
-    overflow: hidden;
-    
-    li { 
-        position: relative;
-        display: inline-block;
-        color: var(--orange3);
+    overflow-x: auto;
+
+    ul {
         height: 100%;
-        padding: 11px 50px 0 25px;
+        padding-right: 40px;
+        display: flex;
+        align-items: center;
     }
-
-    a {
-        display: block;
-        transition: .15s;
-    }
-
-    a:hover {
-        color: var(--orange1);
-    }
-
-    li:hover button {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    button {
-        position: absolute;
-        top: 12px;
-        right: 23px;
-        background: transparent;
-        font-size: 1.8rem;
-        color: var(--gray3);
-        opacity: 0;
-        transform: scale(.7);
-        transition: .45s;
-    }
-
-    button.close { right: 2px }
-    button:hover { color: var(--gray1) }
-    button:focus { outline: none }
-`;
+`
 
 export default List;

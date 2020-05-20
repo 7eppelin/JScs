@@ -96,7 +96,7 @@ const StyledForm = styled(motion.form)`
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 8px;
+    padding: 10px;
     text-align: center;
     background: rgba(13, 13, 13, 0.8);
     z-index: 200;

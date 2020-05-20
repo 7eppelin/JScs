@@ -53,7 +53,7 @@ const Links = ({ element, attributes, children }) => {
 const LinksContainer = styled(motion.div)`
     position: relative;
     user-select: none;
-    height: 45px;
+    height: 50px;
     background: var(--gray6);
     margin-bottom: 20px;
     box-shadow: 0 3px 15px -5px black;
