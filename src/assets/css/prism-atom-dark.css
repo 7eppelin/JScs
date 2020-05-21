@@ -14,7 +14,7 @@
      white-space: pre;
      word-spacing: normal;
      word-break: normal;
-     line-height: 1.4;
+     line-height: 1.5;
      font-size: 1.4rem;
  
      -moz-tab-size: 4;
@@ -29,8 +29,6 @@
  
  /* Code blocks */
  pre[class*="language-"] {
-     padding: 10px 40px;
-     margin: 5px 0;
      overflow: auto;
  }
  
@@ -53,7 +51,11 @@
  }
  
  .token.punctuation {
-     color: #c5c8c6;
+     color: #818181;
+ }
+
+ .token.parameter {
+     color: rgb(243, 158, 0)
  }
  
  .namespace {

@@ -11,7 +11,9 @@ const elem = {
 const StyledP = styled(motion.p)`
     margin: 0;
     color: var(--gray1);
-    padding: 12px 30px 12px 50px;
+    padding: 12px;
+    padding-left: 15%;
+    padding-right: 23%;
 `;
 
 const ParagraphElement = ({ attributes, children }) => (

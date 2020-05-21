@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Editor } from 'features/Content/editor';
+import { isInside } from 'features/Content/editor';
 import { useSlate, ReactEditor } from 'slate-react';
 import { Range } from 'slate';
 
@@ -18,7 +18,7 @@ const useHoveringMenu = (inputRef) => {
         // if there's no selection, hide the menu
         if (!selection 
             || Range.isCollapsed(selection) 
-            || Editor.isInsideCode(editor)
+            || isInside(editor, 'code-block')
             || readOnly
         ) {
             setShown(false)

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useSlate } from 'slate-react'
 
-import { Editor } from 'features/Content/editor';
+import { isMarkActive, setMark } from 'features/Content/editor'
 import Button from './Button';
 import Input from './Input';
 
@@ -15,68 +15,61 @@ const MenuControls = ({
     const editor = useSlate()
 
     const placeholder = 
-        inputType === 'link' ? 'link URL...' :
+        inputType === 'href' ? 'link URL...' :
         inputType === 'tooltip' ? 'tooltip text...' : '' 
 
-    const linkify = useCallback(() => {
+    // on input submit
+    const submit = useCallback(() => {
         const val = inputRef.current.value;
-        Editor.linkify(editor, val, selection.current);
-    })
-
-    const tooltipify = useCallback(() => {
-        const val = inputRef.current.value;
-        Editor.tooltipify(editor, val, selection.current);
+        setMark(editor, inputType, val, selection.current);
     })
 
     // when the input is focused, selection is lost
     // that leads to every isMarkActive() call returning false
     const isBold = useMemo(
-        () => Editor.isMarkActive(editor, 'bold'), 
+        () => isMarkActive(editor, 'bold'), 
         [editor.children, selection.current]
     )
     const isItalic = useMemo(
-        () => Editor.isMarkActive(editor, 'italic'),
+        () => isMarkActive(editor, 'italic'),
         [editor.children, selection.current]
     )
     const isCode = useMemo(
-        () => Editor.isMarkActive(editor, 'code'),
+        () => isMarkActive(editor, 'code'),
         [editor.children, selection.current]
     )
+
+    // TODO
+    // figure out how to render buttons in a map 
+    // using features/Content/editor/constants
+    // the problem is that the 'href' and 'tooltip' buttons
+    // don't set marks, but toggle the input instead
 
     return (
         <>
             <Button tooltip='toggle Bold. Ctrl + B'
-                isActive={isBold}
-                handleMouseDown={() => {
-                    Editor.setSelection(editor, selection.current)
-                    Editor.toggleMark(editor, 'bold')
-                }} >
+                handleMouseDown={() => setMark(editor, 'bold', !isBold)}
+                isActive={isBold} >
                     <b>B</b>
             </Button>
 
             <Button tooltip='toggle Italic. Ctrl + i'
-                isActive={isItalic}
-                handleMouseDown={() => {
-                    Editor.setSelection(editor, selection.current)
-                    Editor.toggleMark(editor, 'italic')
-                }}>
+                handleMouseDown={() => setMark(editor, 'italic', !isItalic)}
+                isActive={isItalic}>
                     <i>I</i>
             </Button>
 
             <Button tooltip='toggle Code. Ctrl + `'
-                isActive={isCode}
-                handleMouseDown={() => {
-                    Editor.setSelection(editor, selection.current)
-                    Editor.toggleMark(editor, 'code')
-                }} >
+                handleMouseDown={() => setMark(editor, 'code', !isCode)}
+                isActive={isCode} >
                     {`</>`}
             </Button>
 
             <Button tooltip='transform into a link'
-                isActive={inputType === 'link'}
+                isActive={inputType === 'href'}
                 handleMouseDown={() => {
-                    inputType === 'link' ? 
-                        setInputType(null) : setInputType('link')
+                    inputType === 'href' ? 
+                        setInputType(null) : setInputType('href')
                 }}>
                     <i className="fas fa-link" />
             </Button>
@@ -91,7 +84,7 @@ const MenuControls = ({
             </Button>
 
             <Input 
-                submit={inputType === 'link' ? linkify : tooltipify}
+                submit={submit}
                 inputRef={inputRef} 
                 isShown={inputType !== null}
                 placeholder={placeholder} />

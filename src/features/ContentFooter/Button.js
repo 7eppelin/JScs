@@ -1,7 +1,18 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
+
 import Tooltip from 'components/Tooltip';
+
+
+const Button = ({ tooltip, isActive, onClick, icon }) => (
+    <Tooltip tip={tooltip} >
+        <StyledButton onClick={onClick} 
+            className={isActive ? 'active' : ''}>
+            {icon}
+        </StyledButton>
+    </Tooltip>
+)
 
 
 const StyledButton = styled.button`
@@ -15,7 +26,9 @@ const StyledButton = styled.button`
     transition: .15s;
     font-size: 1.2rem;
 
-    &:hover {
+
+    &:hover,
+    &.active {
         color: var(--orange3);
         outline: 1px solid var(--orange1);
     }
@@ -26,15 +39,4 @@ const StyledButton = styled.button`
     }
 `;
 
-
-const EditorToolbarButton = ({ onClick, children, tooltip }) => {
-    return (
-        <Tooltip tip={tooltip} >
-            <StyledButton onClick={onClick}>
-                {children}
-            </StyledButton>
-        </Tooltip>
-    )
-}
-
-export default EditorToolbarButton;
+export default Button;

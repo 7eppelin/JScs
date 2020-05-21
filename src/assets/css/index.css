@@ -1,20 +1,22 @@
 :root {
 	--red: #f83838;
-	--black: #1a1a1a;
 	--white: #ece8e8;
 	--green: #26bb0f;
-	--brown: rgb(136, 72, 0);
+	--brown: rgb(141, 82, 14);
 
-	--orange1: rgb(250, 150, 28);
-	--orange2: #ec862c;
+	--orange1: rgb(248, 150, 29);
+	--orange2: #ee872c;
 	--orange3: rgb(201, 103, 38);
 	
 	--gray1: #afafaf;
 	--gray2: #9e9e9e;
 	--gray3: #646464;
-	--gray4: #3a3a3a;
+	--gray4: #383838;
 	--gray5: #292929;
 	--gray6: #1f1e1e;
+
+	--black: #1a1a1a;
+	--black2: #141414;
 } 
 
 
@@ -80,6 +82,7 @@ li {
 	list-style: none;
 }
 
+a,
 a:visited,
 a:active {
 	color: inherit;
@@ -105,6 +108,7 @@ button:focus {
 
 .scrollbar::-webkit-scrollbar {
 	width: 8px;
+	height: 8px;
 	background: var(--gray5);
 	border-radius: 3px;
 	cursor: pointer;

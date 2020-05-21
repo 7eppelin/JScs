@@ -4,22 +4,6 @@ import styled from 'styled-components/macro';
 import Tooltip from 'components/Tooltip';
 
 
-const Code = styled.code`
-    padding: .1em .3em;
-    border-radius: 3px;
-    background-color: var(--gray4);
-`;
-
-const Link = styled.a`
-    color: var(--orange1);
-    cursor: pointer;
-    transition: .2s;
-
-    &:hover {
-        text-decoration: underline;
-    }
-`;
-
 const renderLeaf = ({ leaf, attributes, children }) => {
 
     if (leaf.token) {
@@ -33,7 +17,7 @@ const renderLeaf = ({ leaf, attributes, children }) => {
 
     if (leaf.href) {
         return (
-            <Tooltip tip={leaf.href}>
+            <Tooltip tip={leaf.href} offset={8}>
                 <Link alt={leaf.href} 
                     href={leaf.href} 
                     target='_blank'
@@ -70,5 +54,25 @@ const renderLeaf = ({ leaf, attributes, children }) => {
         </span>
     )
 }
+
+
+const Link = styled.a`
+    position: relative;
+    color: var(--orange1);
+    cursor: pointer;
+    text-decoration: underline;
+    transition: .2s;
+
+    &:hover {
+        color: var(--orange3)
+    }
+`;
+
+const Code = styled.code`
+    padding: .12em .3em;
+    border-radius: 3px;
+    color: var(--white);
+    background-color: var(--gray3);
+`;
 
 export default renderLeaf;
