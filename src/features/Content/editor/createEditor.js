@@ -36,7 +36,7 @@ const withNormalizing = editor => {
     editor.normalizeNode = ([node, path]) => {
         if (node.type === 'ul') {
             const children = Node.children(editor, path)
-            for (const [child, childPath] of children) {
+            for (const [child] of children) {
                 if (child.type !== 'li') {
                     Transforms.liftNodes(editor)
                     return;

@@ -16,6 +16,7 @@ import HoveringMenu from 'features/HoveringMenu/HoveringMenu'
 
 
 const ContentEditor = ({ content, updateContent }) => {
+    // must create a new instance whenever a new content item is selected
     const editor = useMemo(() => createEditor(), [content.id])
 
     const [ editorState, setEditorState ] = useState(content.data);
@@ -35,9 +36,13 @@ const ContentEditor = ({ content, updateContent }) => {
 
             <ToggleReadOnly readOnly={readOnly}
                 toggle={() => {
+                    // must nullify the selection when quitting editing
+                    // to prevent HoveringMenu from re-appearing at the same place
+                    // when the user will start editing again
                     if (!readOnly) editor.selection = null
                     setReadOnly(!readOnly)
-                }} />
+                }} 
+            />
 
             <Slate editor={editor} 
                 value={editorState} 
@@ -83,7 +88,7 @@ const wrapper = {
         scale: 0.65,
         opacity: 0,
         transition: {
-            duration: 0.3,
+            duration: 0.25,
             when: 'afterChildren',
             staggerChildren: 0.04,
             staggerDirection: -1,
