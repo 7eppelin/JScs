@@ -2,6 +2,9 @@
 import { isInside, isMarkActive, setMark, insertElem } from './'
 
 
+// TODO
+// get rid of the switch and simplify hotkeys handling
+// using ./constants
 
 export const handleKeyDown = (event, editor) => {
     const char = event.nativeEvent.code
@@ -61,6 +64,8 @@ export const handleKeyDown = (event, editor) => {
             event.preventDefault();
             insertElem(editor, 'code-block');
             break;
+
+        default: return
     }  
 }
 

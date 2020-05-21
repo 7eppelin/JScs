@@ -38,7 +38,7 @@ const Content = () => {
     useEffect(() => {
         if (content) return;
         dispatch(getContentItem(url))
-    }, [url, content])
+    }, [url, content, dispatch])
 
     return (
         <StyledContent>
