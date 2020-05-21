@@ -1,9 +1,10 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import { motion } from 'framer-motion';
+import React, { Suspense } from 'react'
+import styled from 'styled-components/macro'
+import { motion } from 'framer-motion'
 
-import Toolbar from './Toolbar';
-import SaveButton from './SaveButton'
+import Fallback from './Fallback'
+const Toolbar = React.lazy(() => import('./Toolbar'))
+const SaveButton = React.lazy(() => import('./SaveButton'))
 
 
 const ContentFooter = ({ readOnly, saveChanges, edited }) => (
@@ -13,9 +14,15 @@ const ContentFooter = ({ readOnly, saveChanges, edited }) => (
         <div className='edited'>
             Edited: {new Date(edited).toLocaleDateString()}
         </div>
-        <Toolbar />
-        <SaveButton save={saveChanges} />
 
+        <Suspense fallback={<Fallback />}>
+            {!readOnly && (
+                <>
+                    <Toolbar />
+                    <SaveButton save={saveChanges} />
+                </>
+            )}
+        </Suspense>
     </StyledFooter>
 )
 
