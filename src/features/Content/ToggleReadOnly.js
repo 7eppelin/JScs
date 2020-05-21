@@ -1,6 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
+
+const ToggleReadOnly = ({ readOnly, toggle }) => (
+    <Button onClick={toggle} readOnly={readOnly}>
+        edit
+        <i className="far fa-edit" />
+    </Button>
+)
+
 const Button = styled.button`
     outline: none;
     background: var(--gray6);
@@ -20,12 +28,5 @@ const Button = styled.button`
         margin-left: 8px;
     }
 `;
-
-const ToggleReadOnly = ({ readOnly, toggle }) => (
-    <Button onClick={toggle} readOnly={readOnly}>
-        edit
-        <i className="far fa-edit" />
-    </Button>
-)
 
 export default ToggleReadOnly;

@@ -5,14 +5,14 @@ import { motion } from 'framer-motion';
 // prismjs theme
 import 'assets/css/prism-atom-dark.css';
 
-import { Slate, Editable } from 'slate-react';
-import { createEditor, handleKeyDown, decorate } from './editor';
-import renderElement from './renderElement';
-import renderLeaf from './renderLeaf';
+import { Slate } from 'slate-react';
+import { createEditor } from './editor';
 
 import ToggleReadOnly from './ToggleReadOnly'
+import Editable from './Editable'
 import ContentFooter from 'features/ContentFooter/ContentFooter';
 import HoveringMenu from 'features/HoveringMenu/HoveringMenu'
+
 
 
 const ContentEditor = ({ content, updateContent }) => {
@@ -28,46 +28,34 @@ const ContentEditor = ({ content, updateContent }) => {
     })
 
     return (
-        <Slate editor={editor} 
-            value={editorState} 
-            onChange={value => setEditorState(value)}>
-
-            <Wrapper variants={wrapper}
+        <Wrapper variants={wrapper}
                 initial='hidden'
                 animate='shown'
                 exit='hidden'>
 
-                <ToggleReadOnly readOnly={readOnly}
-                    toggle={() => {
-                        if (!readOnly) editor.selection = null
-                        setReadOnly(!readOnly)
-                    }} />
+            <ToggleReadOnly readOnly={readOnly}
+                toggle={() => {
+                    if (!readOnly) editor.selection = null
+                    setReadOnly(!readOnly)
+                }} />
 
-                <EditableContainer className='scrollbar'>
-                        <Editable readOnly={readOnly}
-                            onKeyDown={e => handleKeyDown(e, editor)} 
-                            decorate={decorate}
-                            renderElement={renderElement}
-                            renderLeaf={renderLeaf} />
-                </EditableContainer>
+            <Slate editor={editor} 
+                value={editorState} 
+                onChange={value => setEditorState(value)}>
 
-                <ContentFooter readOnly={readOnly}
-                    edited={content.edited}
-                    saveChanges={saveChanges} />
+                <Editable readOnly={readOnly} />
 
                 <HoveringMenu />
-            </Wrapper>
-        </Slate>
+
+                <ContentFooter 
+                    readOnly={readOnly}
+                    edited={content.edited}
+                    saveChanges={saveChanges} />
+            </Slate>
+        </Wrapper>
     )
 }
 
-
-const EditableContainer = styled.div`
-    background-color: var(--gray5);
-    box-shadow: inset 0 0 45px -10px black;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-`;
 
 const Wrapper = styled(motion.div)`
     position: relative;
