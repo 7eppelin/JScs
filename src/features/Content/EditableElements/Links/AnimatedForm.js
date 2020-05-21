@@ -6,24 +6,24 @@ const Form = React.lazy(() => import('./Form'))
 
 
 const AnimatedForm = ({ isEditing, links, closeForm }) => (
-    <Suspense fallback=' ' >
-        <AnimatePresence>
-            {/* isEditing can be 0
-                which corresponds to the first link */}
-            {isEditing !== false && (
-                <Wrapper
-                    variants={variants}
-                    initial='hidden'
-                    animate='shown'
-                    exit='hidden'
-                >
+    <AnimatePresence>
+        {/* isEditing can be 0
+            which corresponds to the first link */}
+        {isEditing !== false && (
+            <Wrapper
+                variants={variants}
+                initial='hidden'
+                animate='shown'
+                exit='hidden'
+            >
+                <Suspense fallback=' ' >
                     <Form editing={isEditing}
                         links={links}
                         closeForm={closeForm} />
-                </Wrapper>
-            )}
-        </AnimatePresence>
-    </Suspense>
+                </Suspense>
+            </Wrapper>
+        )}
+    </AnimatePresence>
 )
 
 const Wrapper = styled(motion.div)`
