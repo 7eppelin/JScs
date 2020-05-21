@@ -7,11 +7,11 @@ import 'tippy.js/animations/scale.css';
 const StyledTippy = styled(Tippy)`
     background: var(--black);
     color: var(--white);
-    padding: 6px 10px;
+    padding: 8px 12px;
     border: 1px solid var(--gray4);
     box-shadow: 0 0 5px 1px var(--black);
     font-size: 1.2rem;
-    opacity: .8;
+    opacity: .85;
 `;
 
 // https://atomiks.github.io/tippyjs/v6/all-props/

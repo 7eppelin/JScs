@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
 import { setLinks } from '../../editor';
-import { useSlate, useReadOnly } from 'slate-react';
+import { useEditor, useReadOnly } from 'slate-react';
 
 import List from './List';
 import Form from './Form';
@@ -13,7 +13,7 @@ import Form from './Form';
 const Links = ({ element, attributes, children }) => {
     const { links } = element;
     const [ editing, setEditing ] = useState(false); // boolean || link index
-    const editor = useSlate();
+    const editor = useEditor();
     const readOnly = useReadOnly();
 
     const deleteLink = useCallback(index => {
@@ -27,17 +27,17 @@ const Links = ({ element, attributes, children }) => {
             contentEditable={false}
             {...attributes} >
 
-            <List links={links} 
-                readOnly={readOnly}
-                edit={linkIndex => setEditing(linkIndex)}
-                deleteLink={linkIndex => deleteLink(linkIndex)} />
-                
-
             <AddButton variants={addButtonVariants}
                 animate={readOnly ? 'hidden' : 'shown'}
                 onClick={() => setEditing(true)} >
                     <i className="fas fa-plus"></i>
             </AddButton>
+
+            <List links={links} 
+                readOnly={readOnly}
+                edit={linkIndex => setEditing(linkIndex)}
+                deleteLink={linkIndex => deleteLink(linkIndex)} />
+            
 
             <Form editing={editing}
                 links={links}
@@ -54,26 +54,26 @@ const LinksContainer = styled(motion.div)`
     position: relative;
     user-select: none;
     height: 50px;
-    background: var(--gray6);
-    margin-bottom: 20px;
-    box-shadow: 0 3px 15px -5px black;
+    background: var(--black);
+    margin-bottom: 25px;
+    box-shadow: 0 2px 12px -4px black;
 `;
 
 const AddButton = styled(motion.button)`
     position: absolute;
     top: 6px;
-    right: 12px;
+    left: 11px;
+    z-index: 10;
     border: 1px solid var(--gray5);
-    background: var(--black);
+    box-shadow: 0 0 5px -1px black;
+    background: var(--black2);
     color: var(--gray1);
     border-radius: 3px;
     font-size: 1.4rem;
-    padding: 7px 9px;
+    padding: 10px 11px;
     transition: .15s;
 
-    &:hover {
-        color: var(--green);
-    }
+    &:hover { color: var(--green) }
 `;
 
 
@@ -97,7 +97,7 @@ const addButtonVariants = {
     },
     hidden: {
         opacity: 0,
-        x: 80,
+        x: -80,
         scale: 0.7,
         transitionEnd: {
             display: 'none'
@@ -105,4 +105,4 @@ const addButtonVariants = {
     }
 }
 
-export default Links;
+export default Links
