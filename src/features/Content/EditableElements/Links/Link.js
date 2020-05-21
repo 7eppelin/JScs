@@ -11,7 +11,7 @@ const Link = ({
     editLink, 
     deleteLink
 }) => (
-    <Tooltip tip={href} offset={10} >
+    <Tooltip tip={href} offset={8} >
         <Li>
             <a href={href} alt={href} target='_blank'>
                 {text}

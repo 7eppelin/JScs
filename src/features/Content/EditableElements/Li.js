@@ -4,7 +4,8 @@ import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
 const StyledLi = styled(motion.li)`
-    margin-left: 12px;
+    list-style: inside;
+    margin-left: 10px;
     padding: 7px 0;
 `
 

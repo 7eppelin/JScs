@@ -15,8 +15,7 @@ const List = ({
         layoutTransition
         variants={variants}
         initial={readOnly ? 'readOnly' : 'editing'}
-        animate={readOnly ? 'readOnly' : 'editing'}
-        margin={readOnly ? 0 : 50}>
+        animate={readOnly ? 'readOnly' : 'editing'}>
         <ul>
 
             {links.map(({ text, href }, index) => (

@@ -9,13 +9,14 @@ const elem = {
 
 
 const Code = styled(motion.pre)`
-    margin: 0 30px;
+    margin-left: 16%;
+    margin-right: 28%;
     border-radius: 3px;
-    padding: 15px 50px;
+    padding: 15px 20px;
 `;
 
 const CodeElement = ({ attributes, children }) => (
-    <Code className='language-js' variants={elem}>
+    <Code className='language-js scrollbar' variants={elem}>
         <code {...attributes}>{children}</code>
     </Code>
 )

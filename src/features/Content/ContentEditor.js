@@ -44,7 +44,6 @@ const ContentEditor = ({ content, updateContent }) => {
                     }} />
 
                 <EditableContainer className='scrollbar'>
-
                         <Editable readOnly={readOnly}
                             onKeyDown={e => handleKeyDown(e, editor)} 
                             decorate={decorate}
@@ -66,6 +65,7 @@ const ContentEditor = ({ content, updateContent }) => {
 const EditableContainer = styled.div`
     background-color: var(--gray5);
     box-shadow: inset 0 0 45px -10px black;
+    scroll-behavior: smooth;
     overflow-x: hidden;
 `;
 
@@ -87,7 +87,7 @@ const wrapper = {
         transition: {
             duration: 0.4,
             when: 'beforeChildren',
-            staggerChildren: 0.15,
+            staggerChildren: 0.09,
             ease: 'circOut'
         }
     },
@@ -97,7 +97,7 @@ const wrapper = {
         transition: {
             duration: 0.3,
             when: 'afterChildren',
-            staggerChildren: 0.06,
+            staggerChildren: 0.04,
             staggerDirection: -1,
             ease: 'circOut'
         }

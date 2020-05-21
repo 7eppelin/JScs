@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 
 
 const StyledUl = styled.ul`
-    padding: 15px 30px 10px 50px;
+    padding: 15px 23% 10px 15%;
 `;
 
 const Ul = ({ attributes, children }) => (
