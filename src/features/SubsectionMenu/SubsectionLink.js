@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { motion, useMotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import { NavLink } from 'react-router-dom';
+import Icon from 'components/Icon'
 
 
 const SubsectionLink = ({ 
@@ -26,9 +27,10 @@ const SubsectionLink = ({
             {withToggler && (
                 <StyledToggler 
                     rotate={featuresOpen ? '180deg' : '0deg'} 
-                    className="fas fa-angle-up"
-                    onClick={() => toggleFeatures(!featuresOpen)} 
-                />
+                    onClick={() => toggleFeatures(!featuresOpen)} >
+
+                    <Icon icon='down' />
+                </StyledToggler>
             )}
         </StyledSub>
 )}
@@ -59,18 +61,17 @@ const StyledSub = styled(motion.div)`
     }
 `;
 
-const StyledToggler = styled.i`
+const StyledToggler = styled.div`
     position: absolute;
-    top: 7px;
+    top: 5px;
     right: 8px;
     padding: 5px 8px;
-    color: var(--gray2);
     transition: .2s;
     transform: ${props => `rotate(${props.rotate})`};
     cursor: pointer;
 
-    &:hover {
-        color: var(--orange2);
+    &:hover path {
+        fill: var(--orange2);
     }
 `;
 

@@ -36,8 +36,10 @@ const Btn = styled.button`
     cursor: pointer;
 
     &:focus { outline: none }
-    &:hover { color: var(--orange2) }
+    &:hover,
     &.active { color: var(--orange2) }
+    &:hover path,
+    &.active path { fill: var(--orange2) }
 `;
 
 

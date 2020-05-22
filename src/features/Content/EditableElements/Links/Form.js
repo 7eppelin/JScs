@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import { useEditor } from 'slate-react';
 import { setLinks } from '../../editor';
 
+import Icon from 'components/Icon'
 
 
 const Form = ({ links, editing, closeForm }) => {
@@ -59,11 +60,11 @@ const Form = ({ links, editing, closeForm }) => {
                 onChange={e => setHref(e.target.value)} />
 
             <Button>
-                <i className="fas fa-plus"></i>
+                <Icon icon='check' size='1.4em' />
             </Button>
 
             <Button className='close' type='reset' onClick={closeForm}>
-                <i className="fas fa-times"></i>
+                <Icon icon='close' size='1.4em' />
             </Button>
 
         </form>
@@ -90,11 +91,12 @@ const Button = styled.button`
     color: var(--gray1);
     border-radius: 3px;
     font-size: 1.2rem;
-    padding: 6px 12px;
+    padding: 5px 10px;
     transition: .15s;
 
-    &:hover { color: var(--green); }
-    &.close:hover { color: var(--red); }
+    &:hover { background: var(--gray6) }
+    &:hover path { fill: var(--green); }
+    &.close:hover path { fill: var(--red); }
 `
 
 export default Form;

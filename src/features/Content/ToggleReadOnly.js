@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
+import Icon from 'components/Icon'
+
 
 const ToggleReadOnly = ({ readOnly, toggle }) => (
     <Button onClick={toggle} readOnly={readOnly}>
         edit
-        <i className="far fa-edit" />
+        <Icon icon='edit-doc'
+            size='1.4em' />
     </Button>
 )
 
@@ -24,8 +27,15 @@ const Button = styled.button`
 
     &:focus { outline: none }
 
-    i {
+    svg {
         margin-left: 8px;
+        margin-top: -2px;
+    }
+
+    path {
+        fill: ${props => props.readOnly ? 
+            'var(--gray2)' : 'var(--green)'
+        };
     }
 `;
 

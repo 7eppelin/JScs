@@ -2,20 +2,24 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
+import Icon from 'components/Icon'
 
 const AddButton = ({ handleClick, readOnly }) => (
     <Button variants={button}
         animate={readOnly ? 'hidden' : 'shown'}
         onClick={handleClick}
         >
-        <i className="fas fa-plus"></i>
+        
+        <Icon icon='plus' 
+            size='1.5em'
+            stroke='var(--white)' />
     </Button>
 )
 
 
 const Button = styled(motion.button)`
     position: absolute;
-    top: 6px;
+    top: 8px;
     left: 11px;
     z-index: 10;
     border: 1px solid var(--gray5);
@@ -24,10 +28,10 @@ const Button = styled(motion.button)`
     color: var(--gray1);
     border-radius: 3px;
     font-size: 1.4rem;
-    padding: 10px 11px;
+    padding: 7px 8px;
     transition: .15s;
 
-    &:hover { color: var(--green) }
+    &:hover svg path { fill: var(--green) }
 `
 
 const button = {
@@ -45,7 +49,7 @@ const button = {
     },
     hidden: {
         opacity: 0,
-        x: -80,
+        x: -70,
         scale: 0.7,
         transitionEnd: {
             display: 'none'

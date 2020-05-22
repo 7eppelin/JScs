@@ -21,7 +21,7 @@ const List = ({
                 <Link key={text}
                     text={text}
                     href={href}
-                    readOnly={readOnly}
+                    isEditing={!readOnly}
                     editLink={() => edit(index)}
                     deleteLink={() => deleteLink(index)} />
             ))}

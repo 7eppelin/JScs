@@ -2,8 +2,9 @@ import React, { useCallback, useMemo } from 'react'
 import { useSlate } from 'slate-react'
 
 import { isMarkActive, setMark } from 'features/Content/editor'
-import Button from './Button';
-import Input from './Input';
+import Button from './Button'
+import Input from './Input'
+import Icon from 'components/Icon'
 
 
 const MenuControls = ({ 
@@ -62,7 +63,7 @@ const MenuControls = ({
             <Button tooltip='toggle Code. Ctrl + `'
                 handleMouseDown={() => setMark(editor, 'code', !isCode)}
                 isActive={isCode} >
-                    {`</>`}
+                    <Icon icon='code-tags' />
             </Button>
 
             <Button tooltip='transform into a link'
@@ -71,7 +72,7 @@ const MenuControls = ({
                     inputType === 'href' ? 
                         setInputType(null) : setInputType('href')
                 }}>
-                    <i className="fas fa-link" />
+                    <Icon icon='link2' />
             </Button>
 
             <Button tooltip='add a tooltip'
@@ -80,7 +81,7 @@ const MenuControls = ({
                     inputType === 'tooltip' ? 
                         setInputType(null) : setInputType('tooltip');
                 }}>
-                    <i className="far fa-comment-alt" />
+                    <Icon icon='tooltip' />
             </Button>
 
             <Input 

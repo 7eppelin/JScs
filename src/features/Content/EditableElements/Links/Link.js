@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components/macro'
 
 import Tooltip from 'components/Tooltip';
+import LinkControls from './LinkControls'
 
 
 const Link = ({ 
     text, 
     href, 
-    readOnly, 
+    isEditing, 
     editLink, 
     deleteLink
 }) => (
@@ -17,16 +18,10 @@ const Link = ({
                 {text}
             </a>
 
-            {!readOnly && (
-                <div>
-                    <button onClick={editLink}>
-                        <i className="fas fa-pen-square"></i>
-                    </button>
-                    <button className='close' 
-                        onClick={deleteLink}>
-                        <i className="fas fa-times"></i>
-                    </button>
-                </div>
+            {isEditing && (
+                <LinkControls 
+                    editLink={editLink} 
+                    deleteLink={deleteLink} />
             )}
         </Li>
     </Tooltip>
@@ -34,7 +29,7 @@ const Link = ({
 
 const Li = styled.li`
     position: relative;
-    padding: 0 42px;
+    padding: 0 45px;
 
     a {
         position: relative;
@@ -66,31 +61,12 @@ const Li = styled.li`
         left: 18%;
         right: 18%;
     }
-    
-    div {
-        position: absolute;
-        right: 3px;
-        top: 5px;
-        opacity: 0;
-        transform: scale(.8);
-        transition: .45s;
-    }
 
     &:hover div {
         opacity: 1;
         transform: scale(1);
+        top: 3px;
     }
-
-    button {
-        background: transparent;
-        margin-right: 5px;
-        font-size: 1.5rem;
-        color: var(--gray3);
-        transition: .45s;
-    }
-
-    button:hover { color: var(--gray1) }
-    button:focus { outline: none }
 `
 
 export default Link;
