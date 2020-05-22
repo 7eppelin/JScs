@@ -20,7 +20,7 @@ const ContentEditor = ({ content, updateContent }) => {
     const editor = useMemo(() => createEditor(), [content.id])
 
     const [ editorState, setEditorState ] = useState(content.data);
-    const [ readOnly, setReadOnly ] = useState(false);
+    const [ readOnly, setReadOnly ] = useState(true);
 
     const saveChanges = () => updateContent({
         ...content,
