@@ -28,12 +28,28 @@ const withVoids = editor => {
 
 // slate normalizes the editor's content after every change
 // here we can add some custom constraints to our editor
-// for now, we need to ensure that an UL can only contain LI's
 
 const withNormalizing = editor => {
     const { normalizeNode } = editor
 
     editor.normalizeNode = ([node, path]) => {
+
+        // ensure that there are no elements 
+        // above the links-panel besides the title
+
+        // if elem is not the title nor links panel, 
+        // and located at [0, ...] or [1, ...]
+        // move it down
+        if (node.type
+            && node.type !== 'links' 
+            && node.type !== 'title' 
+            && path[0] < 2
+        ) {
+            Transforms.moveNodes(editor, { to: [2] })
+            return;
+        }
+
+        // ensure that an UL can only contain LI's
         if (node.type === 'ul') {
             const children = Node.children(editor, path)
             for (const [child] of children) {
@@ -43,6 +59,7 @@ const withNormalizing = editor => {
                 }
             }
         }
+
         normalizeNode([node, path])
     }
 
