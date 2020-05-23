@@ -75,6 +75,16 @@ export const handleKeyDown = (event, editor) => {
 // of the same type as the elem at the selection
 
 const handleEnter = (editor, event) => {
+
+    // if the user is inside the title elem
+    if (isInside(editor, 'title')) {
+        event.preventDefault()
+        return
+    }
+
+    // if the user is inside a block of code, 
+    // or has pressed shift+enter
+    // create a new line
     if (isInside(editor, 'code-block') || event.shiftKey) {
         editor.insertText('\n');
         event.preventDefault();
