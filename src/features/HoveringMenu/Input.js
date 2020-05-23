@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
+import Icon from 'components/Icon'
 
 const Input = ({ 
     inputRef,
@@ -16,7 +17,7 @@ const Input = ({
             onClick={submit}
             // prevent focus
             onMouseDown={e => e.preventDefault()} >
-            <i className="fas fa-check-double"/>
+            <Icon icon='check-bold' size='1.15em' />
         </button>
     </Div>
 )
@@ -55,17 +56,15 @@ const Div = styled.div`
         top: 4px;
         right: 7px;
         font-size: 1.3rem;
-        padding: 4px;
+        height: 23px;
+        width: 23px;
         border: 1px solid var(--gray5);
         border-radius: 3px;
         box-shadow: 0 0 6px -1px black;
-        color: var(--gray1);
-        opacity: ${props => props.isShown ? 1 : 0};
-        transition: opacity 3s, .5s;
     }
 
-    button:hover {
-        color: var(--orange1);
+    button:hover path {
+       fill: var(--orange1);
     }
 `;
 

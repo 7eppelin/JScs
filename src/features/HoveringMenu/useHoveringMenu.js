@@ -9,6 +9,8 @@ const useHoveringMenu = (inputRef) => {
     const editor = useSlate()
     const { selection } = editor
 
+    console.log(selection)
+
     const readOnly = ReactEditor.isReadOnly(editor)
 
     useEffect(() => {
