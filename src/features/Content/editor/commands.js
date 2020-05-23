@@ -52,27 +52,35 @@ export const setMark = (editor, mark, value, selection) => {
 }
 
 
-
+// focuses the editor
 // inserts an elem with the given type at the current selection
 // if there's no selection, inserts at the end of the doc
-// focuses the editor
 
 export const insertElem = (editor, type) => {
     ReactEditor.focus(editor)
 
+    // we don't want to insert the elem between the title and the links panel
+    // nor to split the title and insert it between
+
+    // if the selection is inside the title
+    // specify the explicit location where to insert the elem
+    // and that would be right after the links panel
+
+    const insertAt = isInside(editor, 'title') ? [2] : null
+
     if (type === 'ul') {
-        insertUl(editor)
+        insertUl(editor, insertAt)
         return
     }
 
     Transforms.insertNodes(editor, {
         type,
         children: [{ text: `[ ${type} ]` }]
-    })
+    }, { at: insertAt })
 }
 
 
-const insertUl = editor => {
+const insertUl = (editor, insertAt) => {
     const li = { 
         type: 'li', 
         children: [{ text: '[ list-item ]'}] 
@@ -81,7 +89,7 @@ const insertUl = editor => {
         type: 'ul',
     }
 
-    Transforms.insertNodes(editor, li)
+    Transforms.insertNodes(editor, li, { at: insertAt })
     Transforms.wrapNodes(editor, ul)
 }
 
