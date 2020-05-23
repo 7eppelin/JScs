@@ -1,12 +1,22 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { loginWithGithub, authRef } from 'firebase.js';
+import Login from './Login'
+import Logout from './Logout'
 
-import Tooltip from 'components/Tooltip';
-import gitLogo from 'assets/GitHub-Mark-Light-32px.png';
 
+
+const Auth = () => {
+    const user = useSelector(state => state.user);
+    if (user === 'initializing') return null;
+
+    return (
+        <StyledAuth>
+            {user ?  <Logout user={user} /> : <Login />}
+        </StyledAuth>
+    )
+}
 
 const StyledAuth = styled.div`
     float: right;
@@ -39,30 +49,5 @@ const StyledAuth = styled.div`
         margin-left: 8px;
     }
 `;
-
-
-const Auth = () => {
-
-    const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
-
-    if (user === 'initializing') return null;
-
-    return (
-        <StyledAuth>
-        <Tooltip position='bottom' tip={user ? 'click to log out' : 'click to log in with GitHub'} >
-            <button onClick={user ? 
-                () => authRef.signOut() :
-                () => dispatch(loginWithGithub())
-                } >
-                Welcome, <span>{user ? user.name : 'guest'}</span>
-                <img src={user ? user.photoURL : gitLogo} 
-                    alt={user ? 'user avatar' : 'github logo'} 
-                />
-            </button>
-        </Tooltip>
-        </StyledAuth>
-    )
-}
 
 export default Auth;
