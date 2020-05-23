@@ -40,7 +40,7 @@ const withNormalizing = editor => {
             for (const [child] of children) {
                 if (child.type !== 'li') {
                     Transforms.liftNodes(editor)
-                    return;
+                    return
                 }
             }
         }

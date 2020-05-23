@@ -73,10 +73,12 @@ export const insertElem = (editor, type) => {
         return
     }
 
-    Transforms.insertNodes(editor, {
+    const elem = {
         type,
         children: [{ text: `[ ${type} ]` }]
-    }, { at: insertAt })
+    }
+
+    Transforms.insertNodes(editor, elem, { at: insertAt })
 }
 
 
@@ -85,12 +87,10 @@ const insertUl = (editor, insertAt) => {
         type: 'li', 
         children: [{ text: '[ list-item ]'}] 
     }
-    const ul ={
-        type: 'ul',
-    }
+    const ul = { type: 'ul' }
 
     Transforms.insertNodes(editor, li, { at: insertAt })
-    Transforms.wrapNodes(editor, ul)
+    Transforms.wrapNodes(editor, ul, { at: insertAt })
 }
 
 
