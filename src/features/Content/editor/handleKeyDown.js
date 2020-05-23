@@ -75,11 +75,28 @@ export const handleKeyDown = (event, editor) => {
 // of the same type as the elem at the selection
 
 const handleEnter = (editor, event) => {
+
+    // sometimes, when the user toggles off readOnly,
+    // and focuses at the end of the title
+    // selection is not being set for some reason
+    if (!editor.selection) {
+        event.preventDefault()
+    }
+    
+    // if the user is inside the title elem
+    if (isInside(editor, 'title')) {
+        event.preventDefault()
+        return
+    }
+
+    // if the user is inside of a code-block
+    // or pressed shift+enter, create a new line
     if (isInside(editor, 'code-block') || event.shiftKey) {
         editor.insertText('\n');
         event.preventDefault();
     }
 }
+
 
 const handleTab = (editor, event) => {
     if (isInside(editor, 'code-block')) {
