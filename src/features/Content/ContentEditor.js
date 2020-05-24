@@ -39,9 +39,7 @@ const ContentEditor = ({ content, updateContent }) => {
                     // must nullify the selection when quitting editing
                     // to prevent HoveringMenu from re-appearing at the same place
                     // when the user will start editing again
-                    console.log(editor.selection)
                     if (!readOnly) editor.selection = null
-                    console.log(editor.selection)
                     setReadOnly(!readOnly)
                 }} 
             />

@@ -1,7 +1,7 @@
 
 import { isInside } from './'
 
-import { createEditor, Transforms, Node } from 'slate'
+import { createEditor, Transforms, Node, Range, Editor } from 'slate'
 import { withHistory } from 'slate-history'
 import { withReact } from 'slate-react'
 import { compose } from '@reduxjs/toolkit'
@@ -53,7 +53,30 @@ const withNormalizing = editor => {
 
 
 
+// make the links panel undeletable
+
+const withDelete = editor => {
+    const { deleteBackward } = editor
+
+    editor.deleteBackward = (...args) => {
+        const anchor = editor.selection.anchor
+
+        // if selection is at the start of the elem
+        // that is next to the panel, skip
+        
+        if (anchor.path[0] == 2 && anchor.offset == 0) {
+            return
+        }
+        
+        deleteBackward(...args)
+    }
+
+    return editor;
+}
+
+
 const createMyEditor = compose(
+    withDelete,
     withVoids,
     withNormalizing, 
     withHistory, 
