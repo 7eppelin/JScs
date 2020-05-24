@@ -56,8 +56,10 @@ const withNormalizing = editor => {
 // make the links panel undeletable
 
 const withDelete = editor => {
-    const { deleteBackward } = editor
+    const { deleteBackward, deleteFragment } = editor
 
+    // this is getting called whenever the user
+    // attempts to delete a single character
     editor.deleteBackward = (...args) => {
         const anchor = editor.selection.anchor
 
@@ -67,8 +69,27 @@ const withDelete = editor => {
         if (anchor.path[0] == 2 && anchor.offset == 0) {
             return
         }
-        
+
+        // otherwise, call the default method
         deleteBackward(...args)
+    }
+
+    // this is getting called whenever the user 
+    // attempts to delete the selected range
+    editor.deleteFragment = (...args) => {
+
+        // iterate through all the nodes within the current selection
+        // and if the links panel is among them, skip
+
+        const [match] = Editor.nodes(editor, {
+            match: n => n.type === 'links',
+            at: editor.selection
+        })
+
+        if (match) return;
+
+        // otherwise, call the default method
+        deleteFragment(...args)
     }
 
     return editor;
