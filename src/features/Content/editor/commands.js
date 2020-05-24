@@ -66,7 +66,7 @@ export const insertElem = (editor, type) => {
     // specify the explicit location where to insert the elem
     // and that would be right after the links panel
 
-    const insertAt = isInside(editor, 'title') ? [2] : null
+    const insertAt = isInside(editor, 'title') ? [2] : undefined
 
     if (type === 'ul') {
         insertUl(editor, insertAt)

@@ -49,19 +49,25 @@ const MenuControls = ({
     return (
         <>
             <Button tooltip='toggle Bold. Ctrl + B'
-                handleMouseDown={() => setMark(editor, 'bold', !isBold)}
+                handleMouseDown={() => {
+                    setMark(editor, 'bold', !isBold, selection.current)
+                }}
                 isActive={isBold} >
                     <b>B</b>
             </Button>
 
             <Button tooltip='toggle Italic. Ctrl + i'
-                handleMouseDown={() => setMark(editor, 'italic', !isItalic)}
+                handleMouseDown={() => {
+                    setMark(editor, 'italic', !isItalic, selection.current)
+                }}
                 isActive={isItalic}>
                     <i>I</i>
             </Button>
 
             <Button tooltip='toggle Code. Ctrl + `'
-                handleMouseDown={() => setMark(editor, 'code', !isCode)}
+                handleMouseDown={() => {
+                    setMark(editor, 'code', !isCode, selection.current)
+                }}
                 isActive={isCode} >
                     <Icon icon='code-tags' />
             </Button>
