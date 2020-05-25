@@ -15,10 +15,12 @@ const useHoveringMenu = (inputRef) => {
         // don't let the menu hide when the user focuses on the input
         if (inputRef.current === document.activeElement) return;
 
-        // if there's no selection, hide the menu
+        // if there's no selection, or in readOnly mode, 
+        // or the user selection is inside either a code block or the title
+        // don't show/hide the menu
         if (!selection 
             || Range.isCollapsed(selection) 
-            || isInside(editor, 'code-block')
+            || isInside(editor, 'code-block', 'title')
             || readOnly
         ) {
             setShown(false)
