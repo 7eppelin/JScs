@@ -82,7 +82,7 @@ const Div = styled(motion.div)`
     border: 1px solid var(--gray4);
     position: absolute;
     z-index: 200;
-    box-shadow: 0 2px 10px 2px var(--black);
+    box-shadow: 0 2px 15px 2px black;
 `;
 
 export default Menu;
