@@ -66,7 +66,7 @@ const withDelete = editor => {
         // if selection is at the start of the elem
         // that is next to the panel, skip
         
-        if (anchor.path[0] == 2 && anchor.offset == 0) {
+        if (anchor.path[0] === 2 && anchor.offset === 0) {
             return
         }
 
