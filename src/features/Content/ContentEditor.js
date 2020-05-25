@@ -50,8 +50,6 @@ const ContentEditor = ({ content, updateContent }) => {
 
                 <Editable readOnly={readOnly} />
 
-                <HoveringMenu />
-
                 <ContentFooter 
                     readOnly={readOnly}
                     edited={content.edited}

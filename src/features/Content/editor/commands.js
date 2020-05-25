@@ -22,9 +22,9 @@ export const isMarkActive = (editor, mark) => {
 // checks whether the caret is currently
 // inside of an elem of the given type
 
-export const isInside = (editor, type) => {
+export const isInside = (editor, ...types) => {
     const [match] = Editor.nodes(editor, {
-        match: n => n.type === type,
+        match: n => types.includes(n.type),
       })
     
     return !!match

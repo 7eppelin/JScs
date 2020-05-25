@@ -1,7 +1,7 @@
 
 import { isInside } from './'
 
-import { createEditor, Transforms, Node, Range, Editor } from 'slate'
+import { createEditor, Transforms, Node } from 'slate'
 import { withHistory } from 'slate-history'
 import { withReact } from 'slate-react'
 import { compose } from '@reduxjs/toolkit'
@@ -66,7 +66,7 @@ const withDelete = editor => {
         // if selection is at the start of the elem
         // that is next to the panel, skip
         
-        if (anchor.path[0] == 2 && anchor.offset == 0) {
+        if (anchor.path[0] === 2 && anchor.offset === 0) {
             return
         }
 
@@ -77,18 +77,7 @@ const withDelete = editor => {
     // this is getting called whenever the user 
     // attempts to delete the selected range
     editor.deleteFragment = (...args) => {
-
-        // iterate through all the nodes within the current selection
-        // and if the links panel is among them, skip
-
-        const [match] = Editor.nodes(editor, {
-            match: n => n.type === 'links',
-            at: editor.selection
-        })
-
-        if (match) return;
-
-        // otherwise, call the default method
+        if (isInside(editor, 'links')) return;
         deleteFragment(...args)
     }
 

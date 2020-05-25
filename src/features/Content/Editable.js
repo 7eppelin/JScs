@@ -6,6 +6,8 @@ import { handleKeyDown, decorate } from './editor';
 import renderElement from './renderElement';
 import renderLeaf from './renderLeaf';
 
+import HoveringMenu from 'features/HoveringMenu/HoveringMenu'
+
 
 const MyEditable = ({ readOnly }) => {
     const editor = useEditor()
@@ -18,11 +20,14 @@ const MyEditable = ({ readOnly }) => {
                 decorate={decorate}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf} />
+
+            <HoveringMenu />
         </Container>
     )
 }
 
 const Container = styled.div`
+    position: relative;
     background-color: var(--gray5);
     box-shadow: inset 0 -12px 25px -15px black;
     scroll-behavior: smooth;

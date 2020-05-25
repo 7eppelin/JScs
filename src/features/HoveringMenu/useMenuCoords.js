@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Range } from 'slate'
 import { useSlate, ReactEditor } from 'slate-react'
+import { isInside } from 'features/Content/editor'
 
 
 const useMenuCoords = (menu, isInputShown, selection) => {
@@ -8,22 +9,32 @@ const useMenuCoords = (menu, isInputShown, selection) => {
     const editor = useSlate();
 
     useEffect(() => {
-        if (Range.isCollapsed(selection)) return;
+        // if selection is collapsed, or the user's selection
+        // includes a code block or the title
+        // the menu is about to hide, don't do anything
+        const inside = isInside(editor, 'code-block', 'title')
+        const collapsed = Range.isCollapsed(selection)
+        if (inside || collapsed || !menu.current) return
 
+        // selected text coords
         const range = ReactEditor.toDOMRange(editor, selection)
         const rect = range.getBoundingClientRect()
 
-        // the line below doesn't work, because this hook
+        // editor's scrollbar coords
+        const containerElem = menu.current.offsetParent
+        const cont = containerElem.getBoundingClientRect()
+        const contScroll = containerElem.scrollTop
+
+        // i wish i could simply use menu's offsetHeight, but this hook
         // is getting invoked before the input had a chance to open
-        // let h = el.offsetHeight
+        const menuHeight = 41 + (isInputShown ? 39 : 0);
+        const y = rect.top - cont.top + contScroll - menuHeight - 20;
 
-        const input = isInputShown ? 39 : 0;
-        const elHeight = 41 + input;
+        const menuWidth = menu.current.offsetWidth
+        const menuLeft = rect.left - menuWidth / 2 + rect.width / 2
 
-        const elWidth = menu.current.offsetWidth
-
-        const y = rect.top - elHeight - 16;
-        const x = rect.left - elWidth / 2 + rect.width / 2;
+        let x =  menuLeft - cont.left;
+        if (x < 8) x = 8;
 
         setCoords({ x, y })
 
