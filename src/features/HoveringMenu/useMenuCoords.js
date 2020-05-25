@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Range } from 'slate'
 import { useSlate, ReactEditor } from 'slate-react'
+import { isInside } from 'features/Content/editor'
 
 
 const useMenuCoords = (menu, isInputShown, selection) => {
@@ -8,7 +9,12 @@ const useMenuCoords = (menu, isInputShown, selection) => {
     const editor = useSlate();
 
     useEffect(() => {
-        if (Range.isCollapsed(selection)) return;
+        // if selection is collapsed, or the user's selection
+        // includes a code block or the title
+        // the menu is about to hide, don't do anything
+        const inside = isInside(editor, 'code-block', 'title')
+        const collapsed = Range.isCollapsed(selection)
+        if (inside || collapsed) return
 
         const range = ReactEditor.toDOMRange(editor, selection)
         const rect = range.getBoundingClientRect()
@@ -22,7 +28,7 @@ const useMenuCoords = (menu, isInputShown, selection) => {
 
         const elWidth = menu.current.offsetWidth
 
-        const y = rect.top - elHeight - 16;
+        const y = rect.top - elHeight - 20;
         const x = rect.left - elWidth / 2 + rect.width / 2;
 
         setCoords({ x, y })
