@@ -7,6 +7,7 @@ import { createSelector } from 'reselect';
 
 import { getContentItem, updateContentItem } from 'dataSlice';
 
+import AnimatedContent from './AnimatedContent'
 import ContentEditor from './ContentEditor';
 
 
@@ -41,7 +42,7 @@ const Content = () => {
     }, [url, content, dispatch])
 
     return (
-        <StyledContent>
+        <AnimatedContent isShown={url !== '/'}>
             <AnimatePresence exitBeforeEnter>
             {content && (
                 <ContentEditor 
@@ -53,17 +54,8 @@ const Content = () => {
                     updateContent={newValue => dispatch(updateContentItem(newValue))} />
             )}
             </AnimatePresence>
-        </StyledContent>
+        </AnimatedContent>
     )
 }
-
-
-const StyledContent = styled.section`
-    flex-basis: 600px;
-    flex-grow: 1;
-    background: var(--gray6);
-    box-shadow: 0 0 30px -5px black;
-    height: 100%;
-`;
 
 export default Content;

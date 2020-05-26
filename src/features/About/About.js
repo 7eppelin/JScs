@@ -1,21 +1,25 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 
 
 const About = () => {
     const location = useLocation()
     const url = location.pathname
-    const animate = (url === '/') ? 'enter' : 'exit'
 
     return (
-        <Section variants={variants}
-            initial='initial'
-            animate={animate}>
+        <AnimatePresence>
+            {(url === '/') && (
+                <Section variants={variants}
+                    initial='initial'
+                    animate='enter'
+                    exit='exit'>
 
-                THIS IS THE FRONT PAGE OF THE APP
-        </Section>
+                        THIS IS THE FRONT PAGE OF THE APP
+                </Section>
+            )}
+        </AnimatePresence>
     )
 }
 
@@ -52,7 +56,10 @@ const variants = {
         opacity: [ 0, .8, 1 ],
         scale: [ .9, .9, 1 ],
         x: [ -1000, 0, 0 ],
-        transition
+        transition: {
+            ...transition,
+            delay: 0.5,
+        }
     }
 }
 
