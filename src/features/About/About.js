@@ -25,41 +25,33 @@ const About = () => {
 
 const Section = styled(motion.section)`
     background: var(--gray6);
-    flex-basis: 50vw;
-    flex-grow: 1;
-    margin: 0 4vw;
+    position: absolute;
+    width: 78vw;
+    height: calc(100% - 50px);
+    top: 25px;
     box-shadow: 0 0 30px -5px black;
     border-radius: 5px;
 `
 
 
-const transition = {
-    type: 'spring',
-}
-
-
 const variants = {
     initial: {
-        opacity: 0,
-        scale: .9,
-        x: -1000,
+        scale: .88,
+        left: '-100vw',
     },
 
     exit: {
-        opacity: [ 1, .8, 0 ],
-        scale: [ 1, .9, .9 ],
-        x: [ 0, 0, -1000 ],
-        transition
+        scale: [ 1, .88, .88 ],
+        left: [ '4vw', '4vw', '-100vw' ],
     },
 
     enter: {
-        opacity: [ 0, .8, 1 ],
-        scale: [ .9, .9, 1 ],
-        x: [ -1000, 0, 0 ],
+        scale: [ .88, .88, 1 ],
+        left: [ '-100vw', '4vw', '4vw' ],
         transition: {
-            ...transition,
-            delay: 0.5,
+            left: { delay: 0.63 }
         }
+
     }
 }
 

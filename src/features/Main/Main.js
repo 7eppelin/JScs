@@ -8,9 +8,9 @@ import Content from 'features/Content/Content'
 
 // height = 100% - header height - footer height
 const StyledMain = styled.main`
+    position: relative;
     height: calc(100% - 80px - 45px);
-    display: flex;
-    padding: 20px 0;
+    overflow: hidden;
 `;
 
 

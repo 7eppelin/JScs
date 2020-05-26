@@ -8,7 +8,6 @@ const AnimatedContent = ({ isShown, children }) => (
         {isShown && (
             <StyledContent 
                 variants={variants}
-                layoutTransition
                 initial='initial'
                 animate='enter'
                 exit='exit'>
@@ -22,11 +21,13 @@ const AnimatedContent = ({ isShown, children }) => (
 
 
 const StyledContent = styled(motion.section)`
-    flex-basis: 50vw;
-    flex-grow: 1;
+    width: 63vw;
+    position: absolute;
+    right: 0;
+    height: calc(100% - 50px);
+    top: 25px;
     background: var(--gray6);
     box-shadow: 0 0 30px -5px black;
-    height: 100%;
 `;
 
 
@@ -37,22 +38,22 @@ const transition = {
 
 const variants = {
     initial: {
-        scale: .9,
-        x: 1000,
+        scale: .88,
+        right: -1000,
     },
 
     exit: {
-        scale: [ 1, .9, .9 ],
-        x: [ 0, 0, 1000 ],
+        scale: [ 1, .88, .88 ],
+        right: [ 0, 0, -1000 ],
         transition
     },
 
     enter: {
-        scale: [ .9, .9, 1 ],
-        x: [ 1000, 0, 0 ],
+        scale: [ .88, .88, 1 ],
+        right: [ -1000, 0, 0 ],
         transition: {
             ...transition,
-            delay: 0.5,
+            delay: 0.63,
         }
     }
 }
