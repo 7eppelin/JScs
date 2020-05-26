@@ -1,8 +1,9 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from 'react'
+import styled from 'styled-components/macro'
 
-import Nav from 'features/Nav/Nav';
-import Content from 'features/Content/Content';
+import About from 'features/About/About'
+import Nav from 'features/Nav/Nav'
+import Content from 'features/Content/Content'
 
 
 // height = 100% - header height - footer height
@@ -15,6 +16,7 @@ const StyledMain = styled.main`
 
 const Main = () => (
     <StyledMain>
+        <About />
         <Nav />
         <Content />
     </StyledMain>
