@@ -1,3 +1,6 @@
+
+import { hot } from 'react-hot-loader/root'
+
 import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
@@ -8,19 +11,6 @@ import { authRef } from './firebase';
 import Header from 'features/Header/Header';
 import Footer from 'features/Footer/Footer';
 import Main from 'features/Main/Main';
-
-
-const StyledApp = styled.div`
-	height: 100%;
-	position: relative;
-	background:
-        radial-gradient(black 15%, transparent 16%) 0 0,
-        radial-gradient(black 15%, transparent 16%) 8px 8px,
-        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
-        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-    background-color:#282828;
-    background-size:16px 16px;
-`;
 
 
 const App = () => {
@@ -49,4 +39,17 @@ const App = () => {
 	);
 }
 
-export default App;
+
+const StyledApp = styled.div`
+	height: 100%;
+	position: relative;
+	background:
+        radial-gradient(black 15%, transparent 16%) 0 0,
+        radial-gradient(black 15%, transparent 16%) 8px 8px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-color:#282828;
+    background-size:16px 16px;
+`;
+
+export default process.env.NODE_ENV === "development" ? hot(App) : App
