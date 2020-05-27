@@ -48,3 +48,5 @@ const StyledApp = styled.div`
     background-color:#282828;
     background-size:16px 16px;
 `;
+
+export default App
