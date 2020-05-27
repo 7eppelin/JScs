@@ -1,6 +1,3 @@
-
-import { hot } from 'react-hot-loader/root'
-
 import React, { useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch } from 'react-redux';
@@ -51,5 +48,3 @@ const StyledApp = styled.div`
     background-color:#282828;
     background-size:16px 16px;
 `;
-
-export default process.env.NODE_ENV === "development" ? hot(App) : App
