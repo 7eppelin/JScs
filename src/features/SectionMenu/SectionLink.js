@@ -18,6 +18,8 @@ const SectionLink = ({
     const elemRef = useRef();
     const dragOriginY = useMotionValue(0);
 
+    console.log(i)
+
     const isOnTop = () => {
         const el = elemRef.current.getBoundingClientRect();
         const ulTop = ul.current.getBoundingClientRect().top;
@@ -73,8 +75,10 @@ const SectionLink = ({
             }}
         >
 
-            <NavLink to={`/${label}`} activeClassName='active'>
-                {label}
+            <NavLink draggable={false} 
+                to={`/${label}`} 
+                activeClassName='active'>
+                    {label}
             </NavLink>
 
         </StyledLink>

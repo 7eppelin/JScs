@@ -3,6 +3,8 @@ import styled from 'styled-components/macro';
 import { motion } from 'framer-motion'
 import { Route, useRouteMatch } from 'react-router-dom';
 
+import useSections from './useSections'
+
 import SectionMenu from 'features/SectionMenu/SectionMenu';
 import SubsectionsContainer from 'features/SubsectionMenu/SubsectionsContainer';
 
@@ -10,15 +12,20 @@ import SubsectionsContainer from 'features/SubsectionMenu/SubsectionsContainer';
 const Nav = () => {
     const { params, url } = useRouteMatch('/:secName?/:subsecName?/:featureName?')
 
+    // arr of sections and a function to set a new order onDrag
+    const [ sections, reorderSections ] = useSections()
+
     const animate = url === '/' ? 'about' : 'content'
-    console.log(animate)
 
     return (
         <StyledNav variants={variants}
             initial={false}
             animate={animate}>
 
-            <SectionMenu />
+            <SectionMenu 
+                sections={sections} 
+                reorderSections={reorderSections} />
+
             <Route path='/:sectionName?/:subsecName?/:featureName?'>
                 <SubsectionsContainer />
             </Route>
