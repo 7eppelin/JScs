@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components/macro'
 
 import About from 'features/About/About'
@@ -14,12 +14,21 @@ const StyledMain = styled.main`
 `;
 
 
-const Main = () => (
-    <StyledMain>
-        <About />
-        <Nav />
-        <Content />
-    </StyledMain>
-)
+const Main = () => {
+    // prevent animations on the first render
+    const isFirstRender = useRef(true)
+
+    useEffect(() => {
+        setTimeout(() => isFirstRender.current = false, 50)
+    })
+
+    return (
+        <StyledMain>
+            <About isFirstRender={isFirstRender} />
+            <Nav />
+            <Content isFirstRender={isFirstRender} />
+        </StyledMain>
+    )
+}
 
 export default Main;

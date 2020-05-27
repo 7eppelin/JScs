@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 
 
-const About = () => {
+const About = ({ isFirstRender }) => {
     const location = useLocation()
     const url = location.pathname
 
@@ -12,7 +12,7 @@ const About = () => {
         <AnimatePresence>
             {(url === '/') && (
                 <Section variants={variants}
-                    initial='initial'
+                    initial={isFirstRender.current ? false : 'initial'}
                     animate='enter'
                     exit='exit'>
 
@@ -34,22 +34,37 @@ const Section = styled(motion.section)`
 `
 
 
+const transition = {
+    type: 'spring',
+    stiffness: 120,
+    damping: 12,
+    mass: 0.9,
+}
+
+
 const variants = {
     initial: {
-        scale: .88,
+        scale: .86,
         left: '-100vw',
     },
 
     exit: {
-        scale: [ 1, .88, .88 ],
-        left: [ '4vw', '4vw', '-100vw' ],
+        scale: .86,
+        left: '-100vw',
+        transition: {
+            left: { delay: 0.25 },
+        }
     },
 
     enter: {
-        scale: [ .88, .88, 1 ],
-        left: [ '-100vw', '4vw', '4vw' ],
+        scale: 1,
+        left: '4vw',
         transition: {
-            left: { delay: 0.63 }
+            delay: 0.61,
+            scale: { 
+                ...transition,
+                delay: 0.96 
+            }
         }
 
     }

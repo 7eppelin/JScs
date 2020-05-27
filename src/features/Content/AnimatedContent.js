@@ -3,12 +3,12 @@ import styled from 'styled-components/macro'
 import { motion, AnimatePresence } from 'framer-motion'
 
 
-const AnimatedContent = ({ isShown, children }) => (
+const AnimatedContent = ({ isShown, children, isFirstRender }) => (
     <AnimatePresence>
         {isShown && (
             <StyledContent 
                 variants={variants}
-                initial='initial'
+                initial={isFirstRender.current ? false : 'initial'}
                 animate='enter'
                 exit='exit'>
 
@@ -33,27 +33,35 @@ const StyledContent = styled(motion.section)`
 
 const transition = {
     type: 'spring',
+    stiffness: 120,
+    damping: 12,
+    mass: 0.9,
 }
 
 
 const variants = {
     initial: {
-        scale: .88,
-        right: -1000,
+        scale: .86,
+        right: -800,
     },
 
     exit: {
-        scale: [ 1, .88, .88 ],
-        right: [ 0, 0, -1000 ],
-        transition
+        scale: .86,
+        right: -800,
+        transition: {
+            right: { delay: 0.25 },
+        }
     },
 
     enter: {
-        scale: [ .88, .88, 1 ],
-        right: [ -1000, 0, 0 ],
+        scale: 1,
+        right: 0,
         transition: {
-            ...transition,
-            delay: 0.63,
+            right: {delay: 0.61},
+            scale: { 
+                ...transition,
+                delay: 0.96 
+            }
         }
     }
 }

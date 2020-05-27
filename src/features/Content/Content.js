@@ -22,7 +22,7 @@ const selectContent = createSelector(
 )
 
 
-const Content = () => {
+const Content = ({ isFirstRender }) => {
     const dispatch = useDispatch()
     const location = useLocation()
     const url = location.pathname
@@ -42,7 +42,10 @@ const Content = () => {
     }, [url, content, dispatch])
 
     return (
-        <AnimatedContent isShown={url !== '/'}>
+        <AnimatedContent 
+            isShown={url !== '/'}
+            isFirstRender={isFirstRender}>
+
             <AnimatePresence exitBeforeEnter>
             {content && (
                 <ContentEditor 
