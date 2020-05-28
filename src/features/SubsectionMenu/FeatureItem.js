@@ -44,6 +44,7 @@ const FeatureItem = ({
             }} >
 
             <NavLink activeClassName='active'
+                draggable={false}
                 to={`/${sectionName}/${subsectionName}/${name}`} >
                     {name}
             </NavLink>

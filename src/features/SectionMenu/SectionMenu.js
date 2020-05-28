@@ -15,13 +15,13 @@ const SectionMenu = ({ sections, reorderSections }) => {
     const scrollbar = useRef();
     const ul = useRef();
 
-    if (!sections.length) return <StyledMenu><Spinner /></StyledMenu>
-
     // invoked onDragEnd
     const updateDB = useCallback(() => {
         const ids = sections.map(sec => sec.id)
         if (isAdmin) updateSectionsOrderInDB(ids)
     }, [isAdmin, sections])
+
+    if (!sections.length) return <StyledMenu><Spinner /></StyledMenu>
 
     return (
         <StyledMenu>

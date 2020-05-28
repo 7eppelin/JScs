@@ -19,6 +19,7 @@ const SubsectionLink = ({
         <StyledSub isDragging={isDragging}>
 
             <NavLink to={to} 
+                draggable={false}
                 activeClassName='active'
                 onMouseDown={startDrag}>
                 {label}
