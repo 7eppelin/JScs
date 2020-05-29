@@ -3,6 +3,8 @@ import styled from 'styled-components/macro';
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 
+import Pages from './Pages'
+
 
 const About = ({ isFirstRender }) => {
     const location = useLocation()
@@ -16,7 +18,7 @@ const About = ({ isFirstRender }) => {
                     animate='enter'
                     exit='exit'>
 
-                        THIS IS THE FRONT PAGE OF THE APP
+                        <Pages />
                 </Section>
             )}
         </AnimatePresence>
