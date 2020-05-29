@@ -2,16 +2,13 @@ import React, { useRef, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
-import { useSelector } from 'react-redux';
 import { updateSectionsOrderInDB } from 'utils';
 
 import Spinner from 'components/Spinner';
 import SectionLink from './SectionLink';
 
 
-const SectionMenu = ({ sections, reorderSections }) => {
-    const isAdmin = useSelector(state => state.user?.isAdmin)
-
+const SectionMenu = ({ isAdmin, sections, reorderSections }) => {
     const scrollbar = useRef();
     const ul = useRef();
 

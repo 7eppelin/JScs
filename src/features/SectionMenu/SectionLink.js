@@ -18,8 +18,6 @@ const SectionLink = ({
     const elemRef = useRef();
     const dragOriginY = useMotionValue(0);
 
-    console.log(i)
-
     const isOnTop = () => {
         const el = elemRef.current.getBoundingClientRect();
         const ulTop = ul.current.getBoundingClientRect().top;

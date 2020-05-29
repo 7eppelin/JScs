@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion'
-import { Route, useRouteMatch } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+import { useRouteMatch } from 'react-router-dom';
 
 import useSections from './useSections'
 
 import SectionMenu from 'features/SectionMenu/SectionMenu';
-import SubsectionsContainer from 'features/SubsectionMenu/SubsectionsContainer';
+import SubsectionMenu from 'features/SubsectionMenu/SubsectionMenu';
 
 
 const Nav = () => {
     const { params, url } = useRouteMatch('/:secName?/:subsecName?/:featureName?')
+    const isAdmin = useSelector(state => state.user?.isAdmin)
 
-    // arr of sections and a function to set a new order onDrag
+    // arr of sections and a function to reorder onDrag
     const [ sections, reorderSections ] = useSections()
 
     const animate = url === '/' ? 'about' : 'content'
@@ -23,12 +25,13 @@ const Nav = () => {
             animate={animate}>
 
             <SectionMenu 
+                isAdmin={isAdmin}
                 sections={sections} 
                 reorderSections={reorderSections} />
 
-            <Route path='/:sectionName?/:subsecName?/:featureName?'>
-                <SubsectionsContainer />
-            </Route>
+            <SubsectionMenu 
+                isAdmin={isAdmin}
+                sectionName={params.secName} />
 
         </StyledNav>
     )
@@ -38,6 +41,7 @@ const Nav = () => {
 const StyledNav = styled(motion.nav)`
     position: absolute;
     box-shadow: 0 0 30px -5px black;
+    background: var(--gray6);
     width: 32vw;
     height: calc(100% - 50px);
     top: 25px;

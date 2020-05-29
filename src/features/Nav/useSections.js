@@ -19,13 +19,13 @@ const useSections = () => {
     // fetch sections once
     useEffect(() => {
         dispatch(getSections())
-    }, [])
+    }, [dispatch])
 
     // reorder sections
     const setNewSectionOrder = useCallback((current, target) => {
         const newOrder = arrayMove(ids, current, target)
         dispatch(reorderSections(newOrder)) 
-    }, [ids])
+    }, [ids, dispatch])
 
     // sort sections according to the ids array
     const sortedSections = useMemo(() => {
