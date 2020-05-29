@@ -1,15 +1,13 @@
-import React, { Suspense, useRef, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import styled from 'styled-components/macro';
+
+import { usePrevious } from 'utils'
 
 const SubsectionsContainer = React.lazy(() => import('./SubsectionsContainer'))
 
 
 const SubsectionMenu = ({ sectionName, isAdmin }) => {
-    const prevSection = useRef()
-
-    useEffect(() => {
-        prevSection.current = sectionName
-    }, [sectionName])
+    const prevSection = usePrevious(sectionName)
 
     // we want to know if we are transitioning 
     // from the content section to the frontpage
@@ -19,7 +17,7 @@ const SubsectionMenu = ({ sectionName, isAdmin }) => {
     return (
         <Section>
             <Suspense fallback=''>
-                {(prevSection.current || sectionName) && (
+                {(prevSection || sectionName) && (
                     <SubsectionsContainer
                         sectionName={sectionName}
                         isAdmin={isAdmin} />
@@ -31,11 +29,10 @@ const SubsectionMenu = ({ sectionName, isAdmin }) => {
 
 const Section = styled.section`
     height: 100%;
-    flex-basis: 250px;
+    width: 17vw;
     text-align: center;
-    padding: 7px;
-
-    ul { padding-right: 4px; }
+    padding: 5px;
+    padding-left: 2px;
 `
 
 export default React.memo(SubsectionMenu)

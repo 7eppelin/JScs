@@ -4,8 +4,10 @@ import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { useRouteMatch } from 'react-router-dom';
 
+import { usePrevious } from 'utils'
 import useSections from './useSections'
 
+import Spinner from 'components/Spinner'
 import SectionMenu from 'features/SectionMenu/SectionMenu';
 import SubsectionMenu from 'features/SubsectionMenu/SubsectionMenu';
 
@@ -17,6 +19,8 @@ const Nav = () => {
     // arr of sections and a function to reorder onDrag
     const [ sections, reorderSections ] = useSections()
 
+    const prevSection = usePrevious(params.secName)
+
     const animate = url === '/' ? 'about' : 'content'
 
     return (
@@ -24,14 +28,28 @@ const Nav = () => {
             initial={false}
             animate={animate}>
 
-            <SectionMenu 
-                isAdmin={isAdmin}
-                sections={sections} 
-                reorderSections={reorderSections} />
+            {/* 
+                only render spinner in the nav when:
+                1. sections haven't been fetched yet
+                and
+                2. this is the initial render of the app
+                3. the content section is being rendered
+            */}
+            {!sections && (params.secName || prevSection) ? 
+                <Spinner />
+                :
+                <>
+                    <SectionMenu 
+                        isAdmin={isAdmin}
+                        prevSection={prevSection}
+                        sections={sections} 
+                        reorderSections={reorderSections} />
 
-            <SubsectionMenu 
-                isAdmin={isAdmin}
-                sectionName={params.secName} />
+                    <SubsectionMenu 
+                        isAdmin={isAdmin}
+                        sectionName={params.secName} />
+                </>
+            }
 
         </StyledNav>
     )

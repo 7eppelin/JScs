@@ -1,7 +1,8 @@
 
-import { useEffect, useCallback, useMemo } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { getSections } from 'dataSlice';
+import { selectAndSortSections } from './selectors'
 
 import { reorderSections } from 'dataSlice';
 import { arrayMove } from 'utils';
@@ -10,30 +11,23 @@ import { arrayMove } from 'utils';
 const useSections = () => {
     const dispatch = useDispatch()
 
-    // object of sections: { id: { ...sec }, id2: { ...sec2 }}
-    const sections = useSelector(state => state.data.sections.byID)
-
-    // sections ids in the order they should appear in the list
-    const ids = useSelector(state => state.data.sections.ids)
-
     // fetch sections once
     useEffect(() => {
         dispatch(getSections())
-    }, [dispatch])
+    }, [dispatch])    
+
+    // arr of sections
+    const sections = useSelector(state => selectAndSortSections(state))
 
     // reorder sections
     const setNewSectionOrder = useCallback((current, target) => {
+        const ids = sections.map(sec => sec.id)
+        if (target >= ids.length) return
         const newOrder = arrayMove(ids, current, target)
         dispatch(reorderSections(newOrder)) 
-    }, [ids, dispatch])
+    }, [sections, dispatch])
 
-    // sort sections according to the ids array
-    const sortedSections = useMemo(() => {
-        return ids.map(id => sections[id])
-    }, [sections, ids])
-
-    // return [ sections, reorderSections ]
-    return [ sortedSections, setNewSectionOrder ]
+    return [ sections, setNewSectionOrder ]
 }
 
 export default useSections

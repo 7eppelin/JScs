@@ -9,6 +9,8 @@ export {
     updateFeaturesOrderInDB,
 } from './db'
 
+export { usePrevious } from './hooks'
+
 
 
 // takes an array, current and target indexex of an item, 
