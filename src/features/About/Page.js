@@ -1,25 +1,34 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React, { useRef } from 'react';
 
-import PageTitle from './PageTitle'
+import AnimatedPage from './AnimatedPage'
+import PageTitle from './PageElements/PageTitle'
 import PageContent from './PageContent'
 
 
-const Page = ({ content }) => {
+const Page = ({ 
+    content, 
+    pageIndex, 
+    scrollPages,
+    justMounted,
+    animationDirection,
+    setAnimationDirection
+}) => {
+    const pageRef = useRef()
+
     return (
-        <Section>
+        <AnimatedPage
+            pageRef={pageRef}
+            pageIndex={pageIndex}
+            justMounted={justMounted}
+            scrollPages={scrollPages}
+            animationDirection={animationDirection}
+            setAnimationDirection={setAnimationDirection}>
+
             <PageTitle text={content.title} />
-            <PageContent text={content.content} />
-        </Section>
+            <PageContent data={content.body} />
+        </AnimatedPage>
     )
 }
 
-const Section = styled.section`
-    width: 75%;
-    margin: 0 auto;
-    padding: 30px 0;
-    text-align: left;
-    color: var(--gray1);
-`
 
 export default Page
