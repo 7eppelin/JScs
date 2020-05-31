@@ -11,8 +11,9 @@ const PagesNav = ({
     scrollPages,
     setAnimationDirection 
 }) => (
-    // line's height = (item's margin-bottom + height) * activePage
-    <Nav height={(45 + 16) * activePage}>
+    // PagesNavItem's height + margin-bottom * ...
+    <Nav passiveHeight = {(16 + 45) * (pages.length - 1)}
+        activeHeight={(16 + 45) * activePage}>
 
         {pages.map(page => (
             <PagesNavItem key={page}
@@ -23,7 +24,8 @@ const PagesNav = ({
                     if (page < activePage) setAnimationDirection('down')
                 }} />
         ))}
-        <div />
+        <div className='passive-line' />
+        <div className='active-line' />
     </Nav>
 )
 
@@ -39,16 +41,26 @@ const Nav = styled.nav`
     & > div {
         position: absolute;
         top: 5px;
-        left: 7px;
+        left: 7px;     
+        width: 2px;  
+        z-index: 1;
+    }
+
+    .passive-line {
+        background: var(--gray3);
+        height: ${props => props.passiveHeight + 'px'};
+    }
+
+    .active-line {
         background: var(--orange2);
-        width: 2px;
-        height: ${props => `${props.height}px`};
+        z-index: 2;
+        height: ${props => props.activeHeight + 'px'};
         transition: .25s;
 
         &:after {
             content: '';
             position: absolute;
-            top: ${props => `${props.height - 7}px`};
+            top: ${props => `${props.activeHeight - 7}px`};
             left: -9px;
             width: 20px;
             height: 20px;
