@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { AnimatePresence } from 'framer-motion'
 
 import content from './content.js'
+import AnimatedPage from './AnimatedPage'
 import Page from './Page'
 
 const Pages = () => {
@@ -31,15 +32,16 @@ const Pages = () => {
     return (
         <Div>
             <AnimatePresence exitBeforeEnter>
-                <Page
+                <AnimatedPage
                     key={activePage}
-                    content={content[activePage]} 
-                    scrollPages={scrollPages}
-                    pageIndex={activePage} 
+                    pageIndex={activePage}
                     justMounted={justMounted.current}
+                    scrollPages={scrollPages}
                     animationDirection={animationDirection}
-                    setAnimationDirection={setAnimationDirection}
-                />
+                    setAnimationDirection={setAnimationDirection}>
+
+                    <Page content={content[activePage]} />
+                </AnimatedPage>
             </AnimatePresence>
         </Div>
     )

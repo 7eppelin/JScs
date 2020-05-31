@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion'
 
@@ -7,13 +7,13 @@ import useHandleWheel from './useHandleWheel'
 
 const AnimatedPage = ({ 
     children,
-    pageRef,
     pageIndex, // current acive page's index in the content arr
     scrollPages, // func to scroll between pages
     justMounted, // is it the first render of the front page (to skip initial animation)
     animationDirection,
     setAnimationDirection
 }) => {
+    const pageRef = useRef()
 
     const handleWheel = useHandleWheel(
         pageRef,
