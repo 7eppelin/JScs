@@ -46,7 +46,6 @@ const Section = styled(motion.section)`
     height: 100%;
     text-align: left;
     color: var(--gray1);
-    overflow-y: scroll;
 `
 
 

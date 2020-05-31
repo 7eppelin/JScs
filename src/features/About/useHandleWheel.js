@@ -32,8 +32,8 @@ const useHandleWheel = (
             if (counter.current < 0) counter.current = 0
             ++counter.current
             setAnimationDirection('up')
-            if (counter.current > 8) {
-                scrollPages('down', activePage)
+            if (counter.current > 12) {
+                scrollPages(activePage + 1)
             }
         }
 
@@ -42,8 +42,8 @@ const useHandleWheel = (
             if (counter.current > 0) counter.current = 0
             --counter.current
             setAnimationDirection('down')
-            if (counter.current < -8) {
-                scrollPages('up', activePage)
+            if (counter.current < -12) {
+                scrollPages(activePage - 1)
             }
         }
     }, [])

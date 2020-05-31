@@ -7,26 +7,20 @@ import { useMount } from 'utils'
 
 import AnimatedPage from './AnimatedPage'
 import Page from './Page'
+import PagesNav from './PagesNav'
 
 const Pages = () => {
+    const justMounted = useMount()
     const [activePage, setActivePage] = useState(0)
 
     // we want the pages to be animated 
     // in the opposite direction of scrolling
     const [animationDirection, setAnimationDirection] = useState('down')
 
-    const scrollPages = useCallback((direction, index) => {
-        const lastPage = content.length - 1
-
-        if (direction === 'up' && index > 0) {
-            setActivePage(activePage - 1)
-        }
-        if (direction === 'down' && index !== lastPage) {
-            setActivePage(activePage + 1)
-        }
+    const scrollPages = useCallback(target => {
+        if (target < 0 || target >= content.length) return
+        setActivePage(target)
     }, [activePage])
-
-    const justMounted = useMount()
 
     return (
         <Div>
@@ -42,6 +36,12 @@ const Pages = () => {
                     <Page content={content[activePage]} />
                 </AnimatedPage>
             </AnimatePresence>
+
+            <PagesNav 
+                pages={content.map((item, i) => i)}
+                scrollPages={scrollPages}
+                activePage={activePage}
+                setAnimationDirection={setAnimationDirection} />
         </Div>
     )
 }
