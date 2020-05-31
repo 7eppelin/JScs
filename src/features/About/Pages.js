@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { AnimatePresence } from 'framer-motion'
 
 import content from './content.js'
+import { useMount } from 'utils'
+
 import AnimatedPage from './AnimatedPage'
 import Page from './Page'
 
@@ -24,10 +26,7 @@ const Pages = () => {
         }
     }, [activePage])
 
-    const justMounted = useRef(true)
-    useEffect(() => {
-        setTimeout(() => justMounted.current = false, 100)
-    })
+    const justMounted = useMount()
 
     return (
         <Div>
@@ -35,7 +34,7 @@ const Pages = () => {
                 <AnimatedPage
                     key={activePage}
                     pageIndex={activePage}
-                    justMounted={justMounted.current}
+                    justMounted={justMounted}
                     scrollPages={scrollPages}
                     animationDirection={animationDirection}
                     setAnimationDirection={setAnimationDirection}>

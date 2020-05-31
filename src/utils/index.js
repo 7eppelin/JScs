@@ -9,7 +9,10 @@ export {
     updateFeaturesOrderInDB,
 } from './db'
 
-export { usePrevious } from './hooks'
+export { 
+    usePrevious,
+    useMount 
+} from './hooks'
 
 
 
