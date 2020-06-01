@@ -8,18 +8,22 @@ import useHandleWheel from './useHandleWheel'
 const AnimatedPage = ({ 
     children,
     pageIndex, // current acive page's index in the content arr
+    lastPage, // last page' index
     scrollPages, // func to scroll between pages
     justMounted, // is it the first render of the front page (to skip initial animation)
     animationDirection,
-    setAnimationDirection
+    setAnimationDirection,
+    wheelRef, // ./PagesNavWheel
 }) => {
     const pageRef = useRef()
 
     const handleWheel = useHandleWheel(
         pageRef,
         pageIndex,
+        lastPage,
         scrollPages,
-        setAnimationDirection
+        setAnimationDirection,
+        wheelRef
     )
 
     return (
@@ -27,7 +31,8 @@ const AnimatedPage = ({
             ref={pageRef}
             className='scrollbar'
             variants={variants}
-            // must be opposite to the animationDirection
+            // if this is the mount of ./Pages, don't animate
+            // otherwise opposite of animattionDirection
             initial={justMounted ? false :
                 animationDirection === 'up' ? 'exit-down' : 'exit-up'
             }

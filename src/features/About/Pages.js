@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { AnimatePresence } from 'framer-motion'
 
@@ -12,6 +12,7 @@ import PagesNav from './PagesNav'
 const Pages = () => {
     const justMounted = useMount()
     const [activePage, setActivePage] = useState(0)
+    const wheelRef = useRef()
 
     // we want the pages to be animated 
     // in the opposite direction of scrolling
@@ -28,10 +29,13 @@ const Pages = () => {
                 <AnimatedPage
                     key={activePage}
                     pageIndex={activePage}
+                    lastPage={content.length - 1}
                     justMounted={justMounted}
                     scrollPages={scrollPages}
                     animationDirection={animationDirection}
-                    setAnimationDirection={setAnimationDirection}>
+                    setAnimationDirection={setAnimationDirection}
+                    wheelRef={wheelRef}
+                    >
 
                     <Page content={content[activePage]} />
                 </AnimatedPage>
@@ -41,7 +45,8 @@ const Pages = () => {
                 pages={content.map((item, i) => i)}
                 scrollPages={scrollPages}
                 activePage={activePage}
-                setAnimationDirection={setAnimationDirection} />
+                setAnimationDirection={setAnimationDirection}
+                wheelRef={wheelRef} />
         </Div>
     )
 }

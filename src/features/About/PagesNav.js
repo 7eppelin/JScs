@@ -3,17 +3,21 @@ import styled from 'styled-components/macro';
 import { AnimatePresence } from 'framer-motion'
 
 import PagesNavItem from './PagesNavItem'
+import PagesNavWheel from './PagesNavWheel'
 
 
 const PagesNav = ({ 
     pages, 
     activePage, 
     scrollPages,
-    setAnimationDirection 
+    setAnimationDirection,
+    wheelRef
 }) => (
     // PagesNavItem's height + margin-bottom * ...
     <Nav passiveHeight = {(16 + 45) * (pages.length - 1)}
         activeHeight={(16 + 45) * activePage}>
+
+        <PagesNavWheel ref={wheelRef} />
 
         {pages.map(page => (
             <PagesNavItem key={page}
@@ -26,6 +30,7 @@ const PagesNav = ({
         ))}
         <div className='passive-line' />
         <div className='active-line' />
+
     </Nav>
 )
 
@@ -38,7 +43,8 @@ const Nav = styled.nav`
     display: flex;
     flex-direction: column;
 
-    & > div {
+    .passive-line,
+    .active-line {
         position: absolute;
         top: 5px;
         left: 7px;     
@@ -55,7 +61,7 @@ const Nav = styled.nav`
         background: var(--orange2);
         z-index: 2;
         height: ${props => props.activeHeight + 'px'};
-        transition: .25s;
+        transition: .35s;
 
         &:after {
             content: '';
@@ -66,7 +72,7 @@ const Nav = styled.nav`
             height: 20px;
             border: 2px solid var(--orange2);
             border-radius: 50%;
-            transition: .25s;
+            transition: .35s;
         }
     }
 `
