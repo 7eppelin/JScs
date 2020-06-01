@@ -13,8 +13,6 @@ const useHandleWheel = (
     const scroll = useElementScroll(pageRef)
     const counter = useRef(0)
 
-    console.log('scroooooooooooooooooll')
-
     // should we scroll to the next page?
     const shouldScrollDown = e => {
 
