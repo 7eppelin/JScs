@@ -21,7 +21,7 @@
     "redux-logger": "^3.0.6",
     "slate": "^0.57.2",
     "slate-history": "^0.57.2",
-    "slate-react": "^0.57.2",
+    "slate-react": "^0.58.2",
     "styled-components": "^5.0.1"
   },
   "scripts": {
