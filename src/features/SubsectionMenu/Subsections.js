@@ -4,7 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import FeatureMenu from './FeatureMenu';
 
 
-const Subsections = ({ subsecs, reorderSubsecs, saveNewOrder }) => {
+const Subsections = ({ 
+    subsecs, 
+    reorderSubsecs, 
+    saveNewOrder,
+    shouldDelayAnimation }) => {
 
     const scrollbar = useRef();
 
@@ -25,7 +29,9 @@ const Subsections = ({ subsecs, reorderSubsecs, saveNewOrder }) => {
                         variants={variants}
                         initial='hide'
                         animate='appear'
-                        exit='hide'>
+                        exit='hide'
+                        transition={shouldDelayAnimation ?
+                            { delay: 0.94 } : true }>
 
                         {subsecs.map((subsec, i) => (
                             <FeatureMenu i={i}
@@ -42,6 +48,7 @@ const Subsections = ({ subsecs, reorderSubsecs, saveNewOrder }) => {
         </div>
     )
 }
+
 
 const variants = {
     appear: {

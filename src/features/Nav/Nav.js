@@ -11,7 +11,7 @@ import SectionMenu from 'features/SectionMenu/SectionMenu';
 import SubsectionMenu from 'features/SubsectionMenu/SubsectionMenu';
 
 
-const Nav = ({ activeSection }) => {
+const Nav = ({ activeSection, shouldDelayAnimation }) => {
     const isAdmin = useSelector(state => state.user?.isAdmin)
 
     // arr of sections and a function to reorder onDrag
@@ -28,9 +28,8 @@ const Nav = ({ activeSection }) => {
 
             {/* 
                 only render spinner in the nav when:
-                1. sections haven't been fetched yet
-                and
-                2. this is the initial render of the app
+                1. this is the initial render of the app
+                2. sections haven't been fetched yet
                 3. the content section is being rendered
             */}
             {!sections && (activeSection || prevSection) ? 
@@ -45,7 +44,8 @@ const Nav = ({ activeSection }) => {
 
                     <SubsectionMenu 
                         isAdmin={isAdmin}
-                        sectionName={activeSection} />
+                        sectionName={activeSection}
+                        shouldDelayAnimation={shouldDelayAnimation} />
                 </>
             }
 

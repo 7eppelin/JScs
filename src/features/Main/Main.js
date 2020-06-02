@@ -25,7 +25,7 @@ const Main = () => {
     const prevSection = usePrevious(params.secName)
 
     // if transitioning from the front-page to the content section
-    // dont animate the editor's appearance
+    // delay SubsectionMenu and ContentEditor's animations
     const shouldDelayAnimation = params.secName && !prevSection
 
     return (
@@ -33,7 +33,8 @@ const Main = () => {
 
             <About isMount={isMount} />
 
-            <Nav activeSection={params.secName} />
+            <Nav activeSection={params.secName}
+                shouldDelayAnimation={shouldDelayAnimation} />
 
             <Content url={url}
                 isMount={isMount}
