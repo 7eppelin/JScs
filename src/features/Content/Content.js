@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components/macro';
 import { AnimatePresence } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';

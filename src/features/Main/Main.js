@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
+import { useRouteMatch } from 'react-router-dom';
 import { useMount } from 'utils'
 
 import About from 'features/About/About'
@@ -20,10 +21,12 @@ const Main = () => {
     // prevent animations on mount
     const isMount = useMount()
 
+    const { params } = useRouteMatch('/:secName?')
+
     return (
         <StyledMain>
             <About isMount={isMount} />
-            <Nav />
+            <Nav activeSection={params.secName} />
             <Content isMount={isMount} />
         </StyledMain>
     )

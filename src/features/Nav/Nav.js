@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
-import { useRouteMatch } from 'react-router-dom';
 
 import { usePrevious } from 'utils'
 import useSections from './useSections'
@@ -12,16 +11,15 @@ import SectionMenu from 'features/SectionMenu/SectionMenu';
 import SubsectionMenu from 'features/SubsectionMenu/SubsectionMenu';
 
 
-const Nav = () => {
-    const { params, url } = useRouteMatch('/:secName?/:subsecName?/:featureName?')
+const Nav = ({ activeSection }) => {
     const isAdmin = useSelector(state => state.user?.isAdmin)
 
     // arr of sections and a function to reorder onDrag
     const [ sections, reorderSections ] = useSections()
 
-    const prevSection = usePrevious(params.secName)
+    const prevSection = usePrevious(activeSection)
 
-    const animate = url === '/' ? 'about' : 'content'
+    const animate = activeSection ? 'content' : 'about'
 
     return (
         <StyledNav variants={variants}
@@ -35,7 +33,7 @@ const Nav = () => {
                 2. this is the initial render of the app
                 3. the content section is being rendered
             */}
-            {!sections && (params.secName || prevSection) ? 
+            {!sections && (activeSection || prevSection) ? 
                 <Spinner />
                 :
                 <>
@@ -47,7 +45,7 @@ const Nav = () => {
 
                     <SubsectionMenu 
                         isAdmin={isAdmin}
-                        sectionName={params.secName} />
+                        sectionName={activeSection} />
                 </>
             }
 
