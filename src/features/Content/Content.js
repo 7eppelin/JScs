@@ -22,7 +22,7 @@ const selectContent = createSelector(
 )
 
 
-const Content = ({ isFirstRender }) => {
+const Content = ({ isMount }) => {
     const dispatch = useDispatch()
     const location = useLocation()
     const url = location.pathname
@@ -44,7 +44,7 @@ const Content = ({ isFirstRender }) => {
     return (
         <AnimatedContent 
             isShown={url !== '/'}
-            isFirstRender={isFirstRender}>
+            isMount={isMount}>
 
             <AnimatePresence exitBeforeEnter>
             {content && (

@@ -3,12 +3,12 @@ import styled from 'styled-components/macro'
 import { motion, AnimatePresence } from 'framer-motion'
 
 
-const AnimatedContent = ({ isShown, children, isFirstRender }) => (
+const AnimatedContent = ({ isShown, children, isMount }) => (
     <AnimatePresence>
         {isShown && (
             <StyledContent 
                 variants={variants}
-                initial={isFirstRender ? false : 'initial'}
+                initial={isMount ? false : 'initial'}
                 animate='enter'
                 exit='exit'>
 

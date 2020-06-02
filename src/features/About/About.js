@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom'
 import Pages from './Pages'
 
 
-const About = ({ isFirstRender }) => {
+const About = ({ isMount }) => {
     const location = useLocation()
     const url = location.pathname
 
@@ -14,7 +14,7 @@ const About = ({ isFirstRender }) => {
         <AnimatePresence>
             {(url === '/') && (
                 <Section variants={variants}
-                    initial={isFirstRender ? false : 'initial'}
+                    initial={isMount ? false : 'initial'}
                     animate='enter'
                     exit='exit'>
 

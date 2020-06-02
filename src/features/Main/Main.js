@@ -17,14 +17,14 @@ const StyledMain = styled.main`
 
 
 const Main = () => {
-    // prevent animations on the first render
-    const isFirstRender = useMount()
+    // prevent animations on mount
+    const isMount = useMount()
 
     return (
         <StyledMain>
-            <About isFirstRender={isFirstRender} />
+            <About isMount={isMount} />
             <Nav />
-            <Content isFirstRender={isFirstRender} />
+            <Content isMount={isMount} />
         </StyledMain>
     )
 }
