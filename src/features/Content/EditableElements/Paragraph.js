@@ -2,10 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
-const elem = {
-    shown: { opacity: 1 },
-    hidden: { opacity: 0 }
-}
+import variants from './variants'
 
 
 const StyledP = styled(motion.p)`
@@ -17,8 +14,12 @@ const StyledP = styled(motion.p)`
 `;
 
 const ParagraphElement = ({ attributes, children }) => (
-    <StyledP variants={elem} {...attributes}>
-        {children}
+    <StyledP 
+        variants={variants} 
+        {...attributes}>
+
+            {children}
+
     </StyledP>
 )
 

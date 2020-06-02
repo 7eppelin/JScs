@@ -3,11 +3,13 @@ import styled from 'styled-components/macro'
 import { motion, AnimatePresence } from 'framer-motion'
 
 
-const AnimatedContent = ({ isShown, children, isMount }) => (
+const AnimatedContent = ({ children, isShown, isMount }) => (
     <AnimatePresence>
         {isShown && (
             <StyledContent 
                 variants={variants}
+                transition={transition}
+                // if <Main /> is just mounted, skip content animation
                 initial={isMount ? false : 'initial'}
                 animate='enter'
                 exit='exit'>
@@ -41,12 +43,12 @@ const transition = {
 
 const variants = {
     initial: {
-        scale: .86,
+        scale: .8,
         right: -800,
     },
 
     exit: {
-        scale: .86,
+        scale: .8,
         right: -800,
         transition: {
             right: { delay: 0.25 },

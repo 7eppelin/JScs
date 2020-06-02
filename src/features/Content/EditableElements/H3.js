@@ -2,10 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
-const elem = {
-    shown: { opacity: 1 },
-    hidden: { opacity: 0 }
-}
+import variants from './variants'
 
 
 const StyledH3 = styled(motion.h3)`
@@ -16,7 +13,13 @@ const StyledH3 = styled(motion.h3)`
 `;
 
 const H3Element = ({ attributes, children }) => (
-    <StyledH3 variants={elem} {...attributes}>{children}</StyledH3>
+    <StyledH3 
+        variants={variants} 
+        {...attributes}>
+
+            {children}
+            
+    </StyledH3>
 )
 
 export default H3Element;

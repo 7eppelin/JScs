@@ -2,11 +2,18 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
+import variants from './variants'
 
-const elem = {
-    shown: { opacity: 1 },
-    hidden: { opacity: 0 }
-}
+
+const TitleElement = ({ attributes, children }) => (
+    <StyledTitle 
+        variants={variants} 
+        {...attributes}>
+
+        {children}
+
+    </StyledTitle>
+)
 
 
 const StyledTitle = styled(motion.h1)`
@@ -16,11 +23,5 @@ const StyledTitle = styled(motion.h1)`
     font-size: 3rem;
     text-shadow: 3px 3px 0 var(--gray6);
 `;
-
-const TitleElement = ({ attributes, children }) => (
-    <StyledTitle variants={elem} {...attributes}>
-        {children}
-    </StyledTitle>
-)
 
 export default TitleElement;

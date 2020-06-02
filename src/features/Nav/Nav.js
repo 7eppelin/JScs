@@ -83,7 +83,7 @@ const variants = {
     },
     about: {
         left: '86vw',
-        scaleY: 0.95,
+        scaleY: 0.9,
         transition
     }
 }

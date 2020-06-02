@@ -47,12 +47,12 @@ const transition = {
 
 const variants = {
     initial: {
-        scale: .86,
+        scale: .8,
         left: '-100vw',
     },
 
     exit: {
-        scale: .86,
+        scale: .8,
         left: '-100vw',
         transition: {
             left: { delay: 0.25 },

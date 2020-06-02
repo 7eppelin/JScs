@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { createSelector } from 'reselect';
 
 import { getContentItem, updateContentItem } from 'dataSlice';
@@ -21,10 +20,8 @@ const selectContent = createSelector(
 )
 
 
-const Content = ({ isMount }) => {
+const Content = ({ isMount, url, shouldDelayAnimation }) => {
     const dispatch = useDispatch()
-    const location = useLocation()
-    const url = location.pathname
 
     const content = useSelector(state => selectContent(state, url));
 
@@ -53,6 +50,7 @@ const Content = ({ isMount }) => {
                     // we force it to remount by assigning the key prop
                     key={content.id}
                     content={content}
+                    shouldDelayAnimation={shouldDelayAnimation}
                     updateContent={newValue => dispatch(updateContentItem(newValue))} />
             )}
             </AnimatePresence>

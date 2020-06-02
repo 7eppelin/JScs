@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components/macro'
 
 import { useRouteMatch } from 'react-router-dom';
-import { useMount } from 'utils'
+import { useMount, usePrevious } from 'utils'
 
 import About from 'features/About/About'
 import Nav from 'features/Nav/Nav'
@@ -21,13 +21,24 @@ const Main = () => {
     // prevent animations on mount
     const isMount = useMount()
 
-    const { params } = useRouteMatch('/:secName?')
+    const { params, url } = useRouteMatch('/:secName?/:subsec?/:feature?')
+    const prevSection = usePrevious(params.secName)
+
+    // if transitioning from the front-page to the content section
+    // dont animate the editor's appearance
+    const shouldDelayAnimation = params.secName && !prevSection
 
     return (
         <StyledMain>
+
             <About isMount={isMount} />
+
             <Nav activeSection={params.secName} />
-            <Content isMount={isMount} />
+
+            <Content url={url}
+                isMount={isMount}
+                shouldDelayAnimation={shouldDelayAnimation} />
+
         </StyledMain>
     )
 }

@@ -11,11 +11,9 @@ import { createEditor } from './editor';
 import ToggleReadOnly from './ToggleReadOnly'
 import Editable from './Editable'
 import ContentFooter from 'features/ContentFooter/ContentFooter';
-import HoveringMenu from 'features/HoveringMenu/HoveringMenu'
 
 
-
-const ContentEditor = ({ content, updateContent }) => {
+const ContentEditor = ({ content, updateContent, shouldDelayAnimation }) => {
     // must create a new instance whenever a new content item is selected
     const editor = useMemo(() => createEditor(), [content.id])
 
@@ -29,10 +27,15 @@ const ContentEditor = ({ content, updateContent }) => {
     })
 
     return (
+        // variants and transition definitions are below
         <Wrapper variants={wrapper}
-                initial='hidden'
-                animate='shown'
-                exit='hidden'>
+                initial='exit'
+                animate='enter'
+                exit='exit'
+                transition={shouldDelayAnimation ? {
+                    ...enterTransition,
+                    delay: .85,
+                } : enterTransition }>
 
             <ToggleReadOnly readOnly={readOnly}
                 toggle={() => {
@@ -71,25 +74,24 @@ const Wrapper = styled(motion.div)`
 `;
 
 
+const enterTransition = {
+    duration: 0.3,
+    when: 'beforeChildren',
+    staggerChildren: 0.09,
+    ease: 'circOut'
+}
+
+
 const wrapper = {
-    shown: {
+    enter: {
         scale: 1,
         opacity: 1,
-        transition: {
-            duration: 0.4,
-            when: 'beforeChildren',
-            staggerChildren: 0.09,
-            ease: 'circOut'
-        }
     },
-    hidden: {
-        scale: 0.65,
+    exit: {
+        scale: 0.7,
         opacity: 0,
         transition: {
-            duration: 0.25,
-            when: 'afterChildren',
-            staggerChildren: 0.04,
-            staggerDirection: -1,
+            duration: 0.4,
             ease: 'circOut'
         }
     }
