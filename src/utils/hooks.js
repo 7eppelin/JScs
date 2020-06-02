@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 
 // returns a value from the previous render
@@ -16,11 +16,11 @@ export const usePrevious = value => {
 
 // can be used to skip the initial animation
 export const useMount = () => {
-    const justMounted = useRef(true)
+    const [ isMount, setIsMount ] = useState(true)
 
     useEffect(() => {
-        setTimeout(() => justMounted.current = false, 100)
+        setTimeout(() => setIsMount(false), 100)
     }, [])
 
-    return justMounted.current
+    return isMount
 }

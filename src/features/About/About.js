@@ -14,7 +14,7 @@ const About = ({ isFirstRender }) => {
         <AnimatePresence>
             {(url === '/') && (
                 <Section variants={variants}
-                    initial={isFirstRender.current ? false : 'initial'}
+                    initial={isFirstRender ? false : 'initial'}
                     animate='enter'
                     exit='exit'>
 

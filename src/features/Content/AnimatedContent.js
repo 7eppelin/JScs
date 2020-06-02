@@ -8,7 +8,7 @@ const AnimatedContent = ({ isShown, children, isFirstRender }) => (
         {isShown && (
             <StyledContent 
                 variants={variants}
-                initial={isFirstRender.current ? false : 'initial'}
+                initial={isFirstRender ? false : 'initial'}
                 animate='enter'
                 exit='exit'>
 

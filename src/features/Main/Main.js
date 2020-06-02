@@ -1,5 +1,7 @@
-import React, { useRef, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components/macro'
+
+import { useMount } from 'utils'
 
 import About from 'features/About/About'
 import Nav from 'features/Nav/Nav'
@@ -16,11 +18,7 @@ const StyledMain = styled.main`
 
 const Main = () => {
     // prevent animations on the first render
-    const isFirstRender = useRef(true)
-
-    useEffect(() => {
-        setTimeout(() => isFirstRender.current = false, 50)
-    })
+    const isFirstRender = useMount()
 
     return (
         <StyledMain>
