@@ -1,61 +1,73 @@
-import React, { useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { useSelector, useDispatch } from 'react-redux';
-import { createSelector } from 'reselect';
+import React, { Suspense } from 'react';
+import styled from 'styled-components/macro'
+import { motion } from 'framer-motion';
 
-import { getContentItem, updateContentItem } from 'dataSlice';
-
-import AnimatedContent from './AnimatedContent'
-import ContentEditor from './ContentEditor';
+const ContentEditorWrapper = React.lazy(() => import('./ContentEditorWrapper'))
 
 
-const selectContent = createSelector(
-    state => state.data.content,
-    (_, url) => url,
+// animates the entire content section
+// renders ContentEditorWrapper
 
-    (contentItems, url) => {
-        const items = Object.values(contentItems);
-        return items.find(item => item.url === url)
-    }
+const Content = ({ delayAnimation }) => (
+    <Section 
+        variants={variants}
+        initial='initial'
+        animate='enter'
+        exit='exit'>
+
+        <Suspense fallback=''>
+            <ContentEditorWrapper 
+                delayAnimation={delayAnimation} />
+        </Suspense>
+
+    </Section>
 )
 
 
-const Content = ({ isMount, url, shouldDelayAnimation }) => {
-    const dispatch = useDispatch()
+const Section = styled(motion.section)`
+    width: 63vw;
+    position: absolute;
+    right: 0;
+    height: calc(100% - 50px);
+    top: 25px;
+    background: var(--gray6);
+    box-shadow: 0 0 30px -5px black;
+`;
 
-    const content = useSelector(state => selectContent(state, url));
 
-    // set document title on url change
-    useEffect(() => {
-        if (!content?.name) return
-        document.title = `JScs | ${content.name}`
-    }, [content]);
+const transition = {
+    type: 'spring',
+    stiffness: 120,
+    damping: 12,
+    mass: 0.9,
+}
 
-    // get content item on url change
-    useEffect(() => {
-        if (content) return;
-        dispatch(getContentItem(url))
-    }, [url, content, dispatch])
 
-    return (
-        <AnimatedContent 
-            isShown={url !== '/'}
-            isMount={isMount}>
+const variants = {
+    initial: {
+        scale: .8,
+        right: -800,
+    },
 
-            <AnimatePresence exitBeforeEnter>
-            {content && (
-                <ContentEditor 
-                    // in order to force the component to re-initialize state
-                    // whenever a new content item is selected
-                    // we force it to remount by assigning the key prop
-                    key={content.id}
-                    content={content}
-                    shouldDelayAnimation={shouldDelayAnimation}
-                    updateContent={newValue => dispatch(updateContentItem(newValue))} />
-            )}
-            </AnimatePresence>
-        </AnimatedContent>
-    )
+    exit: {
+        scale: .8,
+        right: -800,
+        transition: {
+            right: { delay: 0.25 },
+        }
+    },
+
+    enter: {
+        scale: 1,
+        right: 0,
+        transition: {
+            right: { delay: 0.1 },
+            scale: { 
+                ...transition,
+                delay: 0.4 
+            }
+        }
+    }
 }
 
 export default Content;

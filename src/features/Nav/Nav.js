@@ -11,7 +11,7 @@ import SectionMenu from 'features/SectionMenu/SectionMenu';
 import SubsectionMenu from 'features/SubsectionMenu/SubsectionMenu';
 
 
-const Nav = ({ activeSection, shouldDelayAnimation }) => {
+const Nav = ({ activeSection, delayAnimation }) => {
     const isAdmin = useSelector(state => state.user?.isAdmin)
 
     // arr of sections and a function to reorder onDrag
@@ -45,7 +45,7 @@ const Nav = ({ activeSection, shouldDelayAnimation }) => {
                     <SubsectionMenu 
                         isAdmin={isAdmin}
                         sectionName={activeSection}
-                        shouldDelayAnimation={shouldDelayAnimation} />
+                        delayAnimation={delayAnimation} />
                 </>
             }
 

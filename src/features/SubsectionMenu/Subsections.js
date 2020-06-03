@@ -8,8 +8,8 @@ const Subsections = ({
     subsecs, 
     reorderSubsecs, 
     saveNewOrder,
-    shouldDelayAnimation }) => {
-
+    delayAnimation 
+}) => {
     const scrollbar = useRef();
 
     // feature menus' heights change as the user toggles open/close
@@ -30,8 +30,7 @@ const Subsections = ({
                         initial='hide'
                         animate='appear'
                         exit='hide'
-                        transition={shouldDelayAnimation ?
-                            { delay: 0.94 } : true }>
+                        transition={delayAnimation ? { delay: 0.94 } : true }>
 
                         {subsecs.map((subsec, i) => (
                             <FeatureMenu i={i}

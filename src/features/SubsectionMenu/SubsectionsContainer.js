@@ -7,7 +7,7 @@ import useSubsections from './useSubsections'
 import Subsections from './Subsections'
 
 
-const SubsectionsContainer = ({ sectionName, isAdmin, shouldDelayAnimation }) => {
+const SubsectionsContainer = ({ sectionName, isAdmin, delayAnimation }) => {
     const dispatch = useDispatch();
 
     // sorted arr of subsecs and a func to change their order onDrag
@@ -32,7 +32,7 @@ const SubsectionsContainer = ({ sectionName, isAdmin, shouldDelayAnimation }) =>
             subsecs={subsecs}
             reorderSubsecs={reorderSubsecs}
             saveNewOrder={saveNewOrder}
-            shouldDelayAnimation={shouldDelayAnimation} />
+            delayAnimation={delayAnimation} />
     )
 }
 

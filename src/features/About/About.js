@@ -1,29 +1,21 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import styled from 'styled-components/macro';
-import { motion, AnimatePresence } from 'framer-motion'
-import { useLocation } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
-import Pages from './Pages'
+const Pages = React.lazy(() => import('./Pages'))
 
 
-const About = ({ isMount }) => {
-    const location = useLocation()
-    const url = location.pathname
+const About = () => (
+    <Section variants={variants}
+        initial='initial'
+        animate='enter'
+        exit='exit'>
 
-    return (
-        <AnimatePresence>
-            {(url === '/') && (
-                <Section variants={variants}
-                    initial={isMount ? false : 'initial'}
-                    animate='enter'
-                    exit='exit'>
-
-                        <Pages />
-                </Section>
-            )}
-        </AnimatePresence>
-    )
-}
+        <Suspense fallback=''>
+            <Pages />
+        </Suspense>
+    </Section>
+)
 
 const Section = styled(motion.section)`
     background: var(--gray6);
@@ -36,14 +28,12 @@ const Section = styled(motion.section)`
     border-radius: 5px;
 `
 
-
 const transition = {
     type: 'spring',
     stiffness: 120,
     damping: 12,
     mass: 0.9,
 }
-
 
 const variants = {
     initial: {
@@ -63,10 +53,10 @@ const variants = {
         scale: 1,
         left: '4vw',
         transition: {
-            delay: 0.61,
+            delay: 0.1,
             scale: { 
                 ...transition,
-                delay: 0.96 
+                delay: 0.4 
             }
         }
 

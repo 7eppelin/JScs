@@ -107,7 +107,7 @@ const StyledFeatures = styled(motion.li)`
     border: 1px solid var(--gray5);
     margin-bottom: 3px;
     box-shadow: ${props => props.isDragging ? 
-        '0 0 35px -5px black' : '0 0 10px -7px black' };
+        '0 0 35px -5px black' : '' };
     transition: background .2s, box-shadow .2s;
 `;
 

@@ -6,7 +6,7 @@ import { usePrevious } from 'utils'
 const SubsectionsContainer = React.lazy(() => import('./SubsectionsContainer'))
 
 
-const SubsectionMenu = ({ sectionName, isAdmin, shouldDelayAnimation }) => {
+const SubsectionMenu = ({ sectionName, isAdmin, delayAnimation }) => {
     const prevSection = usePrevious(sectionName)
 
     // we want to know if we are transitioning 
@@ -21,7 +21,7 @@ const SubsectionMenu = ({ sectionName, isAdmin, shouldDelayAnimation }) => {
                     <SubsectionsContainer
                         sectionName={sectionName}
                         isAdmin={isAdmin}
-                        shouldDelayAnimation={shouldDelayAnimation} />
+                        delayAnimation={delayAnimation} />
                 )}
             </Suspense>
         </Section>

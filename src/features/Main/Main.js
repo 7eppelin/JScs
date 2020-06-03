@@ -1,12 +1,55 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import { AnimatePresence } from 'framer-motion'
 
-import { useRouteMatch } from 'react-router-dom';
-import { useMount, usePrevious } from 'utils'
+import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom';
+import { usePrevious, useMount } from 'utils'
 
-import About from 'features/About/About'
 import Nav from 'features/Nav/Nav'
+import About from 'features/About/About'
 import Content from 'features/Content/Content'
+
+
+const Main = () => {
+    const location = useLocation()
+    const match = useRouteMatch('/:secName?/:subsec?/:feature?')
+    const secName = match.params.secName;
+    const prevSection = usePrevious(secName)
+
+    // if transitioning from the front-page to the content section
+    // delay SubsectionMenu and ContentEditor's animations
+    const isMount = useMount()
+    const delayAnimation = isMount ? false : 
+        secName && !prevSection ? true : false
+
+    // if we'd simply use either url or secName, the top-level animation 
+    // would occur on every url change
+    // whereas we want it to only occur 
+    // on transitions between front-page and content
+    const switchKey = secName ? 'content' : 'about'
+
+    return (
+        <StyledMain>
+
+            <Nav activeSection={secName}
+                delayAnimation={delayAnimation} />
+
+            <AnimatePresence initial={false} exitBeforeEnter>
+                <Switch location={location} key={switchKey}>
+
+                    <Route exact path='/'>
+                        <About />
+                    </Route>
+
+                    <Route path='/:secName'>
+                        <Content delayAnimation={delayAnimation} />
+                    </Route>
+                </Switch>
+            </AnimatePresence>
+
+        </StyledMain>
+    )
+}
 
 
 // height = 100% - header height - footer height
@@ -15,33 +58,5 @@ const StyledMain = styled.main`
     height: calc(100% - 80px - 45px);
     overflow: hidden;
 `;
-
-
-const Main = () => {
-    // prevent animations on mount
-    const isMount = useMount()
-
-    const { params, url } = useRouteMatch('/:secName?/:subsec?/:feature?')
-    const prevSection = usePrevious(params.secName)
-
-    // if transitioning from the front-page to the content section
-    // delay SubsectionMenu and ContentEditor's animations
-    const shouldDelayAnimation = params.secName && !prevSection
-
-    return (
-        <StyledMain>
-
-            <About isMount={isMount} />
-
-            <Nav activeSection={params.secName}
-                shouldDelayAnimation={shouldDelayAnimation} />
-
-            <Content url={url}
-                isMount={isMount}
-                shouldDelayAnimation={shouldDelayAnimation} />
-
-        </StyledMain>
-    )
-}
 
 export default Main;
