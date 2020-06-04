@@ -20,6 +20,7 @@ const About = () => (
 const Section = styled(motion.section)`
     background: var(--gray6);
     padding: 4px;
+    padding-bottom: 10px;
     position: absolute;
     width: 78vw;
     height: calc(100% - 50px);

@@ -11,8 +11,8 @@ const PageTitle = ({ text }) => (
 const Title = styled.h2`
     text-align: center;
     background: var(--gray5);
-    color: var(--white);
-    padding: 35px 0;
+    color: var(--orange2);
+    padding: 60px 0 40px;
 `
 
 export default PageTitle

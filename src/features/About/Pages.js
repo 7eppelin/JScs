@@ -23,6 +23,10 @@ const Pages = () => {
         setActivePage(target)
     }, [activePage])
 
+    const scrollDown = useCallback(() => {
+        scrollPages(activePage + 1)
+    }, [activePage])
+
     return (
         <Div>
             <AnimatePresence exitBeforeEnter>
@@ -34,10 +38,12 @@ const Pages = () => {
                     scrollPages={scrollPages}
                     animationDirection={animationDirection}
                     setAnimationDirection={setAnimationDirection}
-                    wheelRef={wheelRef}
-                    >
+                    wheelRef={wheelRef} >
 
-                    <Page content={content[activePage]} />
+                    <Page content={content[activePage]}
+                        isLastPage={activePage === content.length - 1}
+                        setAnimationDirection={setAnimationDirection}
+                        scrollDown={scrollDown} />
                 </AnimatedPage>
             </AnimatePresence>
 
