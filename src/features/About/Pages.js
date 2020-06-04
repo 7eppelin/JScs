@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { AnimatePresence } from 'framer-motion'
 
-import content from './content.js'
+import content from './content/'
 import { useMount } from 'utils'
 
 import AnimatedPage from './AnimatedPage'
@@ -48,7 +48,7 @@ const Pages = () => {
             </AnimatePresence>
 
             <PagesNav 
-                pages={content.map((item, i) => i)}
+                pages={content.map(item => item.title)}
                 scrollPages={scrollPages}
                 activePage={activePage}
                 setAnimationDirection={setAnimationDirection}

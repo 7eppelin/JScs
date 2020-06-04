@@ -43,7 +43,7 @@ const PageContent = ({
 )
 
 const Div = styled.div`
-    padding: 40px 15% 70px;
+    padding: 40px 15% 100px;
     min-height: calc(100% - 136px);
     position: relative;
 

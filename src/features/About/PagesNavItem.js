@@ -1,20 +1,31 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { motion } from 'framer-motion'
 
+import Tooltip from 'components/Tooltip'
 
-const PagesNavItem = ({ handleClick, handleMouseDown, isActive }) => (
-    <Button 
-        isActive={isActive}
-        onMouseDown={handleMouseDown}
-        onClick={handleClick}>
+const PagesNavItem = ({ 
+    isActive,
+    tooltip,
+    handleClick, 
+    handleMouseDown 
+}) => (
+    <Tooltip tip={tooltip} 
+        position='left'
+        offset={13} >
 
-        <div />
-    </Button>
+        <Button 
+            isActive={isActive}
+            onMouseDown={handleMouseDown}
+            onClick={handleClick}>
+
+            <div />
+        </Button>
+
+    </Tooltip>
 )
 
 
-const Button = styled(motion.button)`
+const Button = styled.button`
     position: relative;
     z-index: 5;
     width: 16px;

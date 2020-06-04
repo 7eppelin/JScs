@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { AnimatePresence } from 'framer-motion'
 
 import PagesNavItem from './PagesNavItem'
 import PagesNavWheel from './PagesNavWheel'
@@ -19,13 +18,14 @@ const PagesNav = ({
 
         <PagesNavWheel ref={wheelRef} />
 
-        {pages.map(page => (
+        {pages.map((page, i) => (
             <PagesNavItem key={page}
-                isActive={activePage === page}
-                handleClick={() => scrollPages(page)}
+                tooltip={page}
+                isActive={activePage === i}
+                handleClick={() => scrollPages(i)}
                 handleMouseDown={() => {
-                    if (page > activePage) setAnimationDirection('up')
-                    if (page < activePage) setAnimationDirection('down')
+                    if (i > activePage) setAnimationDirection('up')
+                    if (i < activePage) setAnimationDirection('down')
                 }} />
         ))}
         <div className='passive-line' />
