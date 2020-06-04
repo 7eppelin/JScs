@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import Icon from 'components/Icon'
 import Intro from './PageElements/Intro'
+import Heading from './PageElements/Heading'
 import Paragraph from './PageElements/Paragraph'
 import List from './PageElements/List'
+
+import Icon from 'components/Icon'
 
 const PageContent = ({ 
     data, 
@@ -17,6 +19,9 @@ const PageContent = ({
             switch (item.type) {
                 case 'intro':
                     return <Intro key={i} elem={item} />
+
+                case 'heading':
+                    return <Heading key={i} text={item.text} />
 
                 case 'paragraph':
                     return <Paragraph key={i} elem={item} />

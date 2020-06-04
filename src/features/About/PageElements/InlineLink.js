@@ -36,18 +36,16 @@ const Link = styled.a`
         position: absolute;
         height: 1px;
         background: var(--orange2);
-        opacity: 0;
-        bottom: -6px;
-        left: 0;
-        right: 0;
+        bottom: 2px;
+        left: 18%;
+        right: 22%;
         transition: .2s;
     }
 
     &:hover:after {
-        opacity: 1;
         bottom: 0px;
-        left: 18%;
-        right: 18%;
+        left: 5%;
+        right: 9%;
     }
 `
 

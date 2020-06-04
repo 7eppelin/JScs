@@ -9,23 +9,28 @@ const page1 = {
         text: [
             "Hey! I`m Pyotr and this is my personal project - ", 
             {type: "strong", text: "JScs! "},
-            "The soursce code of the app is available on ",
+            "The source code of the app is available on ",
             {type: "link", text: "GitHub", href: "https://github.com/7eppelin/JScs/"},
         ]
     }, {
+        type: "heading",
+        text: "The app"
+    }, {
         type: 'paragraph',
         text: [
-            "I figured that i need a portfolio project and came up with the idea of creating ",
+            "I'm not-even-a-junior-yet front-end developer, ",
+            "and I figured that I need a portfolio project, ",
+            "and came up with the idea of creating ",
             {text: "a JavaScript cheat sheet. ", type: "strong"},
             "I pursued three goals:"]
     }, {
         type: 'list',
         items: [
-            "To have a decent portfolio project;",
+            "To have a fairly decent portfolio project;",
 
             ["To keep practicing with the technologies that ",
-            "i had already started to learn and to learn some new ones. ",
-            "I had some practice with ",
+            "i had already started to learn, and learn some new ones. ",
+            "I had little experience with ",
             {text: "HTML", type: "strong"}, 
             ", ",
             {text: "CSS", type: "strong"},
@@ -45,7 +50,7 @@ const page1 = {
         text: [
             "The idea was to create ", 
             {text: "a cheat sheet app", type: "strong"},
-            ", where the user could quickly recall ",
+            ", where the user (probably, just myself) could quickly recall ",
             "the API that he already knows, but has forgotten some detals. ",
             "All JS and JS-related frameworks' APIs in one place."
         ]
@@ -62,7 +67,9 @@ const page2 = {
         type: "intro",
         icon: "react",
         text: [
-            "front-end"
+            "The main technology this app is built with, is ",
+            {type: "link", text: "React", href: "reactjs.org"},
+            "."
         ]
     },]
 }
