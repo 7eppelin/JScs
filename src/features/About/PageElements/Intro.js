@@ -15,7 +15,7 @@ const Intro = ({ elem }) => (
 
 const Div = styled.div`
     width: 70%;
-    margin: 16px auto 35px;
+    margin: 16px auto 40px;
     padding: 25px 35px;
     text-align: center;
     border: 1px solid var(--gray4);

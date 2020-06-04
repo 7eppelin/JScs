@@ -8,6 +8,7 @@ const Heading = ({ text }) => (
 
 const H2 = styled.h2`
     color: var(--white);
+    padding-top: 15px;
     font-size: 2rem;
     text-align: center;
 `;

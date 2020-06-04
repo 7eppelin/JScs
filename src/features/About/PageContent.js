@@ -43,7 +43,9 @@ const PageContent = ({
 )
 
 const Div = styled.div`
-    padding: 40px 15%;
+    padding: 40px 15% 70px;
+    min-height: calc(100% - 136px);
+    position: relative;
 
     strong {
         font-weight: 500;
@@ -63,6 +65,10 @@ const Button = styled.button`
     display: block;
     margin: 40px auto 0;
     width: 60px;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 0);
     transition: .25s;
 
     &:focus { outline: none }
@@ -73,7 +79,7 @@ const Button = styled.button`
     }
 
     &:hover {
-        transform: translateY(5px)
+        transform: translate(-50%, 5px)
     }
 
     &:hover path {

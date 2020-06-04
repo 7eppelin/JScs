@@ -59,24 +59,116 @@ const page1 = {
 
 
 
+///////////////////////////////////////////
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
 const page2 = {
 
-    title: "Front-End",
+    title: "The UI",
 
     body: [{
         type: "intro",
         icon: "react",
         text: [
-            "The main technology this app is built with, is ",
-            {type: "link", text: "React", href: "reactjs.org"},
+            "The main technology with which this application is written is ",
+            {type: "link", text: "React", href: "https://reactjs.org/"},
             "."
         ]
-    },]
+///////////////////////////////////////////////////////////////////////////////
+    }, {
+
+        type: "paragraph",
+        text: [
+            "Back in the day when i decided to create this app, ",
+            "I had little experience with ",
+            {type: "strong", text: "React"}, 
+            " and ",
+            {type: "strong", text: "Redux"},
+            " - just a small ",
+            {type: 'link', text: 'todo app', href: "https://veryoriginaltodoapp.github.io/"},
+            ". ",
+        ]
+///////////////////////////////////////////////////////////////////////////////
+    }, {
+
+        type: "heading",
+        text: "React"
+    }, {
+
+        type: "paragraph",
+        text: [
+            " Back then, I had mainly been writing ",
+            {type: "strong", text: "class components"},
+            " on ",
+            {type: "strong", text: "React"},
+            ". Just like everyone, i suppose. ",
+            "But not so long ago, React ",
+            {type: "strong", text: "hooks"},
+            " were released, and I decided to challenge myself: ",
+            "I wanted to try to write the entire app without writing ",
+            "a single class component. ",
+            "And there are currently no class components in the app."
+        ]
+///////////////////////////////////////////////////////////////////////////////
+    }, {
+
+        type: "heading",
+        text: "Animations"
+    }, {
+
+        type: 'paragraph',
+        text: [
+            "There are plenly of animation libraries for ",
+            {type: "strong", text: "React"},
+            ". I've red a number of discussions on Reddit and articles on Medium, ",
+            "and decided to try ",
+            {type: 'link', text: "framer-motion", href: "https://www.framer.com/motion/"},
+            ". "
+        ]
+    }]
 }
 
 
 
+///////////////////////////////////////////
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
 const page3 = {
+
+    title: "The state",
+
+    body: [{
+
+        type: 'paragraph',
+        text: [
+            "I decide to manage the state  ",
+            "I already had some experience with ",
+            {type: "strong", text: "Redux"},
+            ", and wanted to learn something new, so I decided to try ",
+            {type: "link", text: "Redux-Toolkit", href: "https://redux-toolkit.js.org/"},
+            ". Except for the Redux itself, ",
+            {type: "strong", text: "redux-thunk"},
+            " and ",
+            {type: "strong", text: "reselect"},
+            " are also included there.",
+            " It uses the ",
+            {type: "link", text: "immer", href: "https://github.com/immerjs/immer"},
+            " library internally, which lets us write immutable updates with mutative code. "
+        ]
+    }]
+}
+
+
+///////////////////////////////////////////
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
+const page4 = {
 
     "title": "The data",
 
@@ -95,4 +187,9 @@ const page3 = {
 }
 
 
-export default [ page1, page2, page3 ]
+export default [ 
+    //page1, 
+    page2, 
+    page3,
+    page4
+]
