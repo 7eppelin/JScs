@@ -22,7 +22,10 @@ const PagesNav = ({
             <PagesNavItem key={page}
                 tooltip={page}
                 isActive={activePage === i}
-                handleClick={() => scrollPages(i)}
+                handleClick={() => {
+                    scrollPages(i)
+                    wheelRef.current.spin(0)
+                }}
                 handleMouseDown={() => {
                     if (i > activePage) setAnimationDirection('up')
                     if (i < activePage) setAnimationDirection('down')
