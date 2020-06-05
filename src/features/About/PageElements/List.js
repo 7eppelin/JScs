@@ -17,6 +17,7 @@ const List = ({ elem }) => (
 const Ul = styled.ul`
     font-size: 1.45rem;
     padding-left: 25px;
+    margin-bottom: 25px;
 
     li {
         list-style: disc;

@@ -8,10 +8,10 @@ import tools from './tools'
 
 
 export default [
-    //jscs,
-    //ui,
-    //state,
-    //backend,
+    jscs,
+    ui,
+    state,
+    backend,
     editor,
     tools
 ]
