@@ -54,6 +54,7 @@ const backend = {
             {type: "strong", text: "database"},
             " directly from the app's interface:"
         ]
+///////////////////////////////////////////////////////////////////////////////
     }, {
         type: "list",
         items: [[
@@ -70,6 +71,7 @@ const backend = {
             "."
             ]
         ]
+///////////////////////////////////////////////////////////////////////////////
     }, {
         type: "paragraph",
         text: [
