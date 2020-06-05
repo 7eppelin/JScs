@@ -1,9 +1,6 @@
 import React from 'react'
 
 import InlineLink from './InlineLink'
-import Tooltip from 'components/Tooltip'
-
-
 
 // the text arg can either be a string or an array
 
@@ -13,9 +10,9 @@ import Tooltip from 'components/Tooltip'
 //          type: "strong", 
 //          text: "Or an object" 
 //     }, { 
-//          type: "tooltip", 
-//          text: "text to display a tooltip over", 
-//          tip: "tooltip text"
+//          type: "link", 
+//          text: "text", 
+//          href: "url"
 //     }
 // ]
 
@@ -40,15 +37,6 @@ const parseText = text => {
                 return <InlineLink key={item.text} 
                             text={item.text} 
                             href={item.href} />
-            
-            case 'tooltip':
-                return (
-                    <Tooltip tip={item.tip} offset={10}>
-                        <span className='tip'>
-                            {item.text}
-                        </span>
-                    </Tooltip>
-                )
             
             default:
                 return item.text
