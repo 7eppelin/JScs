@@ -1,39 +1,33 @@
 import React, { Suspense } from 'react';
-import styled from 'styled-components/macro'
-import { motion } from 'framer-motion';
+import styled from 'styled-components/macro';
+import { motion } from 'framer-motion'
 
-const ContentEditorWrapper = React.lazy(() => import('./ContentEditorWrapper'))
+const Pages = React.lazy(() => import('./Pages'))
 
 
-// animates the entire content section
-// renders ContentEditorWrapper
-
-const Content = ({ delayAnimation }) => (
-    <Section 
-        variants={variants}
+const About = () => (
+    <Section variants={variants}
         initial='initial'
         animate='enter'
         exit='exit'>
 
         <Suspense fallback=''>
-            <ContentEditorWrapper 
-                delayAnimation={delayAnimation} />
+            <Pages />
         </Suspense>
-
     </Section>
 )
 
-
 const Section = styled(motion.section)`
-    width: 63vw;
+    background: var(--gray6);
+    padding: 4px;
+    padding-bottom: 10px;
     position: absolute;
-    right: 0;
+    width: 78vw;
     height: calc(100% - 50px);
     top: 25px;
-    background: var(--gray6);
     box-shadow: 0 0 30px -5px black;
-`;
-
+    border-radius: 5px;
+`
 
 const transition = {
     type: 'spring',
@@ -42,32 +36,32 @@ const transition = {
     mass: 0.9,
 }
 
-
 const variants = {
     initial: {
         scale: .8,
-        right: -800,
+        left: '-100vw',
     },
 
     exit: {
         scale: .8,
-        right: -800,
+        left: '-100vw',
         transition: {
-            right: { delay: 0.25 },
+            left: { delay: 0.25 },
         }
     },
 
     enter: {
         scale: 1,
-        right: 0,
+        left: '4vw',
         transition: {
-            right: { delay: 0.1 },
+            delay: 0.1,
             scale: { 
                 ...transition,
                 delay: 0.4 
             }
         }
+
     }
 }
 
-export default Content;
+export default About

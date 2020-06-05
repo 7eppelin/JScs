@@ -2,10 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
-const elem = {
-    shown: { opacity: 1 },
-    hidden: { opacity: 0 }
-}
+import variants from './variants'
 
 
 const Code = styled(motion.pre)`
@@ -16,8 +13,14 @@ const Code = styled(motion.pre)`
 `;
 
 const CodeElement = ({ attributes, children }) => (
-    <Code className='language-js scrollbar' variants={elem}>
-        <code {...attributes}>{children}</code>
+    <Code 
+        className='language-js scrollbar' 
+        variants={variants}
+        {...attributes}>
+
+        <code>
+            {children}
+        </code>
     </Code>
 )
 

@@ -73,8 +73,10 @@ const SectionLink = ({
             }}
         >
 
-            <NavLink to={`/${label}`} activeClassName='active'>
-                {label}
+            <NavLink draggable={false} 
+                to={`/${label}`} 
+                activeClassName='active'>
+                    {label}
             </NavLink>
 
         </StyledLink>

@@ -1,70 +1,57 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { getSections, reorderSections } from 'dataSlice';
-import { updateSectionsOrderInDB, arrayMove } from 'utils';
+import { updateSectionsOrderInDB } from 'utils';
 
 import Spinner from 'components/Spinner';
 import SectionLink from './SectionLink';
 
 
-const SectionMenu = () => {
-    const dispatch = useDispatch();
-
-    // object of sections { id: {section}, ... }
-    const sections = useSelector(state => state.data.sections.byID);
-
-    // array of sections' ids that is responsible 
-    // for order in which items will appear in the menu
-    const ids = useSelector(state => state.data.sections.ids);
-
-    const isAdmin = useSelector(state => state.user?.isAdmin)
-
+const SectionMenu = ({ 
+    isAdmin, 
+    prevSection,
+    sections, 
+    reorderSections 
+}) => {
     const scrollbar = useRef();
     const ul = useRef();
 
-    useEffect(() => {
-        dispatch(getSections());
-    }, [])
-
-    if (!ids.length) return <StyledMenu><Spinner /></StyledMenu>
-
-
-    // this function will be invoked
-    // every time the dragged elem was moved 
-    // by more than 32px up or down
-    const moveItem = (current, target) => {
-        const newOrder = arrayMove(ids, current, target)
-        dispatch(reorderSections(newOrder)) 
-    }
-
-
     // invoked onDragEnd
-    const updateDB = () => {
+    const updateDB = useCallback(() => {
+        const ids = sections.map(sec => sec.id)
         if (isAdmin) updateSectionsOrderInDB(ids)
-    }
+    }, [isAdmin, sections])
 
+    // if this is the first render of the app
+    // (otherwise sections would've been fetched before)
+    // the About section is being rendered
+    // (otherwise prevSection would've had a string value)
+    if (!sections && !prevSection) return (
+        <StyledMenu>
+            <Spinner size={75} />
+        </StyledMenu>
+    )
 
     return (
         <StyledMenu>
             <motion.div className='scrollbar'
                 ref={scrollbar}
                 variants={list} 
+                inherit={false}
                 initial='hidden' 
                 animate='visible'>
 
                 <ul ref={ul} >
 
-                    {ids.map((id, i) => (
-                        <SectionLink key={id} 
-                            label={sections[id].name}
+                    {sections.map((sec, i) => (
+                        <SectionLink key={sec.id} 
+                            label={sec.name}
                             i={i}
                             scrollbar={scrollbar}
                             ul={ul}
                             updateDB={updateDB}
-                            moveItem={moveItem}
+                            moveItem={reorderSections}
                         />
                     ))}
 
@@ -79,7 +66,7 @@ const SectionMenu = () => {
 const StyledMenu = styled.section`
     position: relative;
     background: var(--gray6);
-    flex-basis: 160px;
+    width: 15vw;
     padding: 5px 2px 5px 8px;
 
     .scrollbar {
@@ -104,7 +91,6 @@ const list = {
         opacity: 1,
         scale: 1,
         transition: { 
-            // duration: 0.3,
             when: 'beforeChildren',
             staggerChildren: 0.08,
         },

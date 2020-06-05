@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
+import variants from './../variants'
 import { setLinks } from '../../editor';
 import { useEditor, useReadOnly } from 'slate-react';
 
@@ -26,7 +27,7 @@ const Links = ({ element, attributes, children }) => {
 
     return (
         <LinksContainer 
-            variants={elem} 
+            variants={variants} 
             contentEditable={false}
             {...attributes} >
 
@@ -57,10 +58,5 @@ const LinksContainer = styled(motion.div)`
     margin-bottom: 25px;
     box-shadow: 0 2px 12px -4px black;
 `;
-
-const elem = {
-    shown: { opacity: 1 },
-    hidden: { opacity: 0 }
-}
 
 export default Links

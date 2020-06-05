@@ -6,6 +6,7 @@ import Icon from 'components/Icon'
 
 const AddButton = ({ handleClick, readOnly }) => (
     <Button variants={button}
+        initial='hidden'
         animate={readOnly ? 'hidden' : 'shown'}
         onClick={handleClick}
         >

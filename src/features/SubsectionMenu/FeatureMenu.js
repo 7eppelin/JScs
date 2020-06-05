@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { motion, useMotionValue, useDragControls } from 'framer-motion'
 import { scroll } from 'utils'
@@ -13,9 +13,9 @@ const FeatureMenu = ({
     i, 
     heights, 
     subsection, 
-    moveSubsection,
+    reorderSubsecs,
     scrollbar,
-    updateOrderInDB
+    saveNewOrder
 }) => {
     const [ featuresOpen, setFeaturesOpen ] = useState(false)
     const [ isDragging, setDragging ] = useState(false)
@@ -44,13 +44,13 @@ const FeatureMenu = ({
         const next = nextHeight / 2 + 8
         const prev = prevHeight / 2 + 8
 
-        if (dragged > next) moveSubsection(i, i + 1)
-        if (dragged < -prev) moveSubsection(i, i - 1)
+        if (dragged > next) reorderSubsecs(i, i + 1)
+        if (dragged < -prev) reorderSubsecs(i, i - 1)
 
         // scroll when dragging
         scroll(scrollbar.current, info.delta.y, dragOriginY)
 
-    }, [ i, moveSubsection ])
+    }, [ i, reorderSubsecs ])
 
     return (
         <StyledFeatures drag='y'
@@ -71,7 +71,7 @@ const FeatureMenu = ({
             onDragStart={() => setDragging(true)}
             onDragEnd={() => {
                 setDragging(false)
-                updateOrderInDB()
+                saveNewOrder()
             }}
             
             positionTransition={({ delta }) => {
@@ -107,7 +107,7 @@ const StyledFeatures = styled(motion.li)`
     border: 1px solid var(--gray5);
     margin-bottom: 3px;
     box-shadow: ${props => props.isDragging ? 
-        '0 0 35px -5px black' : '0 0 10px -7px black' };
+        '0 0 35px -5px black' : '' };
     transition: background .2s, box-shadow .2s;
 `;
 
