@@ -13,6 +13,8 @@ const FeatureItem = ({
     const [ isDragging, setDragging ] = useState(false)
     const dragOriginY = useMotionValue(0);
 
+    const [ dragged, setDragged ] = useState(false)
+
     const { name, sectionName, subsectionName } = feature;
 
     return (
@@ -32,6 +34,11 @@ const FeatureItem = ({
 
             onDragStart={() => setDragging(true)}
             onDragEnd={() => {
+                // prevent url transitions after drag end
+                // see NavLink's onClick below
+                setDragged(true)
+                setTimeout(() => setDragged(false), 50)
+
                 setDragging(false)
                 updateOrderInDB()
             }}
@@ -44,7 +51,10 @@ const FeatureItem = ({
             }} >
 
             <NavLink activeClassName='active'
-                to={`/${sectionName}/${subsectionName}/${name}`} >
+                to={`/${sectionName}/${subsectionName}/${name}`}
+                onClick={e => {
+                    if (dragged) e.preventDefault()
+                }} >
                     {name}
             </NavLink>
         </StyledItem>

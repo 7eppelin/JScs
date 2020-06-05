@@ -21,6 +21,9 @@ const FeatureMenu = ({
     const [ isDragging, setDragging ] = useState(false)
     const dragOriginY = useMotionValue(0)
 
+    // set dragged onDragEnd
+    const [ dragged, setDragged ] = useState(false)
+
     const { name, id, sectionName, children: featuresIDs } = subsection
 
     // set the item's current height, so the siblings can know it
@@ -70,6 +73,11 @@ const FeatureMenu = ({
             onDrag={onDrag}
             onDragStart={() => setDragging(true)}
             onDragEnd={() => {
+                // prevent url redirections onDragEnd
+                // see SubsectionLink onClick
+                setDragged(true)
+                setTimeout(() => setDragged(false), 50)
+
                 setDragging(false)
                 updateOrderInDB()
             }}
@@ -82,6 +90,9 @@ const FeatureMenu = ({
             }} >
 
             <SubsectionLink 
+                onClick={e => {
+                    if (dragged) e.preventDefault()
+                }}
                 withToggler={featuresIDs.length > 0}
                 to={`/${sectionName}/${name}`}
                 label={name}

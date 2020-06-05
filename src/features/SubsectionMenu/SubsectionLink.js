@@ -9,6 +9,7 @@ import Icon from 'components/Icon'
 const SubsectionLink = ({ 
     to, 
     label, 
+    onClick,
     withToggler, 
     featuresOpen, 
     toggleFeatures,
@@ -20,6 +21,7 @@ const SubsectionLink = ({
 
             <NavLink to={to} 
                 activeClassName='active'
+                onClick={onClick}
                 onMouseDown={startDrag}>
                 {label}
             </NavLink>
