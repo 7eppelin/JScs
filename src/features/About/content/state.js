@@ -50,7 +50,7 @@ const state = {
             {type: "strong", text: "Redux"},
             " , and wanted to go further, so i decided to try ",
             {type: "strong", text: "Redux-Toolkit"},
-            ". The code you end up writing differs significantly compared to the regular ",
+            ". The code you end up writing differs compared to the normal ",
             {type: "strong", text: "Redux"},
             " approach. Here are some of the benefits the ", 
             {type: "strong", text: "toolkit"},

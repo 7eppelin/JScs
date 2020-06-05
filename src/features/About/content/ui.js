@@ -45,7 +45,7 @@ const ui = {
             " were released, and I decided to challenge myself: ",
             "I wanted to try to write the entire app without writing ",
             "a single class component. ",
-            "And there are currently no class components in the app."
+            "There are currently no class components in the app."
         ]
 ///////////////////////////////////////////////////////////////////////////////
     }, {
