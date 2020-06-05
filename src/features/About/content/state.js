@@ -50,31 +50,33 @@ const state = {
             {type: "strong", text: "Redux"},
             " , and wanted to go further, so i decided to try ",
             {type: "strong", text: "Redux-Toolkit"},
-            ":"
+            ". The code you end up writing differs significantly compared to the regular ",
+            {type: "strong", text: "Redux"},
+            " approach. Here are some of the benefits the ", 
+            {type: "strong", text: "toolkit"},
+            " offers:"
         ]
 ///////////////////////////////////////////////////////////////////////////////
     }, {
         type: 'list',
-        items: [[
-            "Reduces the amount of boilerplate code ",
-            {type: "strong", text: "Redux"},
-            " normally requires"
-            ], [
+        items: [
+            "Reduced amount of boilerplate code ", 
 
+            [
             "Besides the ",
             {type: "strong", text: "Redux"},
-            " itself, has some commonly used libraries, such as ",
+            " itself, some commonly used libraries, such as ",
             {type: "link", text: "redux-thunk", href: "https://github.com/reduxjs/redux-thunk"},
             " and ",
             {type: "link", text: "reselect", href: "https://github.com/reduxjs/reselect"},
-            " included by default."
+            " are included by default."
 
             ], [
 
-            "Uses the ",
+            "The ",
             {type: "link", text: "immer", href: "https://github.com/immerjs/immer"},
-            " library internally, that lets you to apply immubable updates to the state ",
-            "by writing simple mutable code."
+            " library, that lets you to apply immubable updates to the state ",
+            "by writing simple mutable code, is used internally."
             ]
         ]
     }]
