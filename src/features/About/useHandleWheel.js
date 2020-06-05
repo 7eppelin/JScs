@@ -14,10 +14,7 @@ const useHandleWheel = (
     const counter = useRef(0)
 
     // should we scroll to the next page?
-    const shouldScrollDown = e => {
-
-        // if the user is not scrolling down, false
-        if (e.deltaY < 0) return false
+    const shouldScrollDown = () => {
         // if this is the last page, false
         if (activePage === lastPage) return false
 
@@ -32,8 +29,6 @@ const useHandleWheel = (
 
     // scroll to the next page
     const scrollDown = () => {
-        // reset the counter if needed and increment it
-        if (counter.current < 0) counter.current = 0
         ++counter.current
 
         // spin the wheel. See ./PagesNav & ./PagesNavWheel
@@ -49,23 +44,21 @@ const useHandleWheel = (
     }
 
     // should we scroll to the prev page?
-    const shouldScrollUp = e => {
+    const shouldScrollUp = () => {
         const progress = scroll.scrollYProgress.current
 
         // if at the start of the current page and
         // scrolling up and this is not the first page
-        if (progress === 0 
-            && e.deltaY < 0 
-            && activePage !== 0
-        ) { return true }
+        if (progress === 0 && activePage !== 0) { 
+            return true 
+        }
 
         return false
     }
 
     // scroll to the prev page
     const scrollUp = () => {
-        // reset the counter if needed and decrement it
-        if (counter.current > 0) counter.current = 0
+
         --counter.current
 
         // spin the wheel (arg should be positive)
@@ -82,13 +75,23 @@ const useHandleWheel = (
 
 
     const handleWheel = e => {
-        if (shouldScrollUp(e)) {
-            scrollUp()
+        // if the user scrolls down 
+        if (e.deltaY > 0) {
+            if (counter.current < 0) {
+                counter.current = 0
+                wheel.current.spin(0)
+            }
+            if (shouldScrollDown()) scrollDown()
             return
         }
-        if (shouldScrollDown(e)) {
-            scrollDown()
-        }
+        // if the user scrolls up
+        if (e.deltaY < 0) {
+            if (counter.current > 0) {
+                counter.current = 0
+                wheel.current.spin(0)
+            }
+            if (shouldScrollUp()) scrollUp()
+        } 
     }
 
     return handleWheel
