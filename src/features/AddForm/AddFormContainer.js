@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 
-
 import AddFormToggler from './AddFormToggler.js';
 import AnimatedAddForm from './AnimatedAddForm.js';
-
-const AddForm = React.lazy(() => import('./AddForm'))
 
 
 const AddFormContainer = () => {

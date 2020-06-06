@@ -23,7 +23,7 @@ const AnimatedAddForm = ({ isOpen, hide }) => (
 
 const StyledDiv = styled(motion.div)`
     position: absolute;
-    left: -125px;
+    left: -115px;
     top: 75px;
     z-index: 1000;
     background: var(--gray6);

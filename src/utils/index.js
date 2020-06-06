@@ -11,8 +11,10 @@ export {
 
 export { 
     usePrevious,
-    useMount 
+    useMount,
+    useOnClickOutside,
 } from './hooks'
+
 
 
 

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Icon from 'components/Icon'
 
 
-const PagesNavWheel = React.forwardRef(({}, ref) => {
+const PagesNavWheel = React.forwardRef((props, ref) => {
 
     const [count, setCount] = useState(0)
 

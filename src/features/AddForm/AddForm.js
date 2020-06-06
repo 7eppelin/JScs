@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import StyledAddForm from './StyledAddForm';
 import { createItem, deleteItem } from 'dataSlice';
+import { useOnClickOutside } from 'utils'
+
+import StyledAddForm from './StyledAddForm';
 
 
 const AddForm = ({ hide }) => {
 
+    const formRef = useRef()
     const dispatch = useDispatch();
     const status = useSelector(state => state.addFormStatus);
     const [inputValue, setinputValue] = useState('');
 
     // hide the form on click outside
-    useEffect(() => {
-        const hideForm = e => {
-            if (!e.target.closest('.AddForm')) hide()
-        };
-
-        document.addEventListener('click', hideForm);
-        return () => document.removeEventListener('click', hideForm);
-    }, [])
+    useOnClickOutside(formRef, hide)
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -28,7 +24,8 @@ const AddForm = ({ hide }) => {
 
     return (
         <StyledAddForm className='AddForm'
-                onSubmit={handleSubmit} >
+                onSubmit={handleSubmit}
+                ref={formRef} >
 
             <h3>ADD OR DELETE AN ITEM</h3>
 
