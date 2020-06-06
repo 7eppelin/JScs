@@ -5,13 +5,20 @@ import { createItem, deleteItem } from 'dataSlice';
 import { useOnClickOutside } from 'utils'
 
 import StyledAddForm from './StyledAddForm';
+import FormStatus from './FormStatus'
 
 
 const AddForm = ({ hide }) => {
 
     const formRef = useRef()
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+
     const status = useSelector(state => state.addFormStatus);
+    // const [status, setStatus] = useState({
+    //     type: 'success',
+    //     message: 'Specify sectionName/subsecName/featureName of the item'
+    // })
+
     const [inputValue, setinputValue] = useState('');
 
     // hide the form on click outside
@@ -33,9 +40,7 @@ const AddForm = ({ hide }) => {
                 placeholder='section/subsection/feature'
                 onChange={e => setinputValue(e.target.value)} />
 
-            <div className={status.type === 'error' ? 'error' : ''} >
-                {status.message}
-            </div>
+            <FormStatus status={status} />
 
             <button>
                 CREATE

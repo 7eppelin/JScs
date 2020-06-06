@@ -34,18 +34,6 @@ const StyledAddForm = styled.form`
         outline-offset: 0px;
     }
 
-    div {
-        margin: 10px auto;
-        height: 60px;
-        width: 80%;
-        line-height: 1.3;
-        color: var(--green);
-    }
-
-    div.error {
-        color: var(--red);
-    }
-
     button {
         outline: none;
         font-size: 1.1rem;
