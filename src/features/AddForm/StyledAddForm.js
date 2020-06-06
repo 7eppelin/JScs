@@ -9,15 +9,16 @@ const StyledAddForm = styled.form`
     h3 {
         font-weight: normal;
         color: var(--orange1);
-        margin: 30px;
-        font-size: 1.2rem;
+        margin: 33px;
+        font-size: 1.3rem;
     }
 
     input {
         background-color: var(--gray5);
-        color: var(--white);
+        font-size: 1.5rem;
+        color: var(--gray1);
         box-shadow: inset 0 0 12px -1px var(--black);
-        padding: 10px 15px;
+        padding: 12px 15px;
         border: 1px solid var(--gray5);
         width: 90%;
         margin: 0 auto;
@@ -35,7 +36,7 @@ const StyledAddForm = styled.form`
 
     div {
         margin: 10px auto;
-        height: 44px;
+        height: 60px;
         width: 80%;
         line-height: 1.3;
         color: var(--green);
@@ -49,7 +50,7 @@ const StyledAddForm = styled.form`
         outline: none;
         font-size: 1.1rem;
         display: inline-block;
-        padding: 10px;
+        padding: 15px;
         width: 50%;
         text-align: center;
         background-color: var(--gray5);

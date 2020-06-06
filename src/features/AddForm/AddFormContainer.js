@@ -6,7 +6,7 @@ import AnimatedAddForm from './AnimatedAddForm.js';
 
 
 const AddFormContainer = () => {
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState(true);
 
     return (
         <Container>

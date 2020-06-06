@@ -11,7 +11,7 @@ const AnimatedAddForm = ({ isOpen, hide }) => (
                         initial='hidden'
                         exit='hidden'
                         animate='open'
-                        transition={{ duration: .2 }}>
+                        transition={{ duration: .25 }}>
 
                     <Suspense fallback=''>
                     <AddForm hide={hide} />
@@ -28,7 +28,7 @@ const StyledDiv = styled(motion.div)`
     z-index: 1000;
     background: var(--gray6);
     border: 1px solid var(--gray5);
-    width: 320px;
+    width: 340px;
     height: 250px;
     box-shadow: 0 2px 20px -2px black;
 `;
