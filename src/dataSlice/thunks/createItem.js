@@ -9,6 +9,9 @@ import { addSections, addNewSubsection, addNewFeature } from 'dataSlice'
 export const createItem = name => async dispatch => {
 
     try {   
+
+        dispatch(setStatus({ type: 'pending' }))
+        
         // the name arg is AddForm's input value
         // the format is sectionName/subsectionName/featureName
         const [secName, subsecName, featureName] = name.split('/');

@@ -14,10 +14,6 @@ const AddForm = ({ hide }) => {
     const dispatch = useDispatch()
 
     const status = useSelector(state => state.addFormStatus);
-    // const [status, setStatus] = useState({
-    //     type: 'success',
-    //     message: 'Specify sectionName/subsecName/featureName of the item'
-    // })
 
     const [inputValue, setinputValue] = useState('');
 

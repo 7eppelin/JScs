@@ -10,6 +10,9 @@ import { removeSection, removeSubsection, removeFeature } from 'dataSlice'
 export const deleteItem = name => async dispatch => {
     
     try {
+        
+        dispatch(setStatus({ type: 'pending' }))
+
         const [ secName, subsecName, featureName ] = name.split('/');
 
         if (featureName) {
