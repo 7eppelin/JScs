@@ -2,11 +2,6 @@ import styled from 'styled-components/macro';
 
 
 const StyledAddForm = styled.form`
-    background-color: var(--gray6);
-    background-size: 20px 20px;
-    width: 280px;
-    border: 1px solid var(--gray5);
-    box-shadow: 0 2px 15px -1px var(--black);
     color: var(--white);
     font-size: 1.2rem;
     text-align: center;

@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 
+
 import AddFormToggler from './AddFormToggler.js';
-import AnimateAddForm from './AnimateAddForm.js';
+import AnimatedAddForm from './AnimatedAddForm.js';
+
+const AddForm = React.lazy(() => import('./AddForm'))
 
 
 const AddFormContainer = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setOpen] = useState(false);
 
     return (
         <Container>
-            <AddFormToggler toggle={setIsOpen} isToggled={isOpen} />
-            <AnimateAddForm isOpen={isOpen} hide={() => setIsOpen(false)} />
+            <AddFormToggler toggle={setOpen} isToggled={isOpen} />
+            <AnimatedAddForm isOpen={isOpen}
+                hide={() => setOpen(false)} />
         </Container>
     )
 }
