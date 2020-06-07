@@ -2,11 +2,15 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import parseMessage from './parseStatusMessage'
+
 
 const FormStatus = ({ status }) => {
     const { type, message } = status
 
-    const msg = message && Array.from(message)
+    // parseMessage returns an array of letters
+    // each wrapped either in a <motion.span> or <motion.b>
+    const msg = message ? parseMessage(message) : null
 
     return (
         <AnimatePresence exitBeforeEnter>
@@ -18,13 +22,7 @@ const FormStatus = ({ status }) => {
                 exit='hide'
                 className={type === 'error' ? 'error' : ''}>
 
-                    {msg?.map((char, i) => (
-                        <motion.span key={i}
-                            transition={{ duration: 0.05 }}
-                            variants={letter}>
-                            {char}
-                        </motion.span>
-                    ))}
+                    {msg}
 
             </Div>
         </AnimatePresence>
@@ -42,6 +40,12 @@ const Div = styled(motion.div)`
 
     &.error {
         color: var(--red);
+    }
+
+    b {
+        font-weight: 500;
+        font-size: 1.4rem;
+        color: var(--orange2);
     }
 `
 
@@ -63,9 +67,5 @@ const variants = {
     }
 }
 
-const letter = {
-    show: { opacity: 1 },
-    hide: { opacity: 0 }
-}
 
 export default React.memo(FormStatus)

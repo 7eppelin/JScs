@@ -81,7 +81,7 @@ export const deleteSection = name => async dispatch => {
 
     dispatch(removeSection(secID))
 
-    return `The ${name} section has been deleted`
+    return `The {{${name}}} section has been {{deleted}}`
 }
 
 
@@ -91,11 +91,11 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
     // check if a section with the given name exists or not
     // if not, display an error
     const secID = await findSectionID(sectionName);
-    if (!secID) throw Error(`The ${sectionName} section does not exist`)
+    if (!secID) throw Error(`The {{${sectionName}}} section does not exist`)
 
     // check whether the target subsection exists
     const subsecID = await findSubsecID(name, sectionName);
-    if (!subsecID) throw Error(`The ${name} subsection does not exist in ${sectionName}`)
+    if (!subsecID) throw Error(`The {{${name}}} subsection does not exist in {{${sectionName}}}`)
 
 
     // delete the reference to the subsection
@@ -128,7 +128,7 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
 
     dispatch(removeSubsection(subsecID))
 
-    return `The ${name} subsection has been deleted from ${sectionName}`
+    return `The {{${name}}} subsection has been deleted from {{${sectionName}}}`
 }
 
 
@@ -137,17 +137,17 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
 
     // verify that a section with the given name exists
     const secID = await findSectionID(section);
-    if (!secID) throw Error(`The ${section} section does not exist`)
+    if (!secID) throw Error(`The {{${section}}} section does not exist`)
 
     // verify that a subsection with the given name exists
     const subsecID = await findSubsecID(subsection, section);
     if (!subsecID) {
-        throw Error(`The ${subsection} subsection does not exist in ${section}`)
+        throw Error(`The {{${subsection}}} subsection does not exist in {{${section}}}`)
     }
 
     // check whether a feature with the given name exists
     const id = await findFeatureID(name, section, subsection);
-    if (!id) throw Error(`The ${name} feature does not exist in ${section}/${subsection}`)
+    if (!id) throw Error(`The {{${name}}} feature does not exist in {{${section}}}/{{${subsection}}}`)
 
 
     // delete the reference to the feature
@@ -161,5 +161,5 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
 
     dispatch(removeFeature(id));
 
-    return `The ${name} feature has been deleted from ${section}/${subsection}`
+    return `The {{${name}}} feature has been deleted from {{${section}}}/{{${subsection}}}`
 }
