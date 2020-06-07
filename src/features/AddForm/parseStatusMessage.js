@@ -20,28 +20,28 @@ const letter = {
 
 export default str => {
     // make an arr of characters
-    const arr = Array.from(str)
+    const chars = Array.from(str)
 
     // flag
     let isSpecial = false;
 
-    return arr.map((char, i) => {
+    return chars.map((char, i) => {
 
         // set the flag to true when encounter '{{'
         // and remove the braces
-        if (char === '{' && arr[i + 1] === '{') {
+        if (char === '{' && chars[i + 1] === '{') {
             isSpecial = true
             return null
         }
-        if (char === '{' && arr[i - 1] === '{') return null
+        if (char === '{' && chars[i - 1] === '{') return null
 
         // set the flag to false when encounter '}}'
         // and remove the braces
-        if (char === '}' && arr[i + 1] === '}') {
+        if (char === '}' && chars[i + 1] === '}') {
             isSpecial = false
             return null
         }
-        if (char === '}' && arr[i - 1] === '}') return null
+        if (char === '}' && chars[i - 1] === '}') return null
 
 
         // if flag, return a 'special' element
