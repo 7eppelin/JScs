@@ -21,20 +21,20 @@ const parseText = text => {
 
     if (typeof text === 'string') return text
 
-    return text.map(item => {
+    return text.map((item, i) => {
 
         if (typeof item === 'string') return item;
         
         switch (item.type) {
             case 'strong':
                 return (
-                    <strong key={item.text}>
+                    <strong key={i}>
                         {item.text}
                     </strong>
                 )
 
             case 'link': 
-                return <InlineLink key={item.text} 
+                return <InlineLink key={i} 
                             text={item.text} 
                             href={item.href} />
             

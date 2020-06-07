@@ -1,41 +1,71 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components/macro'
+import styled from 'styled-components/macro'
+import { motion, AnimatePresence } from 'framer-motion'
 
-import Icon from 'components/Icon'
 
-const FormStatus = ({ status }) => (
-    <Div className={status.type === 'error' ? 'error' : ''}>
-        {status.type === 'pending' ? 
-            <Icon icon='cog2' size="32px" />
-            : status.message
-        }
-    </Div>
-)
+const FormStatus = ({ status }) => {
+    const { type, message } = status
 
-const spin = keyframes`
-    0% { transform: rotate(0deg) scale(1) }
-    50% { transform: rotate(180deg) scale(1.2) }
-    100% { transform: rotate(359deg) scale(1) }
-`
+    const msg = message && Array.from(message)
 
-const Div = styled.div`
+    return (
+        <AnimatePresence exitBeforeEnter>
+
+            <Div key={Math.random()}
+                variants={variants}
+                initial='hide'
+                animate='show'
+                exit='hide'
+                className={type === 'error' ? 'error' : ''}>
+
+                    {msg?.map((char, i) => (
+                        <motion.span key={i}
+                            transition={{ duration: 0.05 }}
+                            variants={letter}>
+                            {char}
+                        </motion.span>
+                    ))}
+
+            </Div>
+        </AnimatePresence>
+    )
+}
+
+
+const Div = styled(motion.div)`
     margin: 10px auto;
-    height: 60px;
+    height: 65px;
     width: 80%;
     font-size: 1.3rem;
     line-height: 1.3;
     color: var(--green);
 
-    span { color: var(--orange2) }
-
     &.error {
         color: var(--red);
     }
-
-    svg {
-        margin-top: 10px;
-        animation: ${spin} 1s ease-in-out infinite;
-    }
 `
 
-export default FormStatus
+const variants = {
+    show: {
+        opacity: 1,
+        transition: {
+            when: 'afterChildren',
+            staggerChildren: 0.008
+        }
+    },
+    hide: {
+        opacity: 1,
+        transition: {
+            when: 'beforeChildren',
+            staggerChildren: 0.008,
+            staggerDirection: -1,
+        }
+    }
+}
+
+const letter = {
+    show: { opacity: 1 },
+    hide: { opacity: 0 }
+}
+
+export default React.memo(FormStatus)

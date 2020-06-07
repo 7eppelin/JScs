@@ -1,44 +1,33 @@
 
 import { db, arrayUnion } from 'firebase.js'
-import { batch } from 'react-redux';
-import { setStatus } from 'features/AddForm/addFormStatusSlice';
 import { findSectionID, findSubsecID, findFeatureID, createContentItem } from 'utils'
 import { addSections, addNewSubsection, addNewFeature } from 'dataSlice'
 
 
 export const createItem = name => async dispatch => {
 
-    try {   
-
-        dispatch(setStatus({ type: 'pending' }))
-        
         // the name arg is AddForm's input value
         // the format is sectionName/subsectionName/featureName
-        const [secName, subsecName, featureName] = name.split('/');
 
         // define what kind of item we are creating
         // and dispatch a corresponding thunk
+
+        const [secName, subsecName, featureName] = name.split('/');
+        
         if (featureName) {
-            await dispatch(createFeature(featureName, subsecName, secName));
+            return await dispatch(createFeature(featureName, subsecName, secName));
 
         } else if (subsecName) {
-            await dispatch(createSubsection(subsecName, secName))
+            return await dispatch(createSubsection(subsecName, secName))
 
         } else {
-            await dispatch(createSection(secName))
+            return await dispatch(createSection(secName))
         }
-
-    } catch(e) {
-        dispatch(setStatus({
-            type: 'error',
-            message: e.message
-        }))
-    }
 }
 
 
 
-const createSection = name => async dispatch => {
+export const createSection = name => async dispatch => {
 
     // if a section with the given name already exists, throw
     if (await findSectionID(name)) {
@@ -65,18 +54,14 @@ const createSection = name => async dispatch => {
     const url = `/${name}`;
     await createContentItem(newSec.id, name, url);
 
-    batch(() => {
-        dispatch(addSections([ newSec ]))
-        dispatch(setStatus({
-            type: 'success',
-            message: `The ${name} section has been created`
-        }))
-    })
+    dispatch(addSections([ newSec ]))
+
+    return `The ${name} section has been created`
 }
 
 
 
-const createSubsection = (name, sectionName) => async dispatch => {
+export const createSubsection = (name, sectionName) => async dispatch => {
 
     // find the target section's id
     // if it doesnt exist, throw
@@ -109,18 +94,14 @@ const createSubsection = (name, sectionName) => async dispatch => {
     const url = `/${sectionName}/${name}`
     await createContentItem(subsec.id, name, url);
 
-    batch(() => {
-        dispatch(addNewSubsection(subsec));
-        dispatch(setStatus({
-            type: 'success',
-            message: `The ${name} subsections has been created in ${sectionName}`
-        }))
-    })
+    dispatch(addNewSubsection(subsec));
+
+    return `The ${name} subsections has been created in ${sectionName}`
 }
 
 
 
-const createFeature = (name, subsecName, secName) => async dispatch => {
+export const createFeature = (name, subsecName, secName) => async dispatch => {
 
     // find the target section' id
     // if it doesnt exist, throw
@@ -163,11 +144,7 @@ const createFeature = (name, subsecName, secName) => async dispatch => {
     const url = `/${secName}/${subsecName}/${name}`
     await createContentItem(feature.id, name, url);
 
-    batch(() => {
-        dispatch(addNewFeature(feature));
-        dispatch(setStatus({
-            type: 'success',
-            message: `The ${name} feature has been created in ${secName}/${subsecName}`
-        }))
-    })
+    dispatch(addNewFeature(feature));
+
+    return `The ${name} feature has been created in ${secName}/${subsecName}`
 }

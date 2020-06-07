@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { createItem, deleteItem } from 'dataSlice';
 import { useOnClickOutside } from 'utils'
@@ -13,17 +13,33 @@ const AddForm = ({ hide }) => {
     const formRef = useRef()
     const dispatch = useDispatch()
 
-    const status = useSelector(state => state.addFormStatus);
+    const [inputValue, setinputValue] = useState('')
 
-    const [inputValue, setinputValue] = useState('');
+    const [status, setStatus] = useState({
+        type: 'success',
+        message: 'Specify the full address (section/subsection/feature) of the item you want to create/delete',
+    })
 
     // hide the form on click outside
     useOnClickOutside(formRef, hide)
 
     const handleSubmit = e => {
-        e.preventDefault();
-        dispatch(createItem(inputValue));
+        e.preventDefault()
+        setStatus({ type: 'pending' })
+
+        dispatch(createItem(inputValue))
+            .then(message => setStatus({ type: 'success', message }))
+            .catch(err =>  setStatus({ type: 'error', message: err.message }))
     }
+
+    const handleDelete = () => {
+        setStatus({ type: 'pending' })
+
+        dispatch(deleteItem(inputValue))
+            .then(message => setStatus({ type: 'success', message }))
+            .catch(err => setStatus({ type: 'error', message: err.message }))
+    }
+
 
     return (
         <StyledAddForm className='AddForm'
@@ -42,7 +58,7 @@ const AddForm = ({ hide }) => {
                 CREATE
             </button>
 
-            <button onClick={() => dispatch(deleteItem(inputValue))}
+            <button onClick={handleDelete}
                     type='reset' >
                 DELETE
             </button>

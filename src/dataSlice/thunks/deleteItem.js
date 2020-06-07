@@ -1,37 +1,30 @@
 
 import { db, arrayRemove } from 'firebase.js'
-import { batch } from 'react-redux'
-import { setStatus } from 'features/AddForm/addFormStatusSlice'
 import { findSectionID, findSubsecID, findFeatureID } from 'utils'
 import { removeSection, removeSubsection, removeFeature } from 'dataSlice'
 
 
-
 export const deleteItem = name => async dispatch => {
+
+    // the name arg is AddForm's input value
+    // the format is sectionName/subsectionName/featureName
+
+    // define what kind of item we are deleting
+    // and dispatch a corresponding thunk
+
+    const [ secName, subsecName, featureName ] = name.split('/');
+
+    if (featureName) {
+        return await dispatch(deleteFeature(featureName, subsecName, secName));
     
-    try {
-        
-        dispatch(setStatus({ type: 'pending' }))
+    } else if (subsecName) {
+        return await dispatch(deleteSubsection(subsecName, secName));
 
-        const [ secName, subsecName, featureName ] = name.split('/');
-
-        if (featureName) {
-            await dispatch(deleteFeature(featureName, subsecName, secName));
-    
-        } else if (subsecName) {
-            await dispatch(deleteSubsection(subsecName, secName));
-
-        } else {
-            await dispatch(deleteSection(name));
-        }
-
-    } catch (e) {
-        dispatch(setStatus({
-            type: 'error',
-            message: e.message
-        }))
+    } else {
+        return await dispatch(deleteSection(name));
     }
 }
+
 
 
 export const deleteSection = name => async dispatch => {
@@ -86,15 +79,11 @@ export const deleteSection = name => async dispatch => {
 
     await firestoreBatch.commit();
 
+    dispatch(removeSection(secID))
 
-    batch(() => {
-        dispatch(removeSection(secID))
-        dispatch(setStatus({
-            type: 'success',
-            message: `The ${name} section has been deleted`
-        }))
-    })
+    return `The ${name} section has been deleted`
 }
+
 
 
 export const deleteSubsection = (name, sectionName) => async dispatch => {
@@ -137,15 +126,11 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
 
     await firestoreBatch.commit();
 
-    batch(() => {
-        dispatch(removeSubsection(subsecID))
-        dispatch(setStatus({
-            type: 'success',
-            message: `The ${name} subsection has been deleted from ${sectionName}`
-        }))
-    })
+    dispatch(removeSubsection(subsecID))
 
+    return `The ${name} subsection has been deleted from ${sectionName}`
 }
+
 
 
 export const deleteFeature = (name, subsection, section) => async dispatch => {
@@ -174,11 +159,7 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
     await db.collection('features').doc(id).delete();
     await db.collection('content').doc(id).delete();
 
-    batch(() => {
-        dispatch(removeFeature(id));
-        dispatch(setStatus({
-            type: 'success',
-            message: `The ${name} feature has been deleted from ${section}/${subsection}`
-        }))
-    })
+    dispatch(removeFeature(id));
+
+    return `The ${name} feature has been deleted from ${section}/${subsection}`
 }

@@ -31,10 +31,10 @@ const StyledToggler = styled.button`
 
     svg {
         transform: rotate(0deg);
-        transition: .2s;
+        transition: .16s;
     }
 
-    &.toggled svg { transform: rotate(135deg) }
+    &.toggled svg { transform: rotate(45deg) }
 
     path { fill: var(--white) }
 `;
