@@ -2,61 +2,101 @@
 import React from 'react';
 import { motion } from 'framer-motion'
 
-
+// motion variants
 const letter = {
     show: { opacity: 1 },
     hide: { opacity: 0 }
 }
 
+
 // CONTEXT:
 // a status message can have 'special' words/characters
-// (going to be displayed orange)
-// to make a word 'special' wrap it in curly braces like this: {{word}}
+// the 'highlighted' ones (orange) and the 'red' ones
+// to make a text range 'highlighted' 
+// wrap it in curly braces like this: {{text}}
+// to make it 'red' wrap it in '!!' like this: !!text!!
 
+// provided a status message (string), this func turns it
+// into an array of letters each wrapped in a motion element
+// normal letters are wrapped in a <motion.span>, 
+// 'highlighted' in a <motion.b>, 
+// 'red' in a <motion.i>
 
-// this func accepts a status message (string)
-// and turns it into an array of letters each wrapped in a motion component
-// normal letters are wrapped in a <motion.span>, 'special' in a <motion.b>
 
 export default str => {
-    // make an arr of characters
+
+    if (!str) return null
+
+    // make an array of characters
     const chars = Array.from(str)
 
-    // flag
-    let isSpecial = false;
+    // flags
+    let isHighlighted = false;
+    let isRed = false;
 
     return chars.map((char, i) => {
 
-        // set the flag to true when encounter '{{'
+        // set isHighlighted to true when encounter '{{'
         // and remove the braces
         if (char === '{' && chars[i + 1] === '{') {
-            isSpecial = true
+            isHighlighted = true
             return null
         }
         if (char === '{' && chars[i - 1] === '{') return null
 
-        // set the flag to false when encounter '}}'
+        // set isHighlighted to false when encounter '}}'
         // and remove the braces
         if (char === '}' && chars[i + 1] === '}') {
-            isSpecial = false
+            isHighlighted = false
             return null
         }
         if (char === '}' && chars[i - 1] === '}') return null
 
 
-        // if flag, return a 'special' element
-        if (isSpecial) return (
+        // when encounter '!!' while isRed is false
+        // set isRed to true and remove the '!!'
+        if (char === '!' && chars[i + 1] === '!' && !isRed) {
+            isRed = true;
+            return null
+        }
+        if (char === '!' && chars[i - 1] === '!' && isRed) {
+            return null
+        }
+
+        // when encounter '!!' while isRed is true
+        // set isRed to false and remove the '!!'
+        if (char === '!' && chars[i + 1] === '!' && isRed) {
+            isRed = false
+            return null
+        }
+        if (char === '!' && chars[i - 1] === '!' && !isRed) {
+            return null
+        }
+
+
+        // return a 'red' element
+        if (isRed) return (
+            <motion.i key={i}
+                transition={{ duration: 0 }}
+                variants={letter}>
+                    {char}
+            </motion.i> 
+        )
+
+
+        // return a 'highlighted' element
+        if (isHighlighted) return (
             <motion.b key={i}
-                transition={{ duration: 0.05 }}
+                transition={{ duration: 0 }}
                 variants={letter}>
                     {char}
             </motion.b>
         )
 
-        // otherwise return a 'normal' one
+        // return a 'normal' element
         return (
             <motion.span key={i}
-                transition={{ duration: 0.05 }}
+                transition={{ duration: 0 }}
                 variants={letter}>
                     {char}
             </motion.span>

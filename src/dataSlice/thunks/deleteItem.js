@@ -31,7 +31,7 @@ export const deleteSection = name => async dispatch => {
 
     // check whether the target section exists
     const secID = await findSectionID(name);
-    if (!secID) throw Error("There's no such section in the database")
+    if (!secID) throw Error("There's no such {{section}} in the database")
 
 
     // delete the reference to the section from the 'ids'

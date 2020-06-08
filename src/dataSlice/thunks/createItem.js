@@ -1,10 +1,24 @@
 
 import { db, arrayUnion } from 'firebase.js'
-import { findSectionID, findSubsecID, findFeatureID, createContentItem } from 'utils'
-import { addSections, addNewSubsection, addNewFeature } from 'dataSlice'
+
+import { 
+    findSectionID, 
+    findSubsecID, 
+    findFeatureID, 
+    createContentItem,
+    saveContentItem
+} from 'utils'
+
+import { 
+    addSections, 
+    addNewSubsection, 
+    addNewFeature,
+} from 'dataSlice'
+
+import createDemoItem from './createDemoItem'
 
 
-export const createItem = name => async dispatch => {
+export const createItem = name => async (dispatch, getState) => {
 
         // the name arg is AddForm's input value
         // the format is sectionName/subsectionName/featureName
@@ -13,6 +27,9 @@ export const createItem = name => async dispatch => {
         // and dispatch a corresponding thunk
 
         const [secName, subsecName, featureName] = name.split('/');
+
+        const isAdmin = getState().user?.isAdmin;
+        if (!isAdmin) return dispatch(createDemoItem(name))
         
         if (featureName) {
             return await dispatch(createFeature(featureName, subsecName, secName));
@@ -27,6 +44,11 @@ export const createItem = name => async dispatch => {
 
 
 
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+
+
 export const createSection = name => async dispatch => {
 
     // if a section with the given name already exists, throw
@@ -34,30 +56,34 @@ export const createSection = name => async dispatch => {
         throw Error('A {{section}} with the given name already exists')
     }
 
-    //  create the section
+    //  create the section object
     const newSec = { 
         name, 
         children: [] 
-    };
+    }
 
     const sec = await db.collection('sections').add(newSec);
     newSec.id = sec.id;
-
-
+    
+    // create the corresponding content item
+    const url = `/${name}`;
+    const content = createContentItem(newSec.id, name, url);
+    await saveContentItem(content);
+    
     // create a reference to the section in the ids array
     // responsible for the order in which items appear in the nav
     await db.doc('order/sections')
         .update({ ids: arrayUnion(sec.id) })
-
-
-    // create a corresponding content item
-    const url = `/${name}`;
-    await createContentItem(newSec.id, name, url);
-
+    
     dispatch(addSections([ newSec ]))
-
+    
     return `The {{${name}}} section has been created`
 }
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -98,6 +124,11 @@ export const createSubsection = (name, sectionName) => async dispatch => {
 
     return `The {{${name}}} subsections has been created in {{${sectionName}}}`
 }
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 
 

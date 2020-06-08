@@ -47,6 +47,11 @@ const Div = styled(motion.div)`
         font-size: 1.4rem;
         color: var(--orange2);
     }
+
+    i {
+        font-style: normal;
+        color: var(--red);
+    }
 `
 
 const variants = {

@@ -39,34 +39,9 @@ export const findFeatureID = async (name, secName, subsecName) => {
 }
 
 
-export const createContentItem = async (id, name, url) => {
-    // initial content's data in the slate.js' format
-    const data = [{
-            type: 'title',
-            children: [{ text: name }]
-        }, {
-            type: 'links',
-            links: [],
-            children: [{ text: '' }]
-        }, {
-            type: 'paragraph',
-            children: [{ text: 'Description is missing... '}]
-        }, {
-            type: 'paragraph',
-            children: [{ text: 'This page is editable. Try it out!' }]
-        }
-    ]
-
-    const item = {
-        id,
-        name,
-        url,
-        edited: Date.now(),
-        data
-    }
-
-    await db.collection('content').doc(id).set(item);
-    return item;
+export const saveContentItem = async item => {
+    return await db.collection('content')
+        .doc(item.id).set(item);
 }
 
 

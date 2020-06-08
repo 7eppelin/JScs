@@ -29,7 +29,10 @@ const AddForm = ({ hide }) => {
 
         dispatch(createItem(inputValue))
             .then(message => setStatus({ type: 'success', message }))
-            .catch(err =>  setStatus({ type: 'error', message: err.message }))
+            .catch(err =>  {
+                console.log(err)
+                setStatus({ type: 'error', message: err.message })
+            })
     }
 
     const handleDelete = () => {
