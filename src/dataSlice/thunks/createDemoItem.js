@@ -17,7 +17,10 @@ import {
 } from 'utils'
 
 
-// create an item only in state
+// when a regular user tries to craete an item via AddForm
+// this function is being dispatched
+
+// creates sections/subsections/features only in the redux store
 
 export default name => async dispatch => {
     const [secName, subsecName, featureName] = name.split('/');
@@ -39,6 +42,7 @@ export default name => async dispatch => {
 //////////////////////////////////////////////////////////////////////////////
 
 
+// items' ids
 let counter = 1;
 
 
@@ -56,14 +60,13 @@ const createDemoSection = name => (dispatch, getState) => {
         children: []
     }
 
-
     // check whether a section with the given name already exists
     const sections = getState().data.sections.byID
     const sec = findItemByName(sections, name)
 
-    if (sec) {
-        throw Error(`The {{${name}}} section already {{exists}}.`)
-    }
+    if (sec) throw Error(`
+        The {{${name}}} section already {{exists}}.
+    `)
 
     // add the section to the state
     dispatch(addSections([ newSec ]))

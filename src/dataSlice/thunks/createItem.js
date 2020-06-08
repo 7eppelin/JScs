@@ -52,9 +52,9 @@ export const createItem = name => async (dispatch, getState) => {
 export const createSection = name => async dispatch => {
 
     // if a section with the given name already exists, throw
-    if (await findSectionID(name)) {
-        throw Error('A {{section}} with the given name already exists')
-    }
+    if (await findSectionID(name)) throw Error(`
+        The {{${name}}} section already {{exists}}.
+    `)
 
     //  create the section object
     const newSec = { 
@@ -77,7 +77,7 @@ export const createSection = name => async dispatch => {
     
     dispatch(addSections([ newSec ]))
     
-    return `The {{${name}}} section has been created`
+    return `The {{${name}}} section has been {{created}}.`
 }
 
 
@@ -92,11 +92,16 @@ export const createSubsection = (name, sectionName) => async dispatch => {
     // find the target section's id
     // if it doesnt exist, throw
     const sectionID = await findSectionID(sectionName);
-    if (!sectionID) throw Error(`The {{${sectionName}}} section does not exist`);
+    if (!sectionID) throw Error(`
+        The {{${sectionName}}} section does {{not exist}}.
+    `)
 
     // check whether a subsection with the given name already exists
     if (await findSubsecID(name, sectionName)) {
-        throw Error('A subsection with the given name already exists')
+        throw Error(`
+            The {{${name}}} subsection already {{exists}} 
+            in {{${sectionName}}}/.
+        `)
     }
 
     // create the subsection
@@ -122,7 +127,10 @@ export const createSubsection = (name, sectionName) => async dispatch => {
 
     dispatch(addNewSubsection(subsec));
 
-    return `The {{${name}}} subsections has been created in {{${sectionName}}}`
+    return `
+        The {{${name}}} subsections has been 
+        created in {{${sectionName}}}/.
+    `
 }
 
 
@@ -137,21 +145,23 @@ export const createFeature = (name, subsecName, secName) => async dispatch => {
     // find the target section' id
     // if it doesnt exist, throw
     const secID = await findSectionID(secName)
-    if (!secID) {
-        throw Error(`The {{${secName}}} section does not exist`);
-    }
+    if (!secID) throw Error(`
+        The {{${secName}}} section does {{not exist}}.
+    `)
 
     // find the target subsection's id
     const subsecID = await findSubsecID(subsecName, secName);
-    if (!subsecID) {
-        throw Error(`The {{${subsecName}}} subsection does not exist`)
-    }
+    if (!subsecID) throw Error(`
+        The {{${subsecName}}} subsection does 
+        {{not exist}} in {{${secName}}}/.
+    `)
 
     // check whether a feature with the given name already exists
     const featureID = await findFeatureID(name, secName, subsecName);
-    if (featureID) {
-        throw Error(`A feature with the given name already exists`)
-    }
+    if (featureID) throw Error(`
+        The {{${name}}} feature already {{exists}} 
+        in {{${secName}}}/{{${subsecName}}}/.
+    `)
 
     // create the feature;
     const feature = { 
@@ -177,5 +187,8 @@ export const createFeature = (name, subsecName, secName) => async dispatch => {
 
     dispatch(addNewFeature(feature));
 
-    return `The {{${name}}} feature has been created in {{${secName}}}/{{${subsecName}}}`
+    return `
+        The {{${name}}} feature has been created 
+        in {{${secName}}}/{{${subsecName}}}/.
+    `
 }
