@@ -95,7 +95,7 @@ const createDemoSubsec = (name, secName) => async (dispatch, getState) => {
 
     // check whether a section with the given name exists
     const sections = getState().data.sections.byID
-    const sectionID = findItemByName(sections, secName)?.id
+    const sectionID = findIdByName(sections, secName)
 
     if (!sectionID) throw Error(
         `The {{${secName}}} section does {{not exist}}.`

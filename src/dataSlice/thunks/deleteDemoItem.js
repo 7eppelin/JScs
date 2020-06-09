@@ -1,4 +1,6 @@
 
+import { batch } from 'react-redux'
+
 import { 
     findSectionID, 
     findSubsecID, 
@@ -6,7 +8,6 @@ import {
     findItemByName,
     findIdByName,
     findItemWithParent,
-    createContentItem 
 } from 'utils'
 
 import { 
@@ -55,8 +56,10 @@ const deleteDemoSection = name => (dispatch, getState) => {
         The {{${name}}} section does {{not exist}}.
     `)
 
-    dispatch(removeSection(sectionID))
-    dispatch(removeContentItem(sectionID))
+    batch(() => {
+        dispatch(removeSection(sectionID))
+        dispatch(removeContentItem(sectionID))
+    })
 
     return `
         !!Database: insufficient permissions! !!
@@ -71,8 +74,41 @@ const deleteDemoSection = name => (dispatch, getState) => {
 
 
 
-const deleteDemoSubsection = (name, secName) => (dispatch, getState) => {
+const deleteDemoSubsection = (name, secName) => async (dispatch, getState) => {
 
+    // check whether a section with the given name exist
+    const sections = getState().data.sections.byID
+    const sectionID = findIdByName(sections, secName)
+
+    if (!sectionID) throw Error(`
+        The {{${secName}}} section does {{not exist}}.
+    `)
+
+
+    // check whether a subsection with the given name exists
+    const subsecs = getState().data.subsections
+    const subsec = (
+        // look up in the state first
+        findItemWithParent(subsecs, name, secName)
+        // then in the database
+        || await findSubsecID(name, secName)
+    )
+
+    if (!subsec) throw Error(`
+        The {{${name}}} subsection does {{not exist}} 
+        in {{${secName}}}/.
+    `)
+
+    batch(() => {
+        dispatch(removeSubsection(subsec.id))
+        dispatch(removeContentItem(subsec.id))
+    })
+
+    return `
+        !!Database: insufficient permissions! !!
+        The {{${name}}} subsection has been deleted 
+        from {{${secName}}}/ from {{state}}.
+    `
 }
 
 
