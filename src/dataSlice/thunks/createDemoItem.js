@@ -17,7 +17,7 @@ import {
 } from 'utils'
 
 
-// when a regular user tries to craete an item via AddForm
+// when a regular user tries to craete an item via the AddForm
 // this function is being dispatched
 
 // creates sections/subsections/features only in the redux store
