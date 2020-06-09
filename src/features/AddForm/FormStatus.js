@@ -48,6 +48,10 @@ const Div = styled(motion.div)`
         color: var(--orange2);
     }
 
+    &.error b {
+        color: var(--yellow);
+    }
+
     i {
         font-style: normal;
         color: var(--red);
@@ -58,15 +62,17 @@ const variants = {
     show: {
         opacity: 1,
         transition: {
+            duration: 0,
             when: 'afterChildren',
-            staggerChildren: 0.008
+            staggerChildren: 0.006
         }
     },
     hide: {
         opacity: 1,
         transition: {
+            duration: 0,
             when: 'beforeChildren',
-            staggerChildren: 0.008,
+            staggerChildren: 0.004,
             staggerDirection: -1,
         }
     }

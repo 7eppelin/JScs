@@ -28,10 +28,16 @@ const AddForm = ({ hide }) => {
         setStatus({ type: 'pending' })
 
         dispatch(createItem(inputValue))
-            .then(message => setStatus({ type: 'success', message }))
+            .then(message => setStatus({ 
+                type: 'success', 
+                message 
+            }))
             .catch(err =>  {
                 console.log(err)
-                setStatus({ type: 'error', message: err.message })
+                setStatus({ 
+                    type: 'error', 
+                    message: err.message 
+                })
             })
     }
 
@@ -39,8 +45,17 @@ const AddForm = ({ hide }) => {
         setStatus({ type: 'pending' })
 
         dispatch(deleteItem(inputValue))
-            .then(message => setStatus({ type: 'success', message }))
-            .catch(err => setStatus({ type: 'error', message: err.message }))
+            .then(message => setStatus({ 
+                type: 'success', 
+                message 
+            }))
+            .catch(err => {
+                console.log(err)
+                setStatus({ 
+                    type: 'error', 
+                    message: err.message 
+                })
+            })
     }
 
 
