@@ -15,12 +15,25 @@ export {
     reorderSections,
     reorderSubsections,
     reorderFeatures,
-    addContentItem 
+    addContentItem,
+    removeContentItem
 } from './slice'
 
 
-export { createItem, createSection, createSubsection, createFeature } from './thunks/createItem'
-export { deleteItem, deleteSection, deleteSubsection, deleteFeature } from './thunks/deleteItem'
+export { 
+    createItem, 
+    createSection, 
+    createSubsection, 
+    createFeature 
+} from './thunks/createItem'
+
+export { 
+    deleteItem, 
+    deleteSection, 
+    deleteSubsection, 
+    deleteFeature 
+} from './thunks/deleteItem'
+
 export { getSections } from './thunks/getSections'
 export { getSubsections } from './thunks/getSubsections'
 export { getContentItem } from './thunks/getContentItem'

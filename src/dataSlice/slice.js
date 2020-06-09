@@ -77,17 +77,20 @@ const dataSlice = createSlice({
             // but all the nested items aswell
             const secs = state.sections.byID;
             const subs = secs[itemID].children;
-            let features = [];
 
-            for (let id of subs) {
-                features = [ 
-                    ...features, 
-                    ...state.subsections[id].children 
-                ]
-                delete state.subsections[id]
+            if (subs.length) {
+                let features = []
+
+                for (let id of subs) {
+                    features = [ 
+                        ...features, 
+                        ...state.subsections[id].children 
+                    ]
+                    delete state.subsections[id]
+                }
+
+                features.forEach(id => delete state.features[id])
             }
-
-            features.forEach(id => delete state.features[id])
 
             delete secs[itemID];
             state.sections.ids = state.sections.ids.filter(id => id !== itemID)
@@ -144,6 +147,11 @@ const dataSlice = createSlice({
         addContentItem: (state, action) => {
             state.content[action.payload.id] = action.payload;
         },
+
+        removeContentItem: (state, action) => {
+            const id = action.payload
+            delete state.content[id]
+        }
     }
 });
 
@@ -162,7 +170,8 @@ export const {
     reorderSections,
     reorderSubsections,
     reorderFeatures,
-    addContentItem 
+    addContentItem,
+    removeContentItem
 } = actions;
 
 export default reducer;

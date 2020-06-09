@@ -2,13 +2,18 @@
 import { 
     findSectionID, 
     findSubsecID, 
-    findFeatureID 
+    findFeatureID,
+    findItemByName,
+    findIdByName,
+    findItemWithParent,
+    createContentItem 
 } from 'utils'
 
 import { 
     removeSection, 
     removeSubsection, 
-    removeFeature 
+    removeFeature,
+    removeContentItem
 } from 'dataSlice'
 
 
@@ -42,6 +47,21 @@ export default name => async dispatch => {
 
 const deleteDemoSection = name => (dispatch, getState) => {
 
+    // check whether a section with the given name exist
+    const sections = getState().data.sections.byID
+    const sectionID = findIdByName(sections, name)
+
+    if (!sectionID) throw Error(`
+        The {{${name}}} section does {{not exist}}.
+    `)
+
+    dispatch(removeSection(sectionID))
+    dispatch(removeContentItem(sectionID))
+
+    return `
+        !!Database: insufficient permissions! !!
+        The {{${name}}} section has been deleted from {{state}}.
+    `
 }
 
 
