@@ -1,16 +1,31 @@
 
 import { db, arrayRemove } from 'firebase.js'
-import { findSectionID, findSubsecID, findFeatureID } from 'utils'
-import { removeSection, removeSubsection, removeFeature } from 'dataSlice'
+
+import { 
+    findSectionID, 
+    findSubsecID, 
+    findFeatureID 
+} from 'utils'
+
+import { 
+    removeSection, 
+    removeSubsection, 
+    removeFeature 
+} from 'dataSlice'
+
+import deleteDemoItem from './deleteDemoItem'
 
 
-export const deleteItem = name => async dispatch => {
+export const deleteItem = name => async (dispatch, getState) => {
 
     // the name arg is AddForm's input value
     // the format is sectionName/subsectionName/featureName
 
     // define what kind of item we are deleting
     // and dispatch a corresponding thunk
+
+    const isAdmin = getState().user?.isAdmin
+    if (!isAdmin) return dispatch(deleteDemoItem(name))
 
     const [ secName, subsecName, featureName ] = name.split('/');
 
