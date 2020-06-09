@@ -1,6 +1,12 @@
 
 import { db } from 'firebase.js'
-import { findSectionID, findSubsecID, findFeatureID } from 'utils'
+
+import { 
+    findSectionIDinDB, 
+    findSubsecIDinDB, 
+    findFeatureIDinDB 
+} from 'utils'
+
 import { addContentItem } from 'dataSlice'
 
 
@@ -13,11 +19,11 @@ export const getContentItem = url => async dispatch => {
 
     let id;
     if (featureName) {
-        id = await findFeatureID(featureName, secName, subsecName);
+        id = await findFeatureIDinDB(featureName, secName, subsecName);
     } else if (subsecName) {
-        id = await findSubsecID(subsecName, secName);
+        id = await findSubsecIDinDB(subsecName, secName);
     } else if (secName) {
-        id = await findSectionID(secName);
+        id = await findSectionIDinDB(secName);
     } else {
         // id = await findSectionID('JavaScript')
     }

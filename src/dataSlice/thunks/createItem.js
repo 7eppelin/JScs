@@ -2,9 +2,9 @@
 import { db, arrayUnion } from 'firebase.js'
 
 import { 
-    findSectionID, 
-    findSubsecID, 
-    findFeatureID, 
+    findSectionIDinDB, 
+    findSubsecIDinDB, 
+    findFeatureIDinDB, 
     createContentItem,
     saveContentItem
 } from 'utils'
@@ -52,7 +52,7 @@ export const createItem = name => async (dispatch, getState) => {
 export const createSection = name => async dispatch => {
 
     // if a section with the given name already exists, throw
-    if (await findSectionID(name)) throw Error(`
+    if (await findSectionIDinDB(name)) throw Error(`
         The {{${name}}} section already {{exists}}.
     `)
 
@@ -91,13 +91,13 @@ export const createSubsection = (name, sectionName) => async dispatch => {
 
     // find the target section's id
     // if it doesnt exist, throw
-    const sectionID = await findSectionID(sectionName);
+    const sectionID = await findSectionIDinDB(sectionName);
     if (!sectionID) throw Error(`
         The {{${sectionName}}} section does {{not exist}}.
     `)
 
     // check whether a subsection with the given name already exists
-    if (await findSubsecID(name, sectionName)) {
+    if (await findSubsecIDinDB(name, sectionName)) {
         throw Error(`
             The {{${name}}} subsection already {{exists}} 
             in {{${sectionName}}}/.
@@ -145,20 +145,20 @@ export const createFeature = (name, subsecName, secName) => async dispatch => {
 
     // find the target section' id
     // if it doesnt exist, throw
-    const secID = await findSectionID(secName)
+    const secID = await findSectionIDinDB(secName)
     if (!secID) throw Error(`
         The {{${secName}}} section does {{not exist}}.
     `)
 
     // find the target subsection's id
-    const subsecID = await findSubsecID(subsecName, secName);
+    const subsecID = await findSubsecIDinDB(subsecName, secName);
     if (!subsecID) throw Error(`
         The {{${subsecName}}} subsection does 
         {{not exist}} in {{${secName}}}/.
     `)
 
     // check whether a feature with the given name already exists
-    const featureID = await findFeatureID(name, secName, subsecName);
+    const featureID = await findFeatureIDinDB(name, secName, subsecName);
     if (featureID) throw Error(`
         The {{${name}}} feature already {{exists}} 
         in {{${secName}}}/{{${subsecName}}}/.

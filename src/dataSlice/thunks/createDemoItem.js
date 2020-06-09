@@ -8,8 +8,8 @@ import {
 
 
 import { 
-    findSubsecID, 
-    findFeatureID, 
+    findSubsecIDinDB, 
+    findFeatureIDinDB, 
     findItemByName,
     findIdByName,
     findItemWithParent,
@@ -108,7 +108,7 @@ const createDemoSubsec = (name, secName) => async (dispatch, getState) => {
         // look up in the state first
         findItemWithParent(subsecs, name, secName)
         // then in the database
-        || await findSubsecID(name, secName)
+        || await findSubsecIDinDB(name, secName)
     )
 
     if (subsec) throw Error(`
@@ -166,7 +166,7 @@ const createDemoFeature = (name, subsecName, secName) => async (dispatch, getSta
         // look up in the state first
         findItemWithParent(subsecs, subsecName, secName)?.id
         // then in the database
-        || await findSubsecID(name, secName)
+        || await findSubsecIDinDB(name, secName)
     )
 
     if (!subsectionID) throw Error(`
@@ -181,7 +181,7 @@ const createDemoFeature = (name, subsecName, secName) => async (dispatch, getSta
         // look up in the state first
         findItemWithParent(features, name, secName, subsecName)
         // then in the database
-        || await findFeatureID(name, secName, subsecName)
+        || await findFeatureIDinDB(name, secName, subsecName)
     )
     if (feature) {
         throw Error(`

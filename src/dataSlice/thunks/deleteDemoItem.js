@@ -2,10 +2,8 @@
 import { batch } from 'react-redux'
 
 import { 
-    findSectionID, 
-    findSubsecID, 
-    findFeatureID,
-    findItemByName,
+    findSubsecIDinDB, 
+    findFeatureIDinDB,
     findIdByName,
     findItemWithParent,
 } from 'utils'
@@ -29,10 +27,10 @@ export default name => async dispatch => {
     const [ secName, subsecName, featureName ] = name.split('/');
 
     if (featureName) {
-        return await dispatch(deleteDemoFeature(featureName, subsecName, secName));
+        return await dispatch(deleteDemoFeature(name));
     
     } else if (subsecName) {
-        return await dispatch(deleteDemoSubsection(subsecName, secName));
+        return await dispatch(deleteDemoSubsection(name));
 
     } else {
         return await dispatch(deleteDemoSection(name));
@@ -48,7 +46,7 @@ export default name => async dispatch => {
 
 const deleteDemoSection = name => (dispatch, getState) => {
 
-    // check whether a section with the given name exist
+    // check whether a section with the given name exists
     const sections = getState().data.sections.byID
     const sectionID = findIdByName(sections, name)
 
@@ -74,9 +72,11 @@ const deleteDemoSection = name => (dispatch, getState) => {
 
 
 
-const deleteDemoSubsection = (name, secName) => async (dispatch, getState) => {
+const deleteDemoSubsection = address => async (dispatch, getState) => {
 
-    // check whether a section with the given name exist
+    const [ secName, name ] = address.split('/')
+
+    // check whether a section with the given name exists
     const sections = getState().data.sections.byID
     const sectionID = findIdByName(sections, secName)
 
@@ -87,21 +87,21 @@ const deleteDemoSubsection = (name, secName) => async (dispatch, getState) => {
 
     // check whether a subsection with the given name exists
     const subsecs = getState().data.subsections
-    const subsec = (
+    const subsecID = (
         // look up in the state first
-        findItemWithParent(subsecs, name, secName)
+        findItemWithParent(subsecs, name, secName)?.id
         // then in the database
-        || await findSubsecID(name, secName)
+        || await findSubsecIDinDB(name, secName)
     )
 
-    if (!subsec) throw Error(`
+    if (!subsecID) throw Error(`
         The {{${name}}} subsection does {{not exist}} 
         in {{${secName}}}/.
     `)
 
     batch(() => {
-        dispatch(removeSubsection(subsec.id))
-        dispatch(removeContentItem(subsec.id))
+        dispatch(removeSubsection(subsecID))
+        dispatch(removeContentItem(subsecID))
     })
 
     return `
@@ -118,6 +118,56 @@ const deleteDemoSubsection = (name, secName) => async (dispatch, getState) => {
 
 
 
-const deleteDemoFeature = (name, secName, subsecName) => (dispatch, getState) => {
+const deleteDemoFeature = address => async (dispatch, getState) => {
 
+    const [ secName, subsecName, name ] = address.split('/')
+
+    // check whether a section with the given name exists
+    const sections = getState().data.sections.byID
+    const sectionID = findIdByName(sections, secName)
+    
+    if (!sectionID) throw Error(`
+        The {{${secName}}} section does {{not exist}}.
+    `)
+
+
+    // check whether a subsection with the given name exists
+    const subsecs = getState().data.subsections
+    const subsecID = (
+        // look up in the state first
+        findItemWithParent(subsecs, subsecName, secName)?.id
+        // then in the database
+        || await findSubsecIDinDB(subsecName, secName)
+    )
+
+    if (!subsecID) throw Error(`
+        The {{${subsecName}}} subsection does {{not exist}} 
+        in {{${secName}}}/.
+    `)
+
+
+    // check whether a feature with the given name exists
+    const features = getState().data.features
+    const featureID = (
+        // look up in the state first
+        findItemWithParent(features, name, secName, subsecName)?.id
+        // then in the database
+        || await findFeatureIDinDB(name, secName, subsecName)        
+    )
+
+    if (!featureID) throw Error(`
+        The {{${name}}} feature does {{not exist}} 
+        in {{${secName}}}/{{${subsecName}}}/.
+    `)
+
+    batch(() => {
+        dispatch(removeFeature(featureID))
+        dispatch(removeContentItem(featureID))
+    })
+
+    return `
+        !!Database: insufficient permissions! !!
+        The {{${name}}} feature has been deleted from
+        {{${secName}}}/{{${subsecName}}}/ from {{state}}.
+    `
 }

@@ -1,7 +1,7 @@
 import { db } from '../firebase';
 
 
-export const findSectionID = async name => {
+export const findSectionIDinDB = async name => {
     const snapshot = await
         db.collection('sections')
             .where('name', '==', name)
@@ -11,7 +11,7 @@ export const findSectionID = async name => {
 }
 
 
-export const findSubsecID = async (name, secName) => {
+export const findSubsecIDinDB = async (name, secName) => {
     const snapshot = await
         db.collection('subsections')
             .where('name', '==', name)
@@ -24,7 +24,7 @@ export const findSubsecID = async (name, secName) => {
 }
 
 
-export const findFeatureID = async (name, secName, subsecName) => {
+export const findFeatureIDinDB = async (name, secName, subsecName) => {
     const snapshot = await
         db.collection('features')
             .where('name', '==', name)

@@ -1,9 +1,9 @@
 
 
 export {
-    findSectionID,
-    findSubsecID,
-    findFeatureID,
+    findSectionIDinDB,
+    findSubsecIDinDB,
+    findFeatureIDinDB,
     saveContentItem,
     updateSectionsOrderInDB,
     updateSubsectionsOrderInDB,

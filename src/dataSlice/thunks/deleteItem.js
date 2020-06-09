@@ -2,9 +2,9 @@
 import { db, arrayRemove } from 'firebase.js'
 
 import { 
-    findSectionID, 
-    findSubsecID, 
-    findFeatureID 
+    findSectionIDinDB, 
+    findSubsecIDinDB, 
+    findFeatureIDinDB 
 } from 'utils'
 
 import { 
@@ -45,7 +45,7 @@ export const deleteItem = name => async (dispatch, getState) => {
 export const deleteSection = name => async dispatch => {
 
     // check whether the target section exists
-    const secID = await findSectionID(name);
+    const secID = await findSectionIDinDB(name);
     if (!secID) throw Error("There's no such {{section}} in the database")
 
 
@@ -105,11 +105,11 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
 
     // check if a section with the given name exists or not
     // if not, display an error
-    const secID = await findSectionID(sectionName);
+    const secID = await findSectionIDinDB(sectionName);
     if (!secID) throw Error(`The {{${sectionName}}} section does not exist`)
 
     // check whether the target subsection exists
-    const subsecID = await findSubsecID(name, sectionName);
+    const subsecID = await findSubsecIDinDB(name, sectionName);
     if (!subsecID) throw Error(`The {{${name}}} subsection does not exist in {{${sectionName}}}`)
 
 
@@ -151,17 +151,17 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
 export const deleteFeature = (name, subsection, section) => async dispatch => {
 
     // verify that a section with the given name exists
-    const secID = await findSectionID(section);
+    const secID = await findSectionIDinDB(section);
     if (!secID) throw Error(`The {{${section}}} section does not exist`)
 
     // verify that a subsection with the given name exists
-    const subsecID = await findSubsecID(subsection, section);
+    const subsecID = await findSubsecIDinDB(subsection, section);
     if (!subsecID) {
         throw Error(`The {{${subsection}}} subsection does not exist in {{${section}}}`)
     }
 
     // check whether a feature with the given name exists
-    const id = await findFeatureID(name, section, subsection);
+    const id = await findFeatureIDinDB(name, section, subsection);
     if (!id) throw Error(`The {{${name}}} feature does not exist in {{${section}}}/{{${subsection}}}`)
 
 
