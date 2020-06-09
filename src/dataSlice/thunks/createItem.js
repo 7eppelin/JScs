@@ -123,7 +123,8 @@ export const createSubsection = (name, sectionName) => async dispatch => {
 
     // create a corresponding content item
     const url = `/${sectionName}/${name}`
-    await createContentItem(subsec.id, name, url);
+    const content = createContentItem(subsec.id, name, url);
+    await saveContentItem(content)
 
     dispatch(addNewSubsection(subsec));
 
@@ -183,7 +184,8 @@ export const createFeature = (name, subsecName, secName) => async dispatch => {
 
     // create a corresponding content item
     const url = `/${secName}/${subsecName}/${name}`
-    await createContentItem(feature.id, name, url);
+    const content = createContentItem(feature.id, name, url);
+    await saveContentItem(content)
 
     dispatch(addNewFeature(feature));
 

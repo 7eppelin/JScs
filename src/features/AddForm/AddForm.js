@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { createItem, deleteItem } from 'dataSlice';
+//import { createItem, deleteItem } from 'dataSlice';
 import { useOnClickOutside } from 'utils'
 
 import StyledAddForm from './StyledAddForm';
@@ -23,9 +23,11 @@ const AddForm = ({ hide }) => {
     // hide the form on click outside
     useOnClickOutside(formRef, hide)
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault()
         setStatus({ type: 'pending' })
+
+        const { createItem } = await import('dataSlice/thunks/createItem')
 
         dispatch(createItem(inputValue))
             .then(message => setStatus({ 
@@ -41,8 +43,10 @@ const AddForm = ({ hide }) => {
             })
     }
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         setStatus({ type: 'pending' })
+
+        const { deleteItem } = await import('dataSlice/thunks/deleteItem')
 
         dispatch(deleteItem(inputValue))
             .then(message => setStatus({ 
