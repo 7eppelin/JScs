@@ -1,5 +1,12 @@
 
 
+export { 
+    usePrevious,
+    useMount,
+    useOnClickOutside,
+} from './hooks'
+
+
 export {
     findSectionIDinDB,
     findSubsecIDinDB,
@@ -11,18 +18,18 @@ export {
 } from './db'
 
 
-export { 
-    usePrevious,
-    useMount,
-    useOnClickOutside,
-} from './hooks'
+export {
+    findIDsByNames,
+    validateDelete,
+    findItemID,
+    findItemByName,
+    findIdByName,
+    findItem,
+    createContentItem
+} from './data'
 
 
 export {
-    findItemByName,
-    findIdByName,
-    findItemWithParent,
     arrayMove,
     scroll,
-    createContentItem
 } from './utils'

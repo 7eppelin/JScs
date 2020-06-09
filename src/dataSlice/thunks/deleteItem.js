@@ -2,9 +2,8 @@
 import { db, arrayRemove } from 'firebase.js'
 
 import { 
-    findSectionIDinDB, 
-    findSubsecIDinDB, 
-    findFeatureIDinDB 
+    findIDsByNames,
+    validateDelete,
 } from 'utils'
 
 import { 
@@ -16,42 +15,54 @@ import {
 import deleteDemoItem from './deleteDemoItem'
 
 
-export const deleteItem = name => async (dispatch, getState) => {
+export const deleteItem = address => async (dispatch, getState) => {
 
-    // the name arg is AddForm's input value
+    // the address arg is AddForm's input value
     // the format is sectionName/subsectionName/featureName
 
-    // define what kind of item we are deleting
-    // and dispatch a corresponding thunk
+    const names = address.split('/')
+    const ids = findIDsByNames(names, getState().data)
+
+    // throws errors
+    validateDelete(names, ids)
+
 
     const isAdmin = getState().user?.isAdmin
-    if (!isAdmin) return dispatch(deleteDemoItem(name))
+    if (!isAdmin) {
+        return dispatch(
+            deleteDemoItem(names, ids)
+        )
+    }
 
-    const [ secName, subsecName, featureName ] = name.split('/');
+
+    const [ secName, subsecName, featureName ] = names
 
     if (featureName) {
-        return await dispatch(deleteFeature(featureName, subsecName, secName));
+        return await dispatch(
+            deleteFeature(names, ids)
+        )
     
     } else if (subsecName) {
-        return await dispatch(deleteSubsection(subsecName, secName));
+        return await dispatch(
+            deleteSubsection(names, ids)
+        )
 
     } else {
-        return await dispatch(deleteSection(name));
+        return await dispatch(
+            deleteSection(secName, ids[0])
+        )
     }
 }
 
 
 
-export const deleteSection = name => async dispatch => {
 
-    // check whether the target section exists
-    const secID = await findSectionIDinDB(name);
-    if (!secID) throw Error("There's no such {{section}} in the database")
 
+export const deleteSection = (name, id) => async dispatch => {
 
     // delete the reference to the section from the 'ids'
     await db.doc('order/sections')
-        .update({ ids: arrayRemove(secID) })
+        .update({ ids: arrayRemove(id) })
 
 
     // now, we need to not only delete the section
@@ -79,8 +90,8 @@ export const deleteSection = name => async dispatch => {
 
     const firestoreBatch = db.batch();
 
-    firestoreBatch.delete(db.collection('sections').doc(secID));
-    firestoreBatch.delete(db.collection('content').doc(secID));
+    firestoreBatch.delete(db.collection('sections').doc(id));
+    firestoreBatch.delete(db.collection('content').doc(id));
 
     subs.forEach(sub => {
         firestoreBatch.delete(db.collection('subsections').doc(sub));
@@ -94,36 +105,29 @@ export const deleteSection = name => async dispatch => {
 
     await firestoreBatch.commit();
 
-    dispatch(removeSection(secID))
+    dispatch(removeSection(id))
 
-    return `The {{${name}}} section has been {{deleted}}`
+    return `The {{${name}}} section has been {{deleted}}.`
 }
 
 
 
-export const deleteSubsection = (name, sectionName) => async dispatch => {
+export const deleteSubsection = (names, ids) => async dispatch => {
 
-    // check if a section with the given name exists or not
-    // if not, display an error
-    const secID = await findSectionIDinDB(sectionName);
-    if (!secID) throw Error(`The {{${sectionName}}} section does not exist`)
-
-    // check whether the target subsection exists
-    const subsecID = await findSubsecIDinDB(name, sectionName);
-    if (!subsecID) throw Error(`The {{${name}}} subsection does not exist in {{${sectionName}}}`)
-
+    const [ secName, name ] = names
+    const [ secID, id ] = ids
 
     // delete the reference to the subsection
     // from the parent section's children field
     await db.doc(`sections/${secID}`)
-        .update({ children: arrayRemove(subsecID) })
+        .update({ children: arrayRemove(id) })
 
     // delete the subsection and all nested features
 
     // find ids of all features with 
     // feature.subsectionName === name && feature.sectionName === sectionName
     const features = await db.collection('features')
-        .where('sectionName', '==', sectionName)
+        .where('sectionName', '==', secName)
         .where('subsectionName', '==', name)
         .get()
         .then(features => features.docs.map(doc => doc.id))
@@ -131,8 +135,8 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
     // batch all the deletion operations together before commiting
     const firestoreBatch = db.batch();
 
-    firestoreBatch.delete(db.collection('subsections').doc(subsecID));
-    firestoreBatch.delete(db.collection('content').doc(subsecID));
+    firestoreBatch.delete(db.collection('subsections').doc(id));
+    firestoreBatch.delete(db.collection('content').doc(id));
 
     features.forEach(feature => {
         firestoreBatch.delete(db.collection('features').doc(feature));
@@ -141,29 +145,17 @@ export const deleteSubsection = (name, sectionName) => async dispatch => {
 
     await firestoreBatch.commit();
 
-    dispatch(removeSubsection(subsecID))
+    dispatch(removeSubsection(id))
 
-    return `The {{${name}}} subsection has been deleted from {{${sectionName}}}`
+    return `The {{${name}}} subsection has been deleted from {{${secName}}}/.`
 }
 
 
 
-export const deleteFeature = (name, subsection, section) => async dispatch => {
+export const deleteFeature = (names, ids) => async dispatch => {
 
-    // verify that a section with the given name exists
-    const secID = await findSectionIDinDB(section);
-    if (!secID) throw Error(`The {{${section}}} section does not exist`)
-
-    // verify that a subsection with the given name exists
-    const subsecID = await findSubsecIDinDB(subsection, section);
-    if (!subsecID) {
-        throw Error(`The {{${subsection}}} subsection does not exist in {{${section}}}`)
-    }
-
-    // check whether a feature with the given name exists
-    const id = await findFeatureIDinDB(name, section, subsection);
-    if (!id) throw Error(`The {{${name}}} feature does not exist in {{${section}}}/{{${subsection}}}`)
-
+    const [ secName, subsecName, name ] = names
+    const [ sectionID, subsecID, id ] = ids
 
     // delete the reference to the feature
     // from the parent subsection's children field
@@ -176,5 +168,8 @@ export const deleteFeature = (name, subsection, section) => async dispatch => {
 
     dispatch(removeFeature(id));
 
-    return `The {{${name}}} feature has been deleted from {{${section}}}/{{${subsection}}}`
+    return `
+        The {{${name}}} feature has been deleted 
+        from {{${secName}}}/{{${subsecName}}}/.
+    `
 }
