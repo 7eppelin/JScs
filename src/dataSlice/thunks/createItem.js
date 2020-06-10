@@ -2,9 +2,8 @@
 import { db, arrayUnion } from 'firebase.js'
 
 import { 
-    findSectionIDinDB, 
-    findSubsecIDinDB, 
-    findFeatureIDinDB, 
+    findIDsByNames,
+    validateCreate,
     createContentItem,
     saveContentItem
 } from 'utils'
@@ -18,62 +17,63 @@ import {
 import createDemoItem from './createDemoItem'
 
 
-export const createItem = name => async (dispatch, getState) => {
+export const createItem = address => async (dispatch, getState) => {
 
-        // the name arg is AddForm's input value
-        // the format is sectionName/subsectionName/featureName
+    // the address arg is AddForm's input value
+    // the format is sectionName/subsectionName/featureName
 
-        // define what kind of item we are creating
-        // and dispatch a corresponding thunk
+    const names = address.split('/')
+    const ids = await findIDsByNames(names, getState().data)
 
-        const [secName, subsecName, featureName] = name.split('/');
+    const [ secName, subsecName, featureName ] = names
+    const [ secID, subsecID, featureID ] = ids
 
-        const isAdmin = getState().user?.isAdmin;
-        if (!isAdmin) return dispatch(createDemoItem(name))
+    // validate that address is valid
+    validateCreate(names, ids)
+
+
+    const isAdmin = getState().user?.isAdmin;
+    if (!isAdmin) {
+        return dispatch(createDemoItem(names, ids))
+    }
+
         
-        if (featureName) {
-            return await dispatch(createFeature(featureName, subsecName, secName));
+    if (featureName) {
+        return await dispatch(createFeature(names, ids))
 
-        } else if (subsecName) {
-            return await dispatch(createSubsection(subsecName, secName))
+    } else if (subsecName) {
+        return await dispatch(createSubsection(names, secID))
 
-        } else {
-            return await dispatch(createSection(secName))
-        }
+    } else {
+        return await dispatch(createSection(secName))
+    }
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 
 
 export const createSection = name => async dispatch => {
 
-    // if a section with the given name already exists, throw
-    if (await findSectionIDinDB(name)) throw Error(`
-        The {{${name}}} section already {{exists}}.
-    `)
-
     //  create the section object
-    const newSec = { 
-        name, 
-        children: [] 
-    }
+    const newSec = { name, children: [] }
 
-    const sec = await db.collection('sections').add(newSec);
-    newSec.id = sec.id;
+    // save it in the DB
+    // firebase automatically generates IDs
+    // for the docs created via add()
+    // save this ID in newSec obj
+    await db.collection('sections')
+        .add(newSec)
+        .then(sec => newSec.id = sec.id)
     
     // create the corresponding content item
-    const url = `/${name}`;
-    const content = createContentItem(newSec.id, name, url);
+    // with the same ID
+    const content = createContentItem(newSec);
     await saveContentItem(content);
     
     // create a reference to the section in the ids array
     // responsible for the order in which items appear in the nav
     await db.doc('order/sections')
-        .update({ ids: arrayUnion(sec.id) })
+        .update({ ids: arrayUnion(newSec.id) })
     
     dispatch(addSections([ newSec ]))
     
@@ -82,51 +82,35 @@ export const createSection = name => async dispatch => {
 
 
 
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
+export const createSubsection = (names, sectionID) => async dispatch => {
 
+    const [ sectionName, name ] = names
 
-export const createSubsection = (name, sectionName) => async dispatch => {
-
-    // find the target section's id
-    // if it doesnt exist, throw
-    const sectionID = await findSectionIDinDB(sectionName);
-    if (!sectionID) throw Error(`
-        The {{${sectionName}}} section does {{not exist}}.
-    `)
-
-    // check whether a subsection with the given name already exists
-    if (await findSubsecIDinDB(name, sectionName)) {
-        throw Error(`
-            The {{${name}}} subsection already {{exists}} 
-            in {{${sectionName}}}/.
-        `)
-    }
-
-    // create the subsection
-    const subsec = { 
+    const newSubsec = { 
         name, 
         sectionID, 
         sectionName, 
         children: [] 
     }
 
-    const newSubsec = await db.collection('subsections').add(subsec);
-    subsec.id = newSubsec.id;
+    // create the subsec and save it's ID in newSubsec
+    await db.collection('subsections')
+        .add(newSubsec)
+        .then(subsec => newSubsec.id = subsec.id)
 
     // create a reference to the subsection
     // in the parent section's children array
-    await db.doc(`sections/${sectionID}`).update({
-        children: arrayUnion(subsec.id)
-    })
+    await db.doc(`sections/${sectionID}`)
+        .update({
+            children: arrayUnion(newSubsec.id)
+        })
 
     // create a corresponding content item
-    const url = `/${sectionName}/${name}`
-    const content = createContentItem(subsec.id, name, url);
+    const content = createContentItem(newSubsec)
     await saveContentItem(content)
 
-    dispatch(addNewSubsection(subsec));
+    dispatch(addNewSubsection(newSubsec));
 
     return `
         The {{${name}}} subsections has been 
@@ -136,61 +120,40 @@ export const createSubsection = (name, sectionName) => async dispatch => {
 
 
 
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 
+export const createFeature = (names, ids) => async dispatch => {
 
-export const createFeature = (name, subsecName, secName) => async dispatch => {
-
-    // find the target section' id
-    // if it doesnt exist, throw
-    const secID = await findSectionIDinDB(secName)
-    if (!secID) throw Error(`
-        The {{${secName}}} section does {{not exist}}.
-    `)
-
-    // find the target subsection's id
-    const subsecID = await findSubsecIDinDB(subsecName, secName);
-    if (!subsecID) throw Error(`
-        The {{${subsecName}}} subsection does 
-        {{not exist}} in {{${secName}}}/.
-    `)
-
-    // check whether a feature with the given name already exists
-    const featureID = await findFeatureIDinDB(name, secName, subsecName);
-    if (featureID) throw Error(`
-        The {{${name}}} feature already {{exists}} 
-        in {{${secName}}}/{{${subsecName}}}/.
-    `)
+    const [ sectionName, subsectionName, name ] = names
+    const [ sectionID, subsectionID ] = ids
 
     // create the feature;
-    const feature = { 
+    const newFeature = { 
         name, 
-        sectionID: secID, 
-        sectionName: secName, 
-        subsectionID: subsecID, 
-        subsectionName: subsecName,
+        sectionID, 
+        sectionName, 
+        subsectionID, 
+        subsectionName
     }
 
-    const newFeature = await db.collection('features').add(feature);
-    feature.id = newFeature.id;
+    await db.collection('features')
+        .add(newFeature)
+        .then(feature => newFeature.id = feature.id)
 
     // create a reference to the feature
     // in the parent subsection's children array
-    await db.doc(`subsections/${subsecID}`).update({
-        children: arrayUnion(feature.id)
+    await db.doc(`subsections/${subsectionID}`).update({
+        children: arrayUnion(newFeature.id)
     })
 
     // create a corresponding content item
-    const url = `/${secName}/${subsecName}/${name}`
-    const content = createContentItem(feature.id, name, url);
+    const content = createContentItem(newFeature)
     await saveContentItem(content)
 
-    dispatch(addNewFeature(feature));
+    dispatch(addNewFeature(newFeature))
 
     return `
         The {{${name}}} feature has been created 
-        in {{${secName}}}/{{${subsecName}}}/.
+        in {{${sectionName}}}/{{${subsectionName}}}/.
     `
 }

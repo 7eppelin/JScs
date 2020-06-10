@@ -26,7 +26,7 @@ const ContentEditorWrapper = ({ delayAnimation }) => {
         dispatch(getContentItem(path))
     }, [path, content, dispatch])
 
-    // set document title on url change
+    // set the document title on url change
     useEffect(() => {
         if (!content?.name) return
         document.title = `JScs | ${content.name}`

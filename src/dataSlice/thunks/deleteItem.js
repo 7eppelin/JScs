@@ -17,23 +17,19 @@ import deleteDemoItem from './deleteDemoItem'
 
 export const deleteItem = address => async (dispatch, getState) => {
 
-    // the address arg is AddForm's input value
-    // the format is sectionName/subsectionName/featureName
-
+    // [ sectionName, subsectionName, featureName ]
     const names = address.split('/')
-    const ids = findIDsByNames(names, getState().data)
+
+    // [ sectionID, subsectionID, featureID ]
+    const ids = await findIDsByNames(names, getState().data)
 
     // throws errors
     validateDelete(names, ids)
 
-
     const isAdmin = getState().user?.isAdmin
     if (!isAdmin) {
-        return dispatch(
-            deleteDemoItem(names, ids)
-        )
+        return dispatch(deleteDemoItem(names, ids))
     }
-
 
     const [ secName, subsecName, featureName ] = names
 
@@ -53,8 +49,6 @@ export const deleteItem = address => async (dispatch, getState) => {
         )
     }
 }
-
-
 
 
 

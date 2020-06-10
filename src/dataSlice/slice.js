@@ -100,9 +100,8 @@ const dataSlice = createSlice({
             const itemID = action.payload;
 
             // not only delete the subsection
-            // but all the nested items aswell
+            // // but all the nested items aswell
             const sub = state.subsections[itemID];
-
             sub.children.forEach(id => delete state.features[id])
 
             // del the reference to the subsec

@@ -20,13 +20,13 @@ export {
 
 export {
     findIDsByNames,
-    validateDelete,
-    findItemID,
-    findItemByName,
-    findIdByName,
-    findItem,
     createContentItem
 } from './data'
+
+export {
+    validateCreate,
+    validateDelete,
+} from './validateData'
 
 
 export {

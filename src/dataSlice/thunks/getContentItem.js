@@ -15,20 +15,17 @@ export const getContentItem = url => async dispatch => {
     url = url.slice(1);
 
     // find the id of the target item
-    const [ secName, subsecName, featureName ] = url.split('/');
+    const names = url.split('/');
+    const [ secName, subsecName, featureName ] = names
 
-    let id;
-    if (featureName) {
-        id = await findFeatureIDinDB(featureName, secName, subsecName);
-    } else if (subsecName) {
-        id = await findSubsecIDinDB(subsecName, secName);
-    } else if (secName) {
-        id = await findSectionIDinDB(secName);
-    } else {
-        // id = await findSectionID('JavaScript')
-    }
 
-    if (!id) return;
+    const id = (
+        featureName ? await findFeatureIDinDB(names) :
+        subsecName ? await findSubsecIDinDB(names) :
+                    await findSectionIDinDB(secName)
+    )
+
+    if (!id) return
 
     // retrieve the corresponding content item
     const content = await db.collection('content')

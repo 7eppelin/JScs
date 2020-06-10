@@ -11,27 +11,23 @@ import {
 // names = [ 'sectionName', 'subsectionName', 'featureName' ]
 // 'featureName' and 'subsectionName' are optional
 
-// find all of the item's ids
-// and return it as [ sectionID, subsecID, featureID ]
+// return [ sectionID, subsecID, featureID ]
 
 export const findIDsByNames = async (names, data) => {
 
     const [ secName, subsecName, featureName ] = names
 
-    const sectionID = await findSectionID(
-        secName, 
-        data.sections.byID
-    )
+    const sectionID = await findSectionID(secName, data.sections.byID)
 
     const ids = [ sectionID ]
 
     if (subsecName) {
-        const subsecID = await findSubsecID(names, data)
+        const subsecID = await findSubsecID(names, data.subsections)
         ids.push(subsecID)
     }
 
     if (featureName) {
-        const featureID = await findFeatureID(names, data)
+        const featureID = await findFeatureID(names, data.features)
         ids.push(featureID)
     }
 
@@ -40,46 +36,31 @@ export const findIDsByNames = async (names, data) => {
 
 
 
-// searches for an item in the state 
-// (the data arg = state.data)
-// if doesn't finds, searches in the database
-// returns it's ID
-
-export const findItemID = async (url, data) => {
-    const [ secName, subsecName, featureName ] = url.split('/')
-
-    if (featureName) {
-        return await findFeatureID(url, data)
-
-    } else if (subsecName) {
-        return await findSubsecID(url, data)
-
-    } else {
-        return await findSectionID(secName, data)
-    }
-}
-
-
-
 // search in the state first, 
 // and only then in the database
 
 const findSectionID = async (name, sections) => (
-    findIdByName(sections, name) || await findSectionIDinDB(name)
+    findSection(name, sections)?.id 
+    || 
+    await findSectionIDinDB(name)
 )
 
 const findSubsecID = async (names, subsecs) => (
-    findItem(subsecs, names)?.id || await findSubsecIDinDB(names)
+    findSubsec(names, subsecs)?.id 
+    || 
+    await findSubsecIDinDB(names)
 )
 
 const findFeatureID = async (names, features) => (
-    findItem(features, names)?.id || await findFeatureIDinDB(names)          
+    findFeature(names, features)?.id 
+    || 
+    await findFeatureIDinDB(names)          
 )
 
 
 
-// when searching for an item in state, 
-// these facts must be taken into account:
+// when searching for an item in state by name, 
+// must always keep in mind that:
 
 // different subsections with the same names
 // can co-exist in different sections
@@ -90,86 +71,51 @@ const findFeatureID = async (names, features) => (
 // thus simply comparing names is not sufficient
 // must also compare parents' names
 
-// finds the subsection by the name and sectionName fields
-// finds the feature by the name, subsectionName and sectionName fields
 
-export const findItem = (data, names) => {
+const findSection = (name, sections) => {
+    const arr = Object.values(sections)
+    return arr.find(sec => sec.name === name)
+}
 
-    const [ secName, subsecName, featureName ] = names
+const findSubsec = (names, subsecs) => {
+    const [ secName, name ] = names
+    const arr = Object.values(subsecs)
 
-    // if featureName is present, find the feature
-    if (featureName) {
-        const features = objectToArray(data.features)
+    return arr.find(sub => (
+        sub.name === name && 
+        sub.sectionName === secName
+    ))
+}
 
-        return features.find(item => (
-            item.name === featureName
-            && item.sectionName === secName
-            && item.subsectionName === subsecName
-        ))
+const findFeature = (names, features) => {
+    const [ secName, subsecName, name ] = names
+    const arr = Object.values(features)
 
-    // if subsecName is present (and featureName isn't), 
-    // find the subsec
-    } else if (subsecName) {
-        const subsecs = objectToArray(data.subsections)
-
-        return subsecs.find(item => (
-            item.name === subsecName
-            && item.sectionName === secName
-        ))
-
-    // find the section
-    } else {
-        const sections = objectToArray(data.sections.byID)
-        return findItemByName(sections, secName)
-    }  
+    return arr.find(f => (
+        f.name === name && 
+        f.sectionName === secName && 
+        f.subsectionName === subsecName
+    ))
 }
 
 
 
-
-
-const objectToArray = obj => (
-    Array.isArray(obj) ? [...obj] : Object.values(obj)
-)
-
-// the container arg can either be an obj or an array
-// it it's an object, we want to transform it into an array
-
-export const findItemByName = (container, name) => {
-    const arr = objectToArray(container)
-    return arr.find(item => item.name === name)
-}
-
-
-export const findIdByName = (container, name) => (
-    findItemByName(container, name)?.id
-)
-
-
-
-export const validateDelete = (names, ids) => {
-    const [ secName, subsecName, featureName ] = names
-    const [ sectionID, subsecID, featureID ] = ids
-
-    if (!sectionID) throw Error(`
-        The {{${secName}}} section does {{not exist}}.
-    `)
-
-    if (subsecName && !subsecID) throw Error(`
-        The {{${subsecName}}} subsection does 
-        {{not exist}} in {{${secName}}}/.
-    `)
-
-    if (featureName && !featureID) throw Error(`
-        The {{${name}}} feature does not exist 
-        in {{${section}}}/{{${subsection}}}
-    `)
-}
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 
 
 // create a new content object
-export const createContentItem = (id, name, url) => {
+export const createContentItem = item => {
+
+    const { id, name, sectionName, subsectionName } = item
+
+    let url = `/${name}`
+    if (subsectionName) url = `/${subsectionName}` + url
+    if (sectionName) url = `/${sectionName}` + url
+
+
     // initial content's data in the slate.js' format
     const data = [{
             type: 'title',

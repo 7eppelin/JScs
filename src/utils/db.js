@@ -11,7 +11,9 @@ export const findSectionIDinDB = async name => {
 }
 
 
-export const findSubsecIDinDB = async (name, secName) => {
+export const findSubsecIDinDB = async names => {
+    const [ secName, name ] = names
+
     const snapshot = await
         db.collection('subsections')
             .where('name', '==', name)
@@ -24,7 +26,9 @@ export const findSubsecIDinDB = async (name, secName) => {
 }
 
 
-export const findFeatureIDinDB = async (name, secName, subsecName) => {
+export const findFeatureIDinDB = async names => {
+    const [ secName, subsecName, name ] = names
+    
     const snapshot = await
         db.collection('features')
             .where('name', '==', name)
