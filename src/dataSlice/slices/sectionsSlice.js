@@ -11,20 +11,18 @@ import {
 
 const sectionsSlice = createSlice({
     name: 'sections',
-    initialState: { byID: {}, ids: [] },
+    initialState: [],
     reducers: {
         addSection: (state, action) => {
-            const sec = action.payload;
-            state.byID[sec.id] = sec
-            state.ids.push(sec.id)
+            state.push(action.payload)
         },
 
-        recieveSections: (state, action) => {
-            state.byID = action.payload
+        recieveSections: (_, action) => {
+            return action.payload
         },
 
-        reorderSections: (state, action) => {
-            state.ids = action.payload;
+        reorderSections: (_, action) => {
+            return action.payload
         },
 
         reorderSubsecs: (state, action) => {
@@ -36,10 +34,9 @@ const sectionsSlice = createSlice({
     extraReducers: {
         [removeSection]: (state, action) => {
             const id = action.payload
-            delete state.byID[id]
-            state.ids = state.ids.filter(s => s !== id)
+            return state.filter(sec => sec.id !== id)
         },
-        
+
         [addSubsec]: (state, action) => {
             const { id, sectionID } = action.payload
             state.byID[sectionID].children.push(id)

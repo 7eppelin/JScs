@@ -13,22 +13,22 @@ const useSections = () => {
     // fetch sections once
     useEffect(() => {
         dispatch(getSections())
-    }, [dispatch])    
+    }, [dispatch])        
 
-    const sections = useSelector(state => state.data.sections.byID)
-    const ids = useSelector(state => state.data.sections.ids)
-
-    const sortedSections = ids.map(id => sections[id])
+    const sections = useSelector(state => state.data.sections)
 
     // reorder sections
     const reorder = useCallback((current, target) => {
-        if (target === ids.length || target < 0) return
+        if (target === sections.length || target < 0) return
 
-        const newOrder = arrayMove(ids, current, target)
+        const newOrder = arrayMove(sections, current, target)
         dispatch(reorderSections(newOrder)) 
-    }, [ids, dispatch])
-
-    return [ sortedSections, reorder ]
+    }, [sections, dispatch])       
+ 
+    return [ 
+        sections.length ? sections : null, 
+        reorder 
+    ]
 }
 
 export default useSections

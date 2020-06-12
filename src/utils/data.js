@@ -16,7 +16,7 @@ export const findIDsByNames = async (names, data) => {
 
     const [ secName, subsecName, featureName ] = names
 
-    const sectionID = await findSectionID(secName, data.sections.byID)
+    const sectionID = await findSectionID(secName, data.sections)
 
     const ids = [ sectionID ]
 
@@ -68,10 +68,9 @@ const findFeatureID = async (names, features) => (
 // thus simply comparing names is not sufficient
 // must also compare parents' names
 
-export const findSection = (name, sections) => {
-    const arr = Object.values(sections)
-    return arr.find(sec => sec.name === name)
-}
+export const findSection = (name, sections) => (
+    sections.find(sec => sec.name === name)
+)
 
 export const findSubsec = (names, subsecs) => {
     const [ secName, name ] = names
