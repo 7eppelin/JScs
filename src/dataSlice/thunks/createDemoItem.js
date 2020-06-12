@@ -1,11 +1,12 @@
 
 import { 
-    addSections, 
-    addNewSubsection, 
-    addNewFeature,
+    addSection, 
+    addSubsec, 
+    addFeature,
     addContentItem
 } from 'dataSlice'
 
+import { nanoid } from '@reduxjs/toolkit'
 
 import { createContentItem } from 'utils'
 
@@ -45,12 +46,12 @@ const createDemoSection = name => dispatch => {
 
     const newSec = {
         name,
-        id: '' + counter++,
+        id: nanoid(),
         children: []
     }
 
     // add the section to the state
-    dispatch(addSections([ newSec ]))
+    dispatch(addSection(newSec))
 
     // create the corresponding content item
     // and add it to the state
@@ -73,14 +74,14 @@ const createDemoSubsec = (names, sectionID) => dispatch => {
 
     const newSubsec = {
         name,
-        id: '' + counter++,
+        id: nanoid(),
         sectionName,
         sectionID,
         children: []
     }
 
     // add the subsec to the store
-    dispatch(addNewSubsection(newSubsec))
+    dispatch(addSubsec(newSubsec))
 
     // create the corresponding content item and add it to the store
     const content = createContentItem(newSubsec)
@@ -103,7 +104,7 @@ const createDemoFeature = (names, ids) => dispatch => {
 
     const newFeature = {
         name,
-        id: '' + counter++,
+        id: nanoid(),
         sectionName,
         sectionID,
         subsectionName,
@@ -111,7 +112,7 @@ const createDemoFeature = (names, ids) => dispatch => {
         children: []
     }
 
-    dispatch(addNewFeature(newFeature))
+    dispatch(addFeature(newFeature))
 
     const content = createContentItem(newFeature)
     dispatch(addContentItem(content))

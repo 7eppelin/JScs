@@ -1,7 +1,7 @@
 
 import { db } from 'firebase.js'
 import { batch } from 'react-redux'
-import { addSubsections, addFeatures } from 'dataSlice'
+import { recieveSubsecs, recieveFeatures } from 'dataSlice'
 
 
 
@@ -30,7 +30,7 @@ export const getSubsections = secName => async dispatch => {
         })))
 
     batch(() => {
-        dispatch(addSubsections(subs))
-        dispatch(addFeatures(features))
+        dispatch(recieveSubsecs(subs))
+        dispatch(recieveFeatures(features))
     })
 }

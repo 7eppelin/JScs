@@ -1,40 +1,48 @@
 
-import reducer from './slice'
-export default reducer
+import reducer from './dataSlice'
 
 
-export { 
-    addSections,
-    addSubsections,
-    addFeatures, 
-    addNewSubsection,
-    addNewFeature,
-    removeSection,
-    removeSubsection,
-    removeFeature,
+export {     
+    addSection,
+    recieveSections,
     reorderSections,
-    reorderSubsections,
+    reorderSubsecs
+} from './slices/sectionsSlice'
+
+
+export {
+    recieveSubsecs,
     reorderFeatures,
-    addContentItem,
-    removeContentItem
-} from './slice'
+} from './slices/subsecsSlice'
 
 
 export { 
-    createItem, 
-    createSection, 
-    createSubsection, 
-    createFeature 
-} from './thunks/createItem'
+    recieveFeatures 
+} from './slices/featuresSlice'
+
 
 export { 
-    deleteItem, 
-    deleteSection, 
-    deleteSubsection, 
-    deleteFeature 
-} from './thunks/deleteItem'
+    addContentItem, 
+    removeContentItem 
+} from './slices/contentSlice'
 
+
+export {
+    removeSection,
+    addSubsec,
+    removeSubsec,
+    addFeature,
+    removeFeature,
+} from './slices/sharedActions'
+
+
+
+export { createItem } from './thunks/createItem'
+export { deleteItem } from './thunks/deleteItem'
 export { getSections } from './thunks/getSections'
 export { getSubsections } from './thunks/getSubsections'
 export { getContentItem } from './thunks/getContentItem'
 export { updateContentItem } from './thunks/updateContentItem'
+
+
+export default reducer

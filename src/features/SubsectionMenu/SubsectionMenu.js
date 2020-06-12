@@ -9,11 +9,6 @@ const SubsectionsContainer = React.lazy(() => import('./SubsectionsContainer'))
 const SubsectionMenu = ({ sectionName, isAdmin, delayAnimation }) => {
     const prevSection = usePrevious(sectionName)
 
-    // we want to know if we are transitioning 
-    // from the content section to the frontpage
-    // if that's the case (sectionName = undefined), 
-    // we don't want the subsections to disappear during the animation
-
     return (
         <Section>
             <Suspense fallback=''>

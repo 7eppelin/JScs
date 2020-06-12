@@ -19,12 +19,10 @@ const Nav = ({ activeSection, delayAnimation }) => {
 
     const prevSection = usePrevious(activeSection)
 
-    const animate = activeSection ? 'content' : 'about'
-
     return (
         <StyledNav variants={variants}
             initial={false}
-            animate={animate}>
+            animate={activeSection ? 'content' : 'about'}>
 
             {/* 
                 only render spinner in the nav when:

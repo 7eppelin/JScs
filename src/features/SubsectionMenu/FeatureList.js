@@ -19,7 +19,7 @@ const makeFeaturesSelector = () => createSelector(
         // make sure the subsection with features
         // has finished fetching. Otherwise, skip
         const arr = Object.values(features)
-        if (!ids?.length || !arr.length) return [];
+        if (!ids?.length || !arr.length) return []
         return ids.map(id => features[id])
     }
 )
@@ -39,7 +39,8 @@ const FeatureList = ({
     const isAdmin = useSelector(state => state.user?.isAdmin)
 
     const updateOrderInDB = () => {
-        if (isAdmin) updateFeaturesOrderInDB(subsecID, ids)
+        if (!isAdmin) return
+        updateFeaturesOrderInDB(subsecID, ids)
     }
 
     const moveItem = (current, target) => {

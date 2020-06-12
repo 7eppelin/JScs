@@ -1,15 +1,21 @@
 
 import { createSelector } from 'reselect';
+import { findSection } from 'utils'
 
 
 // returns an array of subsections
-export const selectSubsections = createSelector(
-    state => state.data.subsections,
+export const selectSubsecs = createSelector(
+    state => state.data.subsecs,
     (_, secName) => secName,
 
-    (subs, secName) => {
-        const subsArr = Object.values(subs)
-        return subsArr.filter(sub => sub.sectionName === secName)
+    (subsecs, secName) => {
+        const arr = Object.values(subsecs)
+        const subsArr = arr.filter(sub => sub.sectionName === secName)
+        if (!subsArr.length) return null
+
+        const subs = {}
+        subsArr.forEach(sub => subs[sub.id] = sub)
+        return subs
     }
 )
 
@@ -19,23 +25,24 @@ export const selectIDs = createSelector(
     (_, secName) => secName,
 
     (sections, secName) => {
-        const secsArr = Object.values(sections)
-        // if sections hasn't finished fetching yet, skip
-        if (!secName || !secsArr.length) return []
+        if (!secName) return null
 
-        const sec = secsArr.filter(sec => sec.name === secName)[0]
-        if (!sec) return []
-        return sec.children
+        const section = findSection(secName, sections)
+        if (!section) return null
+        
+        const ids = section.children
+
+        return ids.length ? ids : null
     }
 )
 
 
 export const selectAndSortSubsecs = createSelector(
-    (state, secName) => selectSubsections(state, secName),
+    (state, secName) => selectSubsecs(state, secName),
     (state, secName) => selectIDs(state, secName),
 
     (subsecs, ids) => {
-        if (!subsecs.length || !ids.length) return null;
+        if (!subsecs || !ids) return null
         return ids.map(id => (
             subsecs.find(sub => sub.id === id)
         ))

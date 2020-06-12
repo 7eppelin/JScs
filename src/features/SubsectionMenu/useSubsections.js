@@ -2,8 +2,8 @@
 import { useRef, useCallback } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAndSortSubsecs, selectIDs } from './selectors'
-import { reorderSubsections } from 'dataSlice';
+import { selectSubsecs, selectIDs } from './selectors'
+import { reorderSubsecs } from 'dataSlice';
 import { arrayMove } from 'utils'
 
 
@@ -11,7 +11,7 @@ const useSubsections = secName => {
     const dispatch = useDispatch()
 
     // array of sorted subsections
-    const newSubsecs = useSelector(state => selectAndSortSubsecs(state, secName))
+    const subsecs = useSelector(state => selectSubsecs(state, secName))
     // array of subsecs' ids
     const ids = useSelector(state => selectIDs(state, secName))
 
@@ -19,17 +19,23 @@ const useSubsections = secName => {
     // when the user transitions from the content section to the frontpage
     // newSubsecs would be null, and subsecs 
     // would disappear from the ui during the animation
-    const subsecs = useRef([])
-    if (secName) subsecs.current = newSubsecs
+    const subsecsRef = useRef(null)
+    if (secName) {
+        if (subsecs && ids) {
+            subsecsRef.current = ids.map(id => subsecs[id])
+        } else {
+            subsecsRef.current = null
+        }
+    }
 
     // reorder subsections when dragging
-    const reorderSubsecs = useCallback((current, target) => {
+    const reorder = useCallback((current, target) => {
         const newOrder = arrayMove(ids, current, target);
         const sectionID = subsecs.current[0].sectionID;
-        dispatch(reorderSubsections({ sectionID, newOrder }));
+        dispatch(reorderSubsecs({ sectionID, newOrder }));
     }, [ids, dispatch])    
 
-    return [ subsecs.current, reorderSubsecs ]
+    return [ subsecsRef.current, reorder ]
 }
 
 export default useSubsections

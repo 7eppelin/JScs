@@ -7,7 +7,6 @@ import {
 } from 'utils'
 
 
-
 // names = [ 'sectionName', 'subsectionName', 'featureName' ]
 // 'featureName' and 'subsectionName' are optional
 
@@ -22,7 +21,7 @@ export const findIDsByNames = async (names, data) => {
     const ids = [ sectionID ]
 
     if (subsecName) {
-        const subsecID = await findSubsecID(names, data.subsections)
+        const subsecID = await findSubsecID(names, data.subsecs)
         ids.push(subsecID)
     }
 
@@ -33,7 +32,6 @@ export const findIDsByNames = async (names, data) => {
 
     return ids
 }
-
 
 
 // search in the state first, 
@@ -58,7 +56,6 @@ const findFeatureID = async (names, features) => (
 )
 
 
-
 // when searching for an item in state by name, 
 // must always keep in mind that:
 
@@ -71,13 +68,12 @@ const findFeatureID = async (names, features) => (
 // thus simply comparing names is not sufficient
 // must also compare parents' names
 
-
-const findSection = (name, sections) => {
+export const findSection = (name, sections) => {
     const arr = Object.values(sections)
     return arr.find(sec => sec.name === name)
 }
 
-const findSubsec = (names, subsecs) => {
+export const findSubsec = (names, subsecs) => {
     const [ secName, name ] = names
     const arr = Object.values(subsecs)
 
@@ -87,7 +83,7 @@ const findSubsec = (names, subsecs) => {
     ))
 }
 
-const findFeature = (names, features) => {
+export const findFeature = (names, features) => {
     const [ secName, subsecName, name ] = names
     const arr = Object.values(features)
 

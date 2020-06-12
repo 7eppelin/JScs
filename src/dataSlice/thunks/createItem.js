@@ -9,9 +9,9 @@ import {
 } from 'utils'
 
 import { 
-    addSections, 
-    addNewSubsection, 
-    addNewFeature,
+    addSection, 
+    addSubsec, 
+    addFeature,
 } from 'dataSlice'
 
 import createDemoItem from './createDemoItem'
@@ -75,7 +75,7 @@ export const createSection = name => async dispatch => {
     await db.doc('order/sections')
         .update({ ids: arrayUnion(newSec.id) })
     
-    dispatch(addSections([ newSec ]))
+    dispatch(addSection(newSec))
     
     return `The {{${name}}} section has been {{created}}.`
 }
@@ -110,7 +110,7 @@ export const createSubsection = (names, sectionID) => async dispatch => {
     const content = createContentItem(newSubsec)
     await saveContentItem(content)
 
-    dispatch(addNewSubsection(newSubsec));
+    dispatch(addSubsec(newSubsec));
 
     return `
         The {{${name}}} subsections has been 
@@ -150,7 +150,7 @@ export const createFeature = (names, ids) => async dispatch => {
     const content = createContentItem(newFeature)
     await saveContentItem(content)
 
-    dispatch(addNewFeature(newFeature))
+    dispatch(addFeature(newFeature))
 
     return `
         The {{${name}}} feature has been created 

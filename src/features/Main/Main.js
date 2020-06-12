@@ -22,11 +22,6 @@ const Main = () => {
     const delayAnimation = isMount ? false : 
         secName && !prevSection ? true : false
 
-    // if we'd simply use either url or secName, the top-level animation 
-    // would occur on every url change
-    // whereas we want it to only occur 
-    // on transitions between front-page and content
-    const switchKey = secName ? 'content' : 'about'
 
     return (
         <StyledMain>
@@ -34,8 +29,12 @@ const Main = () => {
             <Nav activeSection={secName}
                 delayAnimation={delayAnimation} />
 
-            <AnimatePresence initial={false} exitBeforeEnter>
-                <Switch location={location} key={switchKey}>
+            <AnimatePresence 
+                initial={false} 
+                exitBeforeEnter>
+
+                <Switch location={location} 
+                    key={secName ? 'content' : 'about'}>
 
                     <Route exact path='/'>
                         <About />
@@ -44,6 +43,7 @@ const Main = () => {
                     <Route path='/:secName'>
                         <Content delayAnimation={delayAnimation} />
                     </Route>
+                    
                 </Switch>
             </AnimatePresence>
 

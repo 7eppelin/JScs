@@ -8,7 +8,7 @@ import {
 
 import { 
     removeSection, 
-    removeSubsection, 
+    removeSubsec, 
     removeFeature 
 } from 'dataSlice'
 
@@ -139,7 +139,7 @@ export const deleteSubsection = (names, ids) => async dispatch => {
 
     await firestoreBatch.commit();
 
-    dispatch(removeSubsection(id))
+    dispatch(removeSubsec({ id, secID }))
 
     return `The {{${name}}} subsection has been deleted from {{${secName}}}/.`
 }
@@ -157,10 +157,10 @@ export const deleteFeature = (names, ids) => async dispatch => {
         .update({ children: arrayRemove(id) })
 
     // delete the feature
-    await db.collection('features').doc(id).delete();
-    await db.collection('content').doc(id).delete();
+    await db.collection('features').doc(id).delete()
+    await db.collection('content').doc(id).delete()
 
-    dispatch(removeFeature(id));
+    dispatch(removeFeature({ id, subsecID }))
 
     return `
         The {{${name}}} feature has been deleted 

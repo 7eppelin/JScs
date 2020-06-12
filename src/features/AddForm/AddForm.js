@@ -17,7 +17,8 @@ const AddForm = ({ hide }) => {
 
     const [status, setStatus] = useState({
         type: 'success',
-        message: 'Specify the full address ({{section}}/{{subsection}}/{{feature}}) of the item you want to create/delete',
+        message: `Specify the full address ({{section}}/{{subsection}}/{{feature}}) 
+                of the item you want to create/delete`,
     })
 
     // hide the form on click outside

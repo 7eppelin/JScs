@@ -20,6 +20,9 @@ export {
 
 export {
     findIDsByNames,
+    findSection,
+    findSubsec,
+    findFeature,
     createContentItem
 } from './data'
 

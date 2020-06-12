@@ -3,9 +3,8 @@ import { batch } from 'react-redux'
 
 import { 
     removeSection, 
-    removeSubsection, 
+    removeSubsec, 
     removeFeature,
-    removeContentItem
 } from 'dataSlice'
 
 
@@ -41,10 +40,7 @@ export default (names, ids) => dispatch => {
 
 const deleteDemoSection = (name, id) => dispatch => {
 
-    batch(() => {
-        dispatch(removeSection(id))
-        dispatch(removeContentItem(id))
-    })
+    dispatch(removeSection(id))
 
     return `
         !!Database: insufficient permissions! !!
@@ -56,12 +52,9 @@ const deleteDemoSection = (name, id) => dispatch => {
 
 const deleteDemoSubsection = (names, id) => dispatch => {
 
-    const [ secName, name ] = names
+    dispatch(removeSubsec(id))
 
-    batch(() => {
-        dispatch(removeSubsection(id))
-        dispatch(removeContentItem(id))
-    })
+    const [ secName, name ] = names
 
     return `
         !!Database: insufficient permissions! !!
@@ -74,12 +67,9 @@ const deleteDemoSubsection = (names, id) => dispatch => {
 
 const deleteDemoFeature = (names, id) => dispatch => {
 
-    const [ secName, subsecName, name ] = names
+    dispatch(removeFeature(id))
 
-    batch(() => {
-        dispatch(removeFeature(id))
-        dispatch(removeContentItem(id))
-    })
+    const [ secName, subsecName, name ] = names
 
     return `
         !!Database: insufficient permissions! !!
