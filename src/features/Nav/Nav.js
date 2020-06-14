@@ -8,7 +8,7 @@ import useSections from './useSections'
 
 import Spinner from 'components/Spinner'
 import SectionMenu from 'features/SectionMenu/SectionMenu';
-import SubsectionMenu from 'features/SubsectionMenu/SubsectionMenu';
+import SubsecsMenu from 'features/SubsecsMenu/SubsecsMenu';
 
 
 const Nav = ({ activeSection, delayAnimation }) => {
@@ -30,7 +30,7 @@ const Nav = ({ activeSection, delayAnimation }) => {
                 2. sections haven't been fetched yet
                 3. the content section is being rendered
             */}
-            {!sections && (activeSection || prevSection) ? 
+            {!sections.length && (activeSection || prevSection) ? 
                 <Spinner />
                 :
                 <>
@@ -40,7 +40,7 @@ const Nav = ({ activeSection, delayAnimation }) => {
                         sections={sections} 
                         reorderSections={reorderSections} />
 
-                    <SubsectionMenu 
+                    <SubsecsMenu 
                         isAdmin={isAdmin}
                         sectionName={activeSection}
                         delayAnimation={delayAnimation} />

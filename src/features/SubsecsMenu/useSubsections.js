@@ -10,7 +10,7 @@ import { arrayMove } from 'utils'
 const useSubsections = secName => {
     const dispatch = useDispatch()
 
-    // array of sorted subsections
+    // array of sorted subsecs
     const subsecs = useSelector(state => selectSubsecs(state, secName))
     // array of subsecs' ids
     const ids = useSelector(state => selectIDs(state, secName))

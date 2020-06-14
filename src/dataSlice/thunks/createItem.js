@@ -5,7 +5,10 @@ import {
     findIDsByNames,
     validateCreate,
     createContentItem,
-    saveContentItem
+    saveContentItem,
+    createSectionInDB,
+    createSubsecInDB,
+    createFeatureInDB
 } from 'utils'
 
 import { 
@@ -19,30 +22,30 @@ import createDemoItem from './createDemoItem'
 
 export const createItem = address => async (dispatch, getState) => {
 
-    // the address arg is AddForm's input value
-    // the format is sectionName/subsectionName/featureName
-
+    // array [ 'sectionName', 'subsecName', 'featureName' ]
     const names = address.split('/')
+
+    // array [ sectionID, subsecID, featureID ]
     const ids = await findIDsByNames(names, getState().data)
 
     const [ secName, subsecName, featureName ] = names
-    const [ secID, subsecID, featureID ] = ids
+    const [ secID ] = ids
 
-    // validate that address is valid
+    // validate the address
     validateCreate(names, ids)
 
 
     const isAdmin = getState().user?.isAdmin;
     if (!isAdmin) {
+        // create the item only in the redux store
         return dispatch(createDemoItem(names, ids))
     }
 
-        
     if (featureName) {
         return await dispatch(createFeature(names, ids))
 
     } else if (subsecName) {
-        return await dispatch(createSubsection(names, secID))
+        return await dispatch(createSubsec(names, secID))
 
     } else {
         return await dispatch(createSection(secName))
@@ -54,27 +57,22 @@ export const createItem = address => async (dispatch, getState) => {
 
 export const createSection = name => async dispatch => {
 
-    //  create the section object
     const newSec = { name, children: [] }
 
-    // save it in the DB
-    // firebase automatically generates IDs
-    // for the docs created via add()
-    // save this ID in newSec obj
+    // create the section in db
     await db.collection('sections')
         .add(newSec)
         .then(sec => newSec.id = sec.id)
+
+    // create the reference in the ids arr
+    await db.doc('order/sections')
+        .update({ ids: arrayUnion(newSec.id) })
     
     // create the corresponding content item
     // with the same ID
     const content = createContentItem(newSec);
     await saveContentItem(content);
-    
-    // create a reference to the section in the ids array
-    // responsible for the order in which items appear in the nav
-    await db.doc('order/sections')
-        .update({ ids: arrayUnion(newSec.id) })
-    
+
     dispatch(addSection(newSec))
     
     return `The {{${name}}} section has been {{created}}.`
@@ -82,8 +80,7 @@ export const createSection = name => async dispatch => {
 
 
 
-
-export const createSubsection = (names, sectionID) => async dispatch => {
+export const createSubsec = (names, sectionID) => async dispatch => {
 
     const [ sectionName, name ] = names
 
@@ -102,9 +99,7 @@ export const createSubsection = (names, sectionID) => async dispatch => {
     // create a reference to the subsection
     // in the parent section's children array
     await db.doc(`sections/${sectionID}`)
-        .update({
-            children: arrayUnion(newSubsec.id)
-        })
+        .update({ children: arrayUnion(newSubsec.id) })
 
     // create a corresponding content item
     const content = createContentItem(newSubsec)
@@ -117,8 +112,6 @@ export const createSubsection = (names, sectionID) => async dispatch => {
         created in {{${sectionName}}}/.
     `
 }
-
-
 
 
 
@@ -142,9 +135,8 @@ export const createFeature = (names, ids) => async dispatch => {
 
     // create a reference to the feature
     // in the parent subsection's children array
-    await db.doc(`subsections/${subsectionID}`).update({
-        children: arrayUnion(newFeature.id)
-    })
+    await db.doc(`subsections/${subsectionID}`)
+        .update({ children: arrayUnion(newFeature.id)})
 
     // create a corresponding content item
     const content = createContentItem(newFeature)

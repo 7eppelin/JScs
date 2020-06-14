@@ -19,15 +19,16 @@ const SectionMenu = ({
 
     // invoked onDragEnd
     const updateDB = useCallback(() => {
+        if (!isAdmin) return
         const ids = sections.map(sec => sec.id)
-        if (isAdmin) updateSectionsOrderInDB(ids)
+        updateSectionsOrderInDB(ids)
     }, [isAdmin, sections])
 
     // if this is the first render of the app
     // (otherwise sections would've been fetched before)
     // the About section is being rendered
     // (otherwise prevSection would've had a string value)
-    if (!sections && !prevSection) return (
+    if (!sections.length && !prevSection) return (
         <StyledMenu>
             <Spinner size={75} />
         </StyledMenu>

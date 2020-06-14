@@ -1,4 +1,4 @@
-import { db } from '../firebase';
+import { db, arrayUnion } from '../firebase';
 
 
 export const findSectionIDinDB = async name => {
@@ -43,10 +43,59 @@ export const findFeatureIDinDB = async names => {
 }
 
 
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
+
+export const createSectionInDB = async name => {
+    const newSec = { name, children: [] }
+
+    await db.collection('sections')
+        .add(newSec)
+        .then(sec => newSec.id = sec.id)
+
+    await db.doc('order/sections')
+        .update({ ids: arrayUnion(newSec.id) })
+
+    await db.collection('order')
+        .doc(newSec.id)
+        .set({ ids: [] })
+    
+    return newSec
+}
+
+
+export const createSubsecInDB = async () => {
+
+}
+
+
+export const createFeatureInDB = async () => {
+
+}
+
+
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
+
 export const saveContentItem = async item => {
     return await db.collection('content')
         .doc(item.id).set(item);
 }
+
+
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
 
 
 export const updateSectionsOrderInDB = ids => {
@@ -54,7 +103,7 @@ export const updateSectionsOrderInDB = ids => {
         .update({ ids })
 }
 
-export const updateSubsectionsOrderInDB = (sectionID, newOrder) => {
+export const updateSubsecsOrderInDB = (sectionID, newOrder) => {
     db.doc(`sections/${sectionID}`)
         .update({ children: newOrder })
 }

@@ -40,7 +40,8 @@ export {
 export { createItem } from './thunks/createItem'
 export { deleteItem } from './thunks/deleteItem'
 export { getSections } from './thunks/getSections'
-export { getSubsections } from './thunks/getSubsections'
+export { getSubsecs } from './thunks/getSubsecs'
+export { getFeatures } from './thunks/getFeatures'
 export { getContentItem } from './thunks/getContentItem'
 export { updateContentItem } from './thunks/updateContentItem'
 

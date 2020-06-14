@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux';
-import { getSubsections } from 'dataSlice';
-import { updateSubsectionsOrderInDB } from 'utils'
+import { getSubsecs } from 'dataSlice';
+import { updateSubsecsOrderInDB } from 'utils'
 import useSubsections from './useSubsections'
 
 import Subsections from './Subsections'
@@ -16,7 +16,7 @@ const SubsectionsContainer = ({ sectionName, isAdmin, delayAnimation }) => {
     // fetch subsections and features whenever the url changes
     useEffect(() => {
         if (!sectionName || subsecs) return;
-        dispatch(getSubsections(sectionName));
+        dispatch(getSubsecs(sectionName));
     }, [sectionName, subsecs, dispatch])
 
     // save the new subsecs' order onDragEnd
@@ -24,7 +24,7 @@ const SubsectionsContainer = ({ sectionName, isAdmin, delayAnimation }) => {
         if (!isAdmin) return
         const secID = subsecs[0].sectionID
         const ids = subsecs.map(sub => sub.id)
-        updateSubsectionsOrderInDB(secID, ids)
+        updateSubsecsOrderInDB(secID, ids)
     }, [isAdmin, subsecs])
 
     return (

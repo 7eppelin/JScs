@@ -10,14 +10,19 @@ import {
 } from './sharedActions';
 
 
-
 const subsecsSlice = createSlice({
     name: 'subsecs',
-    initialState: {},
+    initialState: {
+        byID: {},
+        ids: {}
+    },
     reducers: {
         recieveSubsecs: (state, action) => {
-            const items = action.payload;
-            items.forEach(item => state[item.id] = item)
+            const subs = action.payload
+
+            subs.forEach(sub => {
+                state[sub.id] = sub
+            })
         },
 
         reorderFeatures: (state, action) => {

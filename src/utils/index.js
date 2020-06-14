@@ -12,8 +12,11 @@ export {
     findSubsecIDinDB,
     findFeatureIDinDB,
     saveContentItem,
+    createSectionInDB,
+    createSubsecInDB,
+    createFeatureInDB,
     updateSectionsOrderInDB,
-    updateSubsectionsOrderInDB,
+    updateSubsecsOrderInDB,
     updateFeaturesOrderInDB,
 } from './db'
 

@@ -25,10 +25,7 @@ const useSections = () => {
         dispatch(reorderSections(newOrder)) 
     }, [sections, dispatch])       
  
-    return [ 
-        sections.length ? sections : null, 
-        reorder 
-    ]
+    return [ sections, reorder ]
 }
 
 export default useSections

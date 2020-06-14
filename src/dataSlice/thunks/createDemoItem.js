@@ -37,11 +37,6 @@ export default (names, ids) => async dispatch => {
 
 
 
-// items' ids
-let counter = 1;
-
-
-
 const createDemoSection = name => dispatch => {
 
     const newSec = {
@@ -58,13 +53,11 @@ const createDemoSection = name => dispatch => {
     const content = createContentItem(newSec);
     dispatch(addContentItem(content))
 
-    // return the status message
     return `
         !!Database: Insufficient permissions! !! 
         The {{${name}}} section has been created in {{state}}.
     `
 }
-
 
 
 
@@ -87,7 +80,6 @@ const createDemoSubsec = (names, sectionID) => dispatch => {
     const content = createContentItem(newSubsec)
     dispatch(addContentItem(content))
 
-    // return the status message
     return `
         !!Database: Insufficient permissions.!! 
         The {{${name}}} subsection 

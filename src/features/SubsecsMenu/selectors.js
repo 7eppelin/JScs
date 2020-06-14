@@ -21,7 +21,7 @@ export const selectSubsecs = createSelector(
 
 // returns section.children - an array of subsections' ids
 export const selectIDs = createSelector(
-    state => state.data.sections.byID,
+    state => state.data.sections,
     (_, secName) => secName,
 
     (sections, secName) => {

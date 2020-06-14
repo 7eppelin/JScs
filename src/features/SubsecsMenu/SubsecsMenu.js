@@ -6,7 +6,7 @@ import { usePrevious } from 'utils'
 const SubsectionsContainer = React.lazy(() => import('./SubsectionsContainer'))
 
 
-const SubsectionMenu = ({ sectionName, isAdmin, delayAnimation }) => {
+const SubsecsMenu = ({ sectionName, isAdmin, delayAnimation }) => {
     const prevSection = usePrevious(sectionName)
 
     return (
@@ -31,4 +31,4 @@ const Section = styled.section`
     padding-left: 2px;
 `
 
-export default React.memo(SubsectionMenu)
+export default React.memo(SubsecsMenu)
