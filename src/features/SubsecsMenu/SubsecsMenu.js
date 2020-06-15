@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 
 import { usePrevious } from 'utils'
 
-const SubsectionsContainer = React.lazy(() => import('./SubsectionsContainer'))
+const SubsecsContainer = React.lazy(() => import('./SubsecsContainer'))
 
 
 const SubsecsMenu = ({ sectionName, isAdmin, delayAnimation }) => {
@@ -13,7 +13,7 @@ const SubsecsMenu = ({ sectionName, isAdmin, delayAnimation }) => {
         <Section>
             <Suspense fallback=''>
                 {(prevSection || sectionName) && (
-                    <SubsectionsContainer
+                    <SubsecsContainer
                         sectionName={sectionName}
                         isAdmin={isAdmin}
                         delayAnimation={delayAnimation} />

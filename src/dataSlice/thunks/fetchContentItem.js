@@ -10,7 +10,7 @@ import {
 import { addContentItem } from 'dataSlice'
 
 
-export const getContentItem = url => async dispatch => {
+export const fetchContentItem = url => async dispatch => {
     // cut the opening slash off off the url;
     url = url.slice(1);
 

@@ -25,7 +25,7 @@ const Subsections = ({
             <AnimatePresence exitBeforeEnter>
 
                 {subsecs && 
-                    <motion.ul key={subsecs[0].id}
+                    <motion.ul
                         variants={variants}
                         initial='hide'
                         animate='appear'
@@ -36,7 +36,7 @@ const Subsections = ({
                             <FeatureMenu i={i}
                                 heights={heights}
                                 key={subsec.id} 
-                                subsection={subsec}
+                                subsec={subsec}
                                 reorderSubsecs={reorderSubsecs}
                                 scrollbar={scrollbar}
                                 saveNewOrder={saveNewOrder} />

@@ -57,7 +57,7 @@ export const createItem = address => async (dispatch, getState) => {
 
 export const createSection = name => async dispatch => {
 
-    const newSec = { name, children: [] }
+    const newSec = { name }
 
     // create the section in db
     await db.collection('sections')
@@ -67,6 +67,11 @@ export const createSection = name => async dispatch => {
     // create the reference in the ids arr
     await db.doc('order/sections')
         .update({ ids: arrayUnion(newSec.id) })
+
+    // create the doc that will contain
+    // children subsecs ids
+    await db.doc(`order/${name}`)
+        .set({ ids: [] })
     
     // create the corresponding content item
     // with the same ID
@@ -87,19 +92,23 @@ export const createSubsec = (names, sectionID) => async dispatch => {
     const newSubsec = { 
         name, 
         sectionID, 
-        sectionName, 
-        children: [] 
+        sectionName
     }
 
     // create the subsec and save it's ID in newSubsec
-    await db.collection('subsections')
+    await db.collection('subsecs')
         .add(newSubsec)
         .then(subsec => newSubsec.id = subsec.id)
 
     // create a reference to the subsection
-    // in the parent section's children array
-    await db.doc(`sections/${sectionID}`)
-        .update({ children: arrayUnion(newSubsec.id) })
+    // in the ids array respobsible for the order
+    await db.doc(`order/${sectionName}`)
+        .update({ ids: arrayUnion(newSubsec.id) })
+
+    // create the doc that will contain
+    // children features ids
+    await db.doc(`order/${newSubsec.id}`)
+        .set({ ids: [] })
 
     // create a corresponding content item
     const content = createContentItem(newSubsec)
@@ -117,16 +126,16 @@ export const createSubsec = (names, sectionID) => async dispatch => {
 
 export const createFeature = (names, ids) => async dispatch => {
 
-    const [ sectionName, subsectionName, name ] = names
-    const [ sectionID, subsectionID ] = ids
+    const [ sectionName, subsecName, name ] = names
+    const [ sectionID, subsecID ] = ids
 
     // create the feature;
     const newFeature = { 
         name, 
         sectionID, 
         sectionName, 
-        subsectionID, 
-        subsectionName
+        subsecID, 
+        subsecName
     }
 
     await db.collection('features')
@@ -134,9 +143,9 @@ export const createFeature = (names, ids) => async dispatch => {
         .then(feature => newFeature.id = feature.id)
 
     // create a reference to the feature
-    // in the parent subsection's children array
-    await db.doc(`subsections/${subsectionID}`)
-        .update({ children: arrayUnion(newFeature.id)})
+    // in the ids array respobsible for the order
+    await db.doc(`order/${subsecID}`)
+        .update({ ids: arrayUnion(newFeature.id)})
 
     // create a corresponding content item
     const content = createContentItem(newFeature)
@@ -146,6 +155,6 @@ export const createFeature = (names, ids) => async dispatch => {
 
     return `
         The {{${name}}} feature has been created 
-        in {{${sectionName}}}/{{${subsectionName}}}/.
+        in {{${sectionName}}}/{{${subsecName}}}/.
     `
 }

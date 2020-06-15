@@ -21,6 +21,10 @@ const featuresSlice = createSlice({
                 state[item.id] = item
             })
         },
+
+        reorderFeatures: (state, action) => {
+            return state
+        }
     },
 
     
@@ -64,4 +68,5 @@ export default reducer
 
 export const {
     recieveFeatures,
+    reorderFeatures
 } = actions

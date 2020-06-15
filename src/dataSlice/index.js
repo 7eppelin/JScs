@@ -6,18 +6,18 @@ export {
     addSection,
     recieveSections,
     reorderSections,
-    reorderSubsecs
 } from './slices/sectionsSlice'
 
 
 export {
     recieveSubsecs,
-    reorderFeatures,
+    reorderSubsecs,
 } from './slices/subsecsSlice'
 
 
 export { 
-    recieveFeatures 
+    recieveFeatures,
+    reorderFeatures
 } from './slices/featuresSlice'
 
 
@@ -39,10 +39,10 @@ export {
 
 export { createItem } from './thunks/createItem'
 export { deleteItem } from './thunks/deleteItem'
-export { getSections } from './thunks/getSections'
-export { getSubsecs } from './thunks/getSubsecs'
-export { getFeatures } from './thunks/getFeatures'
-export { getContentItem } from './thunks/getContentItem'
+export { fetchSections } from './thunks/fetchSections'
+export { fetchSubsecs } from './thunks/fetchSubsecs'
+export { fetchFeatures } from './thunks/fetchFeatures'
+export { fetchContentItem } from './thunks/fetchContentItem'
 export { updateContentItem } from './thunks/updateContentItem'
 
 

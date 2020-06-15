@@ -40,7 +40,7 @@ export const deleteItem = address => async (dispatch, getState) => {
     
     } else if (subsecName) {
         return await dispatch(
-            deleteSubsection(names, ids)
+            deleteSubsec(names, ids)
         )
 
     } else {
@@ -57,7 +57,8 @@ export const deleteSection = (name, id) => async dispatch => {
     // delete the reference to the section from the 'ids'
     await db.doc('order/sections')
         .update({ ids: arrayRemove(id) })
-
+    
+    await db.doc(`order/${name}`).delete()
 
     // now, we need to not only delete the section
     // but all the items nested within it aswell
@@ -106,15 +107,15 @@ export const deleteSection = (name, id) => async dispatch => {
 
 
 
-export const deleteSubsection = (names, ids) => async dispatch => {
+export const deleteSubsec = (names, ids) => async dispatch => {
 
     const [ secName, name ] = names
     const [ secID, id ] = ids
 
     // delete the reference to the subsection
     // from the parent section's children field
-    await db.doc(`sections/${secID}`)
-        .update({ children: arrayRemove(id) })
+    await db.doc(`order/${secName}`)
+        .update({ ids: arrayRemove(id) })
 
     // delete the subsection and all nested features
 
@@ -122,14 +123,14 @@ export const deleteSubsection = (names, ids) => async dispatch => {
     // feature.subsectionName === name && feature.sectionName === sectionName
     const features = await db.collection('features')
         .where('sectionName', '==', secName)
-        .where('subsectionName', '==', name)
+        .where('subsecName', '==', name)
         .get()
         .then(features => features.docs.map(doc => doc.id))
     
     // batch all the deletion operations together before commiting
     const firestoreBatch = db.batch();
 
-    firestoreBatch.delete(db.collection('subsections').doc(id));
+    firestoreBatch.delete(db.collection('subsecs').doc(id));
     firestoreBatch.delete(db.collection('content').doc(id));
 
     features.forEach(feature => {
@@ -153,8 +154,8 @@ export const deleteFeature = (names, ids) => async dispatch => {
 
     // delete the reference to the feature
     // from the parent subsection's children field
-    await db.doc(`subsections/${subsecID}`)
-        .update({ children: arrayRemove(id) })
+    await db.doc(`order/${subsecID}`)
+        .update({ ids: arrayRemove(id) })
 
     // delete the feature
     await db.collection('features').doc(id).delete()

@@ -12,7 +12,7 @@ import FeatureList from './FeatureList';
 const FeatureMenu = ({ 
     i, 
     heights, 
-    subsection, 
+    subsec, 
     reorderSubsecs,
     scrollbar,
     saveNewOrder
@@ -21,7 +21,7 @@ const FeatureMenu = ({
     const [ isDragging, setDragging ] = useState(false)
     const dragOriginY = useMotionValue(0)
 
-    const { name, id, sectionName, children: featuresIDs } = subsection
+    const { name, id, sectionName, children: featuresIDs } = subsec
 
     // set the item's current height, so the siblings can know it
     heights.current[i] = featuresOpen ? 

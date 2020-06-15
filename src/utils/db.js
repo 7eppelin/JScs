@@ -50,6 +50,39 @@ export const findFeatureIDinDB = async names => {
 
 
 
+export const getIdsFromDB = async docName => {
+    return await db
+        .doc(`order/${docName}`)
+        .get()
+        .then(doc => {
+            if (!doc.exists) return null
+            return doc.data().ids
+        })
+}
+
+
+export const retrieveSubsecsFromDB = async secName => {
+    return await db
+        .collection('subsecs')
+        .where('sectionName', '==', secName)
+        .get()
+        .then(snapshot => {
+            if (!snapshot.docs.length) return null
+            return snapshot.docs.map(doc => ({ 
+                id: doc.id, 
+                ...doc.data() 
+            })
+        )})
+}
+
+
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
+
 export const createSectionInDB = async name => {
     const newSec = { name, children: [] }
 

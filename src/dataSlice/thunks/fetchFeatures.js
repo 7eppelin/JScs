@@ -3,7 +3,7 @@ import { db } from 'firebase.js'
 import { recieveFeatures } from 'dataSlice'
 
 
-export const getFeatures = subsecID => async dispatch => {
+export const fetchFeatures = subsecID => async dispatch => {
     const features = await db
         .collection('features')
         .where('subsecID', '==', subsecID)

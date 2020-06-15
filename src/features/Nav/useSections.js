@@ -1,7 +1,7 @@
 
 import { useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { getSections } from 'dataSlice';
+import { fetchSections } from 'dataSlice';
 
 import { reorderSections } from 'dataSlice';
 import { arrayMove } from 'utils';
@@ -12,7 +12,7 @@ const useSections = () => {
 
     // fetch sections once
     useEffect(() => {
-        dispatch(getSections())
+        dispatch(fetchSections())
     }, [dispatch])        
 
     const sections = useSelector(state => state.data.sections)

@@ -5,36 +5,29 @@ import {
     addSubsec,
     removeSubsec,
     removeSection,
-    addFeature,
-    removeFeature 
 } from './sharedActions';
 
 
 const subsecsSlice = createSlice({
     name: 'subsecs',
-    initialState: {
-        byID: {},
-        ids: {}
-    },
+    initialState: {},
     reducers: {
         recieveSubsecs: (state, action) => {
             const subs = action.payload
-
-            subs.forEach(sub => {
-                state[sub.id] = sub
-            })
+            const secName = subs[0].sectionName
+            state[secName] = subs
         },
 
-        reorderFeatures: (state, action) => {
-            const { subsecID, newOrder } = action.payload
-            state[subsecID].children = newOrder
+        reorderSubsecs: (state, action) => {
+            const { sectionName, newOrder } = action.payload
+            state[sectionName] = newOrder
         },
     },
 
     extraReducers: {
         [addSubsec]: (state, action) => {
             const sub = action.payload
-            state[sub.id] = sub
+            state[sub.sectionName].push(sub)
         },
 
         [removeSubsec]: (state, action) => {
@@ -42,25 +35,12 @@ const subsecsSlice = createSlice({
         },
 
         [removeSection]: (state, action) => {
-        // del all features with f.sectionID === action.payload
+        // del all subsecs with subsec.sectionID === action.payload
             const secID = action.payload
             for (const sub in state) {
                 if (sub.sectionID === secID) delete state[sub.id]
             }           
         },
-
-        [addFeature]: (state, action) => {
-        // add feature's id to the parent subsec children
-            const { id, subsectionID } = action.payload
-            state[subsectionID].children.push(id)
-        },
-
-        [removeFeature]: (state, action) => {
-        // remove feature's id from the parent subsec children
-            const { id, subsecID } = action.payload
-            const sub = state[subsecID]
-            sub.children = sub.children.filter(f => f !== id)
-        }
     }
 })
 
@@ -71,5 +51,5 @@ export default reducer
 
 export const { 
     recieveSubsecs,
-    reorderFeatures,
+    reorderSubsecs,
 } = actions;

@@ -11,10 +11,17 @@ export {
     findSectionIDinDB,
     findSubsecIDinDB,
     findFeatureIDinDB,
+
+    getIdsFromDB,
+
+    retrieveSubsecsFromDB,
+
     saveContentItem,
+    
     createSectionInDB,
     createSubsecInDB,
     createFeatureInDB,
+
     updateSectionsOrderInDB,
     updateSubsecsOrderInDB,
     updateFeaturesOrderInDB,

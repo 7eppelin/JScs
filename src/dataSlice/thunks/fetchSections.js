@@ -3,7 +3,7 @@ import { db } from 'firebase.js'
 import { recieveSections } from 'dataSlice'
 
 
-export const getSections = () => async dispatch => {
+export const fetchSections = () => async dispatch => {
 
     // get the sections
     const snapshot = await db.collection('sections').get()

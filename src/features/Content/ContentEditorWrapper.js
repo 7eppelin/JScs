@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom'
 
-import { getContentItem, updateContentItem } from 'dataSlice';
+import { fetchContentItem, updateContentItem } from 'dataSlice';
 import selectContent from './selectContent';
 
 import AnimatedContentEditor from './AnimatedContentEditor'
@@ -23,7 +23,7 @@ const ContentEditorWrapper = ({ delayAnimation }) => {
     // fetch content item on url change
     useEffect(() => {
         if (content) return;
-        dispatch(getContentItem(path))
+        dispatch(fetchContentItem(path))
     }, [path, content, dispatch])
 
     // set the document title on url change
