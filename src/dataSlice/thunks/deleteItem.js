@@ -4,6 +4,7 @@ import { db, arrayRemove } from 'firebase.js'
 import { 
     findIDsByNames,
     validateDelete,
+    getIdsFromDB,
     deleteItemRefFromDB,
     deleteRefsDoc,
 } from 'utils'
@@ -47,53 +48,51 @@ export const deleteItem = address => async (dispatch, getState) => {
 
 export const deleteSection = (name, id) => async dispatch => {
 
-    // delete the reference to the section from the 'ids'
+    // delete the reference to the section
     await deleteItemRefFromDB('sections', id)
 
-    // delete the doc that contains children subsecs refs
-    await deleteRefsDoc(name)
-
     // now, we need to not only delete the section
-    // but all the items nested within it aswell
+    // but all the nested items aswell
 
-    // make an array of ids of the subsections
-    // whose sectionName field equals to the given name
-    const subs = await db.collection('subsecs')
-            .where('sectionName', '==', name)
-            .get()
-            .then(subs => subs.docs.map(sub => sub.id))
+    // get the array of the children subsecs ids
+    const subs = await getIdsFromDB(name) || []
     
     // same goes for features
-    const features = await db.collection('features')
-        .where('sectionName', '==', name)
-        .get()
-        .then(features => features.docs.map(feature => feature.id));
-    
+    // const features = await db.collection('features')
+    //     .where('sectionName', '==', name)
+    //     .get()
+    //     .then(features => features.docs.map(doc => doc.id));
 
-    // delete the items from the db
-    // aswell as related content items
+    const features = subs.reduce(
+        async (prev, sub) => {
+            const ids = await getIdsFromDB(sub)
+            return ids ? [...prev, ...ids] : prev
+        }, 
+        []
+    )
 
     // instead of executing operations for every single item
     // batch them together and commit once
+    const batch = db.batch()
 
-    const batch = db.batch();
-
-    batch.delete(db.collection('sections').doc(id));
-    batch.delete(db.collection('content').doc(id));
+    batch.delete(db.doc(`sections/${id}`))
+    batch.delete(db.doc(`content/${id}`))
+    batch.delete(db.doc(`order/${name}`))
 
     subs.forEach(sub => {
-        batch.delete(db.collection('subsecs').doc(sub));
-        batch.delete(db.collection('content').doc(sub));
-    });
+        batch.delete(db.doc(`subsecs/${sub}`))
+        batch.delete(db.doc(`content/${sub}`))
+        batch.delete(db.doc(`order/${sub}`))
+    })
 
     features.forEach(feature => {
-        batch.delete(db.collection('features').doc(feature));
-        batch.delete(db.collection('content').doc(feature));
-    });
+        batch.delete(db.doc(`features/${feature}`))
+        batch.delete(db.doc(`features/${feature}`))
+    })
 
-    await batch.commit();
+    await batch.commit()
 
-    dispatch(removeSection(id))
+    dispatch(removeSection(name))
 
     return `The {{${name}}} section has been {{deleted}}.`
 }
@@ -106,34 +105,26 @@ export const deleteSubsec = (names, ids) => async dispatch => {
     const [ secID, id ] = ids
 
     // delete the reference to the subsection
-    // from the parent section's children field
-    await db.doc(`order/${secName}`)
-        .update({ ids: arrayRemove(id) })
+    await deleteItemRefFromDB(secName, id)
 
-    // delete the subsection and all nested features
-
-    // find ids of all features with 
-    // feature.subsectionName === name && feature.sectionName === sectionName
-    const features = await db.collection('features')
-        .where('sectionName', '==', secName)
-        .where('subsecName', '==', name)
-        .get()
-        .then(features => features.docs.map(doc => doc.id))
+    // find all the nested features' ids
+    const features = await getIdsFromDB(id)
     
-    // batch all the deletion operations together before commiting
-    const firestoreBatch = db.batch();
+    // batch all the operations together before commiting
+    const batch = db.batch();
 
-    firestoreBatch.delete(db.collection('subsecs').doc(id));
-    firestoreBatch.delete(db.collection('content').doc(id));
+    batch.delete(db.doc(`subsecs/${id}`))
+    batch.delete(db.doc(`content/${id}`))
+    batch.delete(db.doc(`order/${id}`))
 
     features.forEach(feature => {
-        firestoreBatch.delete(db.collection('features').doc(feature));
-        firestoreBatch.delete(db.collection('content').doc(feature));
+        batch.delete(db.doc(`features/${feature}`))
+        batch.delete(db.doc(`features/${feature}`))
     });
 
-    await firestoreBatch.commit();
+    await batch.commit();
 
-    dispatch(removeSubsec({ id, secID }))
+    dispatch(removeSubsec({ id, secName }))
 
     return `The {{${name}}} subsection has been deleted from {{${secName}}}/.`
 }
@@ -147,12 +138,11 @@ export const deleteFeature = (names, ids) => async dispatch => {
 
     // delete the reference to the feature
     // from the parent subsection's children field
-    await db.doc(`order/${subsecID}`)
-        .update({ ids: arrayRemove(id) })
+    await deleteItemRefFromDB(subsecID, id)
 
     // delete the feature
-    await db.collection('features').doc(id).delete()
-    await db.collection('content').doc(id).delete()
+    await db.doc(`features/${id}`).delete()
+    await db.doc(`features/${id}`).delete()
 
     dispatch(removeFeature({ id, subsecID }))
 

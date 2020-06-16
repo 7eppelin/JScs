@@ -82,7 +82,7 @@ const FeatureMenu = ({
             }} >
 
             <SubsectionLink 
-                withToggler={featuresIDs.length > 0}
+                withToggler={featuresIDs?.length > 0}
                 to={`/${sectionName}/${name}`}
                 label={name}
                 toggleFeatures={setFeaturesOpen}

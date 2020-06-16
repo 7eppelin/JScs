@@ -26,8 +26,8 @@ const sectionsSlice = createSlice({
 
     extraReducers: {
         [removeSection]: (state, action) => {
-            const id = action.payload
-            return state.filter(sec => sec.id !== id)
+            const name = action.payload
+            return state.filter(sec => sec.name !== name)
         },
     }
 })

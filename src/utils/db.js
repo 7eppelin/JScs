@@ -31,7 +31,7 @@ export const findSubsecIDinDB = async names => {
     const [ secName, name ] = names
 
     const snapshot = await db
-        .collection('subsections')
+        .collection('subsecs')
         .where('name', '==', name)
         // subsection names are unique only within the same section
         .where('sectionName', '==', secName)
@@ -49,7 +49,7 @@ export const findFeatureIDinDB = async names => {
         db.collection('features')
             .where('name', '==', name)
             // feature names are unique only within the same subsection
-            .where('subsectionName', '==', subsecName)
+            .where('subsecName', '==', subsecName)
             // subsection names are unique only within the same section
             .where('sectionName', '==', secName)
             .get();
@@ -118,7 +118,7 @@ export const createFeatureInDB = async (names, ids) => {
 
 
 export const saveContentItem = item => {
-    db.collection('content')
+    return db.collection('content')
         .doc(item.id)
         .set(item)
 }

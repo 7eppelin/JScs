@@ -26,8 +26,13 @@ const subsecsSlice = createSlice({
 
     extraReducers: {
         [addSubsec]: (state, action) => {
-            const sub = action.payload
-            state[sub.sectionName].push(sub)
+            const subsec = action.payload
+            const secName = subsec.sectionName
+            if (state[secName]) {
+                state[secName].push(subsec)
+            } else {
+                state[secName] = [ subsec ]
+            }
         },
 
         [removeSubsec]: (state, action) => {
@@ -35,11 +40,8 @@ const subsecsSlice = createSlice({
         },
 
         [removeSection]: (state, action) => {
-        // del all subsecs with subsec.sectionID === action.payload
-            const secID = action.payload
-            for (const sub in state) {
-                if (sub.sectionID === secID) delete state[sub.id]
-            }           
+            const secName = action.payload
+            delete state[secName]
         },
     }
 })
