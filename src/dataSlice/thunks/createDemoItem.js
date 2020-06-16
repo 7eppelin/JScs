@@ -7,6 +7,7 @@ import {
 } from 'dataSlice'
 
 import { nanoid } from '@reduxjs/toolkit'
+import { batch } from 'react-redux'
 
 import { createContentItem } from 'utils'
 
@@ -18,7 +19,7 @@ import { createContentItem } from 'utils'
 
 export default (names, ids) => async dispatch => {
     const [ secName, subsecName, featureName ] = names
-    const [ secID, subsecID, featureID ] = ids
+    const [ secID ] = ids
 
     if (featureName) {
         return dispatch(
@@ -39,19 +40,14 @@ export default (names, ids) => async dispatch => {
 
 const createDemoSection = name => dispatch => {
 
-    const newSec = {
-        name,
-        id: nanoid(),
-        children: []
-    }
+    const newSec = { name, id: nanoid() }
 
-    // add the section to the state
-    dispatch(addSection(newSec))
+    const content = createContentItem(newSec)
 
-    // create the corresponding content item
-    // and add it to the state
-    const content = createContentItem(newSec);
-    dispatch(addContentItem(content))
+    batch(() => {
+        dispatch(addSection(newSec))
+        dispatch(addContentItem(content))
+    })
 
     return `
         !!Database: Insufficient permissions! !! 
@@ -70,15 +66,14 @@ const createDemoSubsec = (names, sectionID) => dispatch => {
         id: nanoid(),
         sectionName,
         sectionID,
-        children: []
     }
 
-    // add the subsec to the store
-    dispatch(addSubsec(newSubsec))
-
-    // create the corresponding content item and add it to the store
     const content = createContentItem(newSubsec)
-    dispatch(addContentItem(content))
+
+    batch(() => {
+        dispatch(addSubsec(newSubsec))
+        dispatch(addContentItem(content))
+    })
 
     return `
         !!Database: Insufficient permissions.!! 
@@ -91,27 +86,28 @@ const createDemoSubsec = (names, sectionID) => dispatch => {
 
 const createDemoFeature = (names, ids) => dispatch => {
 
-    const [ sectionName, subsectionName, name ] = names
-    const [ sectionID, subsectionID ] = ids
+    const [ sectionName, subsecName, name ] = names
+    const [ sectionID, subsecID ] = ids
 
     const newFeature = {
         name,
         id: nanoid(),
         sectionName,
         sectionID,
-        subsectionName,
-        subsectionID,
-        children: []
+        subsecName,
+        subsecID,
     }
 
-    dispatch(addFeature(newFeature))
-
     const content = createContentItem(newFeature)
-    dispatch(addContentItem(content))
+
+    batch(() => {
+        dispatch(addFeature(newFeature))
+        dispatch(addContentItem(content))
+    })
 
     return `
         !!Database: Insufficient permissions.!! 
         The {{${name}}} feature has been created in 
-        {{${sectionName}}}/{{${subsectionName}}}/ in {{state}}.
+        {{${sectionName}}}/{{${subsecName}}}/ in {{state}}.
     `
 }

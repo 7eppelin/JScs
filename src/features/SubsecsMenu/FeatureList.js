@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux'
 import { createSelector } from '@reduxjs/toolkit';
 
-import { arrayMove, updateFeaturesOrderInDB } from 'utils'
+import { arrayMove, updateItemsOrderInDB } from 'utils'
 import { reorderFeatures } from 'dataSlice'
 
 import FeatureItem from './FeatureItem';
@@ -40,7 +40,7 @@ const FeatureList = ({
 
     const updateOrderInDB = () => {
         if (!isAdmin) return
-        updateFeaturesOrderInDB(subsecID, ids)
+        updateItemsOrderInDB(subsecID, ids)
     }
 
     const moveItem = (current, target) => {

@@ -2,7 +2,7 @@ import React, { useRef, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import { motion } from 'framer-motion';
 
-import { updateSectionsOrderInDB } from 'utils';
+import { updateItemsOrderInDB } from 'utils';
 
 import Spinner from 'components/Spinner';
 import SectionLink from './SectionLink';
@@ -21,7 +21,7 @@ const SectionMenu = ({
     const updateDB = useCallback(() => {
         if (!isAdmin) return
         const ids = sections.map(sec => sec.id)
-        updateSectionsOrderInDB(ids)
+        updateItemsOrderInDB('sections', ids)
     }, [isAdmin, sections])
 
     // if this is the first render of the app

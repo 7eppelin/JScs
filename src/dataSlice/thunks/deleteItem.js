@@ -4,6 +4,8 @@ import { db, arrayRemove } from 'firebase.js'
 import { 
     findIDsByNames,
     validateDelete,
+    deleteItemRefFromDB,
+    deleteRefsDoc,
 } from 'utils'
 
 import { 
@@ -16,37 +18,28 @@ import deleteDemoItem from './deleteDemoItem'
 
 
 export const deleteItem = address => async (dispatch, getState) => {
-
-    // [ sectionName, subsectionName, featureName ]
     const names = address.split('/')
+    const [ secName, subsecName, featureName ] = names
 
     // [ sectionID, subsectionID, featureID ]
     const ids = await findIDsByNames(names, getState().data)
 
-    // throws errors
     validateDelete(names, ids)
 
     const isAdmin = getState().user?.isAdmin
     if (!isAdmin) {
+        // delete the item only from the redux store
         return dispatch(deleteDemoItem(names, ids))
     }
 
-    const [ secName, subsecName, featureName ] = names
-
     if (featureName) {
-        return await dispatch(
-            deleteFeature(names, ids)
-        )
+        return await dispatch(deleteFeature(names, ids))
     
     } else if (subsecName) {
-        return await dispatch(
-            deleteSubsec(names, ids)
-        )
+        return await dispatch(deleteSubsec(names, ids))
 
     } else {
-        return await dispatch(
-            deleteSection(secName, ids[0])
-        )
+        return await dispatch(deleteSection(secName, ids[0]))
     }
 }
 
@@ -55,17 +48,17 @@ export const deleteItem = address => async (dispatch, getState) => {
 export const deleteSection = (name, id) => async dispatch => {
 
     // delete the reference to the section from the 'ids'
-    await db.doc('order/sections')
-        .update({ ids: arrayRemove(id) })
-    
-    await db.doc(`order/${name}`).delete()
+    await deleteItemRefFromDB('sections', id)
+
+    // delete the doc that contains children subsecs refs
+    await deleteRefsDoc(name)
 
     // now, we need to not only delete the section
     // but all the items nested within it aswell
 
     // make an array of ids of the subsections
     // whose sectionName field equals to the given name
-    const subs = await db.collection('subsections')
+    const subs = await db.collection('subsecs')
             .where('sectionName', '==', name)
             .get()
             .then(subs => subs.docs.map(sub => sub.id))
@@ -83,22 +76,22 @@ export const deleteSection = (name, id) => async dispatch => {
     // instead of executing operations for every single item
     // batch them together and commit once
 
-    const firestoreBatch = db.batch();
+    const batch = db.batch();
 
-    firestoreBatch.delete(db.collection('sections').doc(id));
-    firestoreBatch.delete(db.collection('content').doc(id));
+    batch.delete(db.collection('sections').doc(id));
+    batch.delete(db.collection('content').doc(id));
 
     subs.forEach(sub => {
-        firestoreBatch.delete(db.collection('subsections').doc(sub));
-        firestoreBatch.delete(db.collection('content').doc(sub));
+        batch.delete(db.collection('subsecs').doc(sub));
+        batch.delete(db.collection('content').doc(sub));
     });
 
     features.forEach(feature => {
-        firestoreBatch.delete(db.collection('features').doc(feature));
-        firestoreBatch.delete(db.collection('content').doc(feature));
+        batch.delete(db.collection('features').doc(feature));
+        batch.delete(db.collection('content').doc(feature));
     });
 
-    await firestoreBatch.commit();
+    await batch.commit();
 
     dispatch(removeSection(id))
 

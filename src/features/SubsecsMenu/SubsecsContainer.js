@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux';
 import { fetchSubsecs } from 'dataSlice';
-import { updateSubsecsOrderInDB } from 'utils'
+import { updateItemsOrderInDB } from 'utils'
 import useSubsecs from './useSubsecs'
 
 import Subsections from './Subsections'
@@ -22,9 +22,8 @@ const SubsecsContainer = ({ sectionName, isAdmin, delayAnimation }) => {
     // save the new subsecs' order onDragEnd
     const saveNewOrder = useCallback(() => {
         if (!isAdmin) return
-        const secID = subsecs[0].sectionID
         const ids = subsecs.map(sub => sub.id)
-        updateSubsecsOrderInDB(secID, ids)
+        updateItemsOrderInDB(sectionName, ids)
     }, [isAdmin, subsecs])
 
     return (

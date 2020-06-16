@@ -7,24 +7,27 @@ export {
 } from './hooks'
 
 
+
 export {
     findSectionIDinDB,
     findSubsecIDinDB,
     findFeatureIDinDB,
-
     getIdsFromDB,
 
-    retrieveSubsecsFromDB,
-
-    saveContentItem,
-    
     createSectionInDB,
     createSubsecInDB,
     createFeatureInDB,
 
-    updateSectionsOrderInDB,
-    updateSubsecsOrderInDB,
-    updateFeaturesOrderInDB,
+    createItemRefInDB,
+    deleteItemRefFromDB,
+    createRefsDoc,
+    deleteRefsDoc,
+
+    retrieveSubsecsFromDB,
+
+    saveContentItem,
+
+    updateItemsOrderInDB,
 } from './db'
 
 
