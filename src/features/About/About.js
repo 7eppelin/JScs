@@ -31,9 +31,9 @@ const Section = styled(motion.section)`
 
 const transition = {
     type: 'spring',
-    stiffness: 180,
+    stiffness: 250,
     damping: 14,
-    mass: 0.6,
+    mass: 0.5,
 }
 
 const variants = {
@@ -46,6 +46,7 @@ const variants = {
         scale: .8,
         left: '-100vw',
         transition: {
+            ...transition,
             left: { delay: 0.25 },
         }
     },

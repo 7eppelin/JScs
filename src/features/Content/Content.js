@@ -9,8 +9,7 @@ const ContentEditorWrapper = React.lazy(() => import('./ContentEditorWrapper'))
 // renders ContentEditorWrapper
 
 const Content = ({ delayAnimation }) => (
-    <Section 
-        variants={variants}
+    <Section variants={variants}
         initial='initial'
         animate='enter'
         exit='exit'>
@@ -37,9 +36,9 @@ const Section = styled(motion.section)`
 
 const transition = {
     type: 'spring',
-    stiffness: 120,
-    damping: 12,
-    mass: 0.9,
+    stiffness: 250,
+    damping: 20,
+    mass: 0.5,
 }
 
 
@@ -53,6 +52,7 @@ const variants = {
         scale: .8,
         right: -800,
         transition: {
+            ...transition,
             right: { delay: 0.25 },
         }
     },
@@ -61,10 +61,10 @@ const variants = {
         scale: 1,
         right: 0,
         transition: {
-            right: { delay: 0.1 },
+            right: { delay: 0.05 },
             scale: { 
                 ...transition,
-                delay: 0.4 
+                delay: 0.45 
             }
         }
     }
