@@ -24,6 +24,7 @@ const FeaturesList = ({
     }
 
     const moveItem = (current, target) => {
+        if (target === items.length || target < 0) return
         const newOrder = arrayMove(items, current, target)
         dispatch(reorderFeatures({ subsecID, newOrder }))
     }

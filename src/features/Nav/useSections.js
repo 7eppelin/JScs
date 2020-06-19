@@ -20,7 +20,6 @@ const useSections = () => {
     // reorder sections
     const reorder = useCallback((current, target) => {
         if (target === sections.length || target < 0) return
-
         const newOrder = arrayMove(sections, current, target)
         dispatch(reorderSections(newOrder)) 
     }, [sections, dispatch])       
