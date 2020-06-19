@@ -16,14 +16,15 @@ const Login = () => {
             tip='click to log in with GitHub'>
             <button onClick={() => dispatch(loginWithGithub())}>
                 Welcome, <span>guest</span>
-                <StyledIcon icon='github' size={30} />
+                <StyledIcon icon='github' size={28} />
             </button>
         </Tooltip>
 )}
 
 const StyledIcon = styled(Icon)`
     margin-left: 8px;
-    path { fill: var(--white) }
+    margin-top: -3px;
+    path { fill: var(--white1) }
 `
 
 export default Login
