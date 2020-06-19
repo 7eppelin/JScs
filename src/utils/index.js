@@ -34,9 +34,7 @@ export {
 
 export {
     findIDsByNames,
-    findSection,
-    findSubsec,
-    findFeature,
+    findItemByName,
     createContentItem
 } from './data'
 

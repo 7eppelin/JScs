@@ -1,6 +1,5 @@
 
 
-
 export const validateDelete = (names, ids) => {
     const [ secName, subsecName, featureName ] = names
     const [ secID, subsecID, featureID ] = ids

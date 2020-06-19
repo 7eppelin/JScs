@@ -7,13 +7,13 @@ import {
 } from 'utils'
 
 
-// names = [ 'sectionName', 'subsectionName', 'featureName' ]
-// 'featureName' and 'subsectionName' are optional
+// names = [ 'sectionName', 'subsecName', 'featureName' ]
+// 'featureName' and 'subsecName' are optional
+// data = state.data from the store
 
 // return [ sectionID, subsecID, featureID ]
 
 export const findIDsByNames = async (names, data) => {
-
     const [ secName, subsecName, featureName ] = names
 
     const sectionID = await findSectionID(secName, data.sections)
@@ -21,12 +21,16 @@ export const findIDsByNames = async (names, data) => {
     const ids = [ sectionID ]
 
     if (subsecName) {
-        const subsecID = await findSubsecID(names, data.subsecs)
+        const subsecs = data.subsecs[secName]
+        console.log(names, subsecs)
+        const subsecID = await findSubsecID(names, subsecs)
         ids.push(subsecID)
     }
 
     if (featureName) {
-        const featureID = await findFeatureID(names, data.features)
+        const subsecID = ids[1]
+        const features = data.features[subsecID]
+        const featureID = await findFeatureID(names, features)
         ids.push(featureID)
     }
 
@@ -34,64 +38,43 @@ export const findIDsByNames = async (names, data) => {
 }
 
 
-// search in the state first, 
-// and only then in the database
+
+// search in the state first, then in the database
 
 const findSectionID = async (name, sections) => (
-    findSection(name, sections)?.id 
-    || 
-    await findSectionIDinDB(name)
+    findIdByName(name, sections) || await findSectionIDinDB(name)
 )
 
 const findSubsecID = async (names, subsecs) => (
-    findSubsec(names, subsecs)?.id 
-    || 
-    await findSubsecIDinDB(names)
+    findIdByName(names[1], subsecs) || await findSubsecIDinDB(names)
 )
 
 const findFeatureID = async (names, features) => (
-    findFeature(names, features)?.id 
-    || 
-    await findFeatureIDinDB(names)          
+    findIdByName(names[2], features) || await findFeatureIDinDB(names)          
 )
 
 
-// when searching for an item in state by name, 
-// must always keep in mind that:
 
-// different subsections with the same names
-// can co-exist in different sections
-
-// different features with the same names
-// can co-exist in different sections or subsections
-
-// thus simply comparing names is not sufficient
-// must also compare parents' names
-
-export const findSection = (name, sections) => (
-    sections.find(sec => sec.name === name)
+export const findIdByName = (name, items) => (
+    items?.find(item => item.name === name)?.id
 )
 
-export const findSubsec = (names, subsecs) => {
-    const [ secName, name ] = names
-    const arr = Object.values(subsecs)
+export const findItemByName = (name, items) => (
+    items?.find(item => item.name === name)
+)
 
-    return arr.find(sub => (
-        sub.name === name && 
-        sub.sectionName === secName
-    ))
-}
 
-export const findFeature = (names, features) => {
-    const [ secName, subsecName, name ] = names
-    const arr = Object.values(features)
+// export const findSection = (name, sections) => (
+//     sections.find(sec => sec.name === name)
+// )
 
-    return arr.find(f => (
-        f.name === name && 
-        f.sectionName === secName && 
-        f.subsectionName === subsecName
-    ))
-}
+// export const findSubsec = (name, subsecs) => (
+//     subsecs?.find(sub => sub.name === name)
+// )
+
+// export const findFeature = (name, features) => (
+//     features?.find(f => f.name === name)
+// )
 
 
 
