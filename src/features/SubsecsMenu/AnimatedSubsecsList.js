@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { usePrevious } from 'utils'
 
 
 const AnimatedSubsecsList = ({ 
@@ -7,21 +8,27 @@ const AnimatedSubsecsList = ({
     keyValue,
     delayAnimation,
     children
-}) => (
-    <AnimatePresence exitBeforeEnter>
-        {isShown && 
-            <motion.ul
-                key={keyValue}
-                variants={variants}
-                initial='hide'
-                animate='appear'
-                exit='hide'
-                transition={delayAnimation ? { delay: 0.94 } : true }>
+}) => {
+    // prevents the List from animating
+    // when the user goes to the front-page (keyValue = undefined)
+    const prevKey = usePrevious(keyValue)
 
-                {children}
-            </motion.ul>}
-    </AnimatePresence>
-)
+    return (
+        <AnimatePresence exitBeforeEnter>
+            {isShown && 
+                <motion.ul
+                    key={keyValue || prevKey}
+                    variants={variants}
+                    initial='hide'
+                    animate='appear'
+                    exit='hide'
+                    transition={delayAnimation ? { delay: 0.94 } : true }>
+
+                    {children}
+                </motion.ul>}
+        </AnimatePresence>
+    )
+}
 
 const variants = {
     appear: {
