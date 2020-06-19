@@ -46,18 +46,11 @@ const Div = styled.div`
     padding: 40px 15% 100px;
     min-height: calc(100% - 136px);
     position: relative;
+    color: var(--white2);
 
     strong {
         font-weight: 500;
         color: var(--orange2)
-    }
-
-    .tip {
-        color: var(--gray2);
-        transition: .2s;
-    }
-    .tip:hover {
-        color: var(--white)
     }
 `
 
@@ -74,7 +67,7 @@ const Button = styled.button`
     &:focus { outline: none }
 
     path { 
-        fill: var(--white);
+        fill: var(--white1);
         transition: .25s;
     }
 

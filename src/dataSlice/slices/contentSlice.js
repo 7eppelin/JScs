@@ -8,13 +8,9 @@ import {
 } from './sharedActions'
 
 const contentSlice = createSlice({
-
     name: 'content',
-
     initialState: {},
-
     reducers: {
-
         addContentItem: (state, action) => {
             state[action.payload.id] = action.payload;
         },
@@ -23,10 +19,8 @@ const contentSlice = createSlice({
             delete state[action.payload]
         }
     },
-    
 
     extraReducers: {
-
         [removeSection]: (state, action) => {
             delete state[action.payload]
         },

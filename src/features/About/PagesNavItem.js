@@ -42,7 +42,7 @@ const Button = styled.button`
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: ${props => props.isActive ? 'var(--orange1)' : 'var(--white)'};
+        background: ${props => props.isActive ? 'var(--orange1)' : 'var(--white1)'};
         transition: .2s;
     }
 

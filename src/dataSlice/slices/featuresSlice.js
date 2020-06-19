@@ -2,62 +2,66 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { 
-    addFeature,
     removeFeature,
     removeSection, 
-    removeSubsec 
+    removeSubsec,
 } from './sharedActions'
 
+
+/*
+
+state = {
+    subsecID: [ { feature }, { feature2 }, ... ],
+    subsecID-2: [ { feature3 }, { faeture4 }, ... ],
+    ... 
+}
+
+*/
 
 const featuresSlice = createSlice({
     name: 'features',
     initialState: {},
 
     reducers: {
-        recieveFeatures: (state, action) => {
-            const items = action.payload;
+        addFeature: (state, action) => {
+            const feature = action.payload
+            const { subsecID } = feature
 
-            items.forEach(item => {
-                state[item.id] = item
-            })
+            if (state[subsecID]) {
+                state[subsecID].push(feature)
+            } else {
+                state[subsecID] = [ feature ]
+            }
+        },
+
+        receiveFeatures: (state, action) => {
+            const { features, subsecID } = action.payload;
+            state[subsecID] = features
         },
 
         reorderFeatures: (state, action) => {
-            return state
+            const { subsecID, newOrder } = action.payload
+            state[subsecID] = newOrder
         }
     },
 
     
     extraReducers: {
-        [addFeature]: (state, action) => {
-            const item = action.payload
-            state[item.id] = item
-        },
-
         [removeFeature]: (state, action) => {
-            const id = action.payload
-            delete state[id]
+            const { id, subsecID } = action.payload
+            state[subsecID] = state[subsecID].filter(f => f.id !== id)
         },
         
         [removeSection]: (state, action) => {
-        // del all features with f.sectionID === action.payload
-            const secID = action.payload
-            for (const f in state) {
-                if (f.sectionID === secID) {
-                    delete state[f.id]
-                }
-            }
+            // arr of ids
+            const { subsecs } = action.payload
+            subsecs.forEach(sub => delete state[sub])
         },
 
         [removeSubsec]: (state, action) => {
-        // del all features with f.subsectionID === action.payload
-            const subsecID = action.payload
-            for (const f in state) {
-                if (f.subsectionID === subsecID) {
-                    delete state[f.id]
-                }
-            }
-        }
+            const { id } = action.payload
+            delete state[id]
+        },
     }
 })
 
@@ -67,6 +71,7 @@ const { reducer, actions } = featuresSlice
 export default reducer
 
 export const {
-    recieveFeatures,
+    addFeature,
+    receiveFeatures,
     reorderFeatures
 } = actions

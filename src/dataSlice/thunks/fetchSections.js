@@ -1,6 +1,6 @@
 
 import { db } from 'firebase.js'
-import { recieveSections } from 'dataSlice'
+import { receiveSections } from 'dataSlice'
 
 
 export const fetchSections = () => async dispatch => {
@@ -26,5 +26,5 @@ export const fetchSections = () => async dispatch => {
         secs.find(sec => sec.id === id)
     ))
 
-    dispatch(recieveSections(sections))
+    dispatch(receiveSections(sections))
 }

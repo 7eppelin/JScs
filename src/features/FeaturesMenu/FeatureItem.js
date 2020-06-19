@@ -8,12 +8,12 @@ const FeatureItem = ({
     i,
     feature,
     moveItem,
-    updateOrderInDB
+    saveNewOrder
 }) => {
     const [ isDragging, setDragging ] = useState(false)
     const dragOriginY = useMotionValue(0);
 
-    const { name, sectionName, subsectionName } = feature;
+    const { name, sectionName, subsecName } = feature;
 
     return (
         <StyledItem drag='y'
@@ -22,7 +22,10 @@ const FeatureItem = ({
             dragOriginY={dragOriginY}
 
             isDragging={isDragging}
-            animate={isDragging ? { scale: .92 } : { scale: 1 } }
+            animate={isDragging ? 
+                { zIndex: 5 } : 
+                { zIndex: 0, transition: {delay: 0.3} } 
+            }
 
             onDrag={(e, info) => {
                 const dragged = info.point.y;
@@ -33,7 +36,7 @@ const FeatureItem = ({
             onDragStart={() => setDragging(true)}
             onDragEnd={() => {
                 setDragging(false)
-                updateOrderInDB()
+                saveNewOrder()
             }}
 
             positionTransition={({ delta }) => {
@@ -45,7 +48,7 @@ const FeatureItem = ({
 
             <NavLink activeClassName='active'
                 draggable={false}
-                to={`/${sectionName}/${subsectionName}/${name}`} >
+                to={`/${sectionName}/${subsecName}/${name}`} >
                     {name}
             </NavLink>
         </StyledItem>
@@ -65,17 +68,17 @@ const StyledItem = styled(motion.li)`
         padding-left: 36px;
         font-size: 1.4rem;
         text-align: left;
-        background: ${props => props.isDragging ? 'var(--black)' : 'var(--gray6)'};
-        color: ${props => props.isDragging ? 'var(--orange2)' : 'var(--gray2)'};
+        background: ${props => props.isDragging ? 'var(--gray4)' : 'var(--gray3)'};
+        color: ${props => props.isDragging ? 'var(--orange2)' : 'var(--white2)'};
     }
 
     a:hover {
-        background: var(--black);
+        background: var(--gray4);
         color: var(--orange2);
     }
 
     a.active {
-        background: var(--black);
+        background: var(--gray4);
         color: var(--orange2);
     }
 `;

@@ -19,7 +19,7 @@ const Svg = styled.svg`
     vertical-align: middle;
 
     path {
-        fill: var(--gray1);
+        fill: var(--white2);
         transition: .5s;
     }
 `;

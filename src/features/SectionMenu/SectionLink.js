@@ -38,7 +38,7 @@ const SectionLink = ({
             dragOriginY={dragOriginY}
             isDragging={isDragging}
             
-            onDrag={(e, info) => {
+            onDrag={(_, info) => {
 
                 if (isOnTop()) {
                     setBoundary(true)
@@ -86,11 +86,9 @@ const SectionLink = ({
 
 const StyledLink = styled(motion.li)`
     position: relative;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     z-index: ${props => props.isDragging ? 5 : 0 };
-    box-shadow: ${props => props.isDragging 
-        ? '0 0 30px -6px black' 
-        : '0 0 6px -3px black'};
+    box-shadow: ${props => props.isDragging && '0 0 30px -6px black'};
 
     a {
         display: block;
@@ -98,18 +96,17 @@ const StyledLink = styled(motion.li)`
         height: 100%;
         border-radius: 3px;
         background: ${props => props.isDragging ? 'var(--gray4)' : 'var(--gray5)'};
-        color: var(--gray1);
+        color: var(--white2);
         transition: .2s;
     }
 
     a:hover {
-        background: var(--gray4);
+        background: var(--gray3);
     }
 
     a.active {
-        background: var(--gray4);
-        box-shadow: inset 0 0 15px -3px var(--gray6);
-        color: var(--white);
+        background: var(--gray3);
+        color: var(--white1);
     }
 `;
 

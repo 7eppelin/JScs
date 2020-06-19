@@ -22,6 +22,7 @@ const StyledAuth = styled.div`
     float: right;
     font-size: 1.5rem;
     margin-top: 25px;
+    color: var(--white1);
 
     button {
         background: transparent;

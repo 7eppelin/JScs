@@ -13,6 +13,7 @@ export {
     findSubsecIDinDB,
     findFeatureIDinDB,
     getIdsFromDB,
+    getFeaturesIdsFromDB,
 
     createSectionInDB,
     createSubsecInDB,

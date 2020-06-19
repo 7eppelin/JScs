@@ -37,7 +37,7 @@ const Div = styled(motion.div)`
     font-size: 1.3rem;
 
     svg { vertical-align: middle }
-    path { fill: var(--white) }
+    path { fill: var(--white1) }
 `
 
 export default PagesNavWheel

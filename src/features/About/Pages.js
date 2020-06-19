@@ -9,6 +9,7 @@ import AnimatedPage from './AnimatedPage'
 import Page from './Page'
 import PagesNav from './PagesNav'
 
+
 const Pages = () => {
     const justMounted = useMount()
     const [activePage, setActivePage] = useState(0)

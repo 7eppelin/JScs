@@ -1,10 +1,11 @@
 
 import { db } from 'firebase.js'
-import { recieveFeatures } from 'dataSlice'
+import { receiveFeatures } from 'dataSlice'
+import { getIdsFromDB } from 'utils'
 
 
 export const fetchFeatures = subsecID => async dispatch => {
-    const features = await db
+    const items = await db
         .collection('features')
         .where('subsecID', '==', subsecID)
         .get()
@@ -12,6 +13,12 @@ export const fetchFeatures = subsecID => async dispatch => {
             id: doc.id,
             ...doc.data()
         })))
+
+    const ids = await getIdsFromDB(subsecID)
+
+    const features = ids.map(id => (
+        items.find(item => item.id === id)
+    ))
     
-    dispatch(recieveFeatures(features))
+    dispatch(receiveFeatures({ features, subsecID }))
 } 

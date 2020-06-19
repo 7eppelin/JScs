@@ -7,7 +7,7 @@ const Heading = ({ text }) => (
 )
 
 const H2 = styled.h2`
-    color: var(--white);
+    color: var(--white1);
     padding-top: 15px;
     font-size: 2rem;
     text-align: center;

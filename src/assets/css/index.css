@@ -1,20 +1,23 @@
 :root {
+	--white1: #ece8e8;
+	--white2: #afafaf;
+	--white3: #afafaf;
+
 	--red: #e74444;
-	--white: #ece8e8;
 	--green: #26bb0f;
-	--brown: rgb(141, 82, 14);
 
 	--yellow: #e7b428;
 	--orange1: rgb(248, 150, 29);
 	--orange2: #d6731d;
 	--orange3: rgb(192, 94, 29);
+	--brown: rgb(141, 82, 14);
 	
-	--gray1: #afafaf;
-	--gray2: #9e9e9e;
-	--gray3: #646464;
-	--gray4: #383838;
-	--gray5: #292929;
-	--gray6: #1f1e1e;
+	--gray1: #747474;
+	--gray2: #474747;
+	--gray3: #363636;
+	--gray4: #2e2e2e;
+	--gray5: #2b2a2a;
+	--gray6: #202020;
 
 	--black: #1a1a1a;
 	--black2: #141414;
@@ -45,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 html {
 	font-family: 'Questrial', sans-serif;
 	font-size: 10px;
-	color: var(--white);
+	color: var(--white2);
 	height: 100%;
 }
 
@@ -107,7 +110,7 @@ svg {
 }
 
 path {
-	fill: var(--gray1);
+	fill: var(--white2);
 }
 
 .scrollbar::-webkit-scrollbar {

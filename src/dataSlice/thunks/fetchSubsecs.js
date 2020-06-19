@@ -1,6 +1,5 @@
 
-import { db } from 'firebase.js'
-import { recieveSubsecs } from 'dataSlice'
+import { receiveSubsecs } from 'dataSlice'
 import { retrieveSubsecsFromDB, getIdsFromDB } from 'utils'
 
 
@@ -20,5 +19,5 @@ export const fetchSubsecs = secName => async dispatch => {
         subsecs.find(sub => sub.id === id)
     ))
 
-    dispatch(recieveSubsecs(subs))
+    dispatch(receiveSubsecs(subs))
 }

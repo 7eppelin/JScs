@@ -56,7 +56,7 @@ const Nav = styled.nav`
     }
 
     .passive-line {
-        background: var(--gray3);
+        background: var(--gray2);
         height: ${props => props.passiveHeight + 'px'};
     }
 

@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import Tooltip from 'components/Tooltip'
 import Icon from 'components/Icon'
 
+
 const InlineLink = ({ text, href }) => (
     <Tooltip tip={href} offset={10}>
         <Link href={href} alt={href} target='_blank'>
@@ -46,17 +47,6 @@ const Link = styled.a`
         bottom: 0px;
         left: 5%;
         right: 9%;
-    }
-`
-
-const StyledIcon = styled(Icon)`
-    svg {
-        margin: 2px;
-        margin-top: -1px;
-    }
-
-    path: {
-        fill: var(--orange1) !important
     }
 `
 

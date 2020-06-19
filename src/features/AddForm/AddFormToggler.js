@@ -36,7 +36,7 @@ const StyledToggler = styled.button`
 
     &.toggled svg { transform: rotate(45deg) }
 
-    path { fill: var(--white) }
+    path { fill: var(--white1) }
 `;
 
 export default AddFormToggler;

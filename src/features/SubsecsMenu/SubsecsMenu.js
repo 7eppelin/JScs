@@ -6,7 +6,7 @@ import { usePrevious } from 'utils'
 const SubsecsContainer = React.lazy(() => import('./SubsecsContainer'))
 
 
-const SubsecsMenu = ({ sectionName, isAdmin, delayAnimation }) => {
+const SubsecsMenu = ({ sectionName, delayAnimation }) => {
     const prevSection = usePrevious(sectionName)
 
     return (
@@ -15,7 +15,6 @@ const SubsecsMenu = ({ sectionName, isAdmin, delayAnimation }) => {
                 {(prevSection || sectionName) && (
                     <SubsecsContainer
                         sectionName={sectionName}
-                        isAdmin={isAdmin}
                         delayAnimation={delayAnimation} />
                 )}
             </Suspense>

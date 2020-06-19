@@ -26,7 +26,7 @@ const Div = styled.div`
         margin-bottom: 25px;
 
         path {
-            fill: var(--white)
+            fill: var(--white1)
         }
     }
 `

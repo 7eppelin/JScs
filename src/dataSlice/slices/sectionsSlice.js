@@ -1,10 +1,6 @@
 
 import { createSlice } from '@reduxjs/toolkit';
-
-import {
-    removeSection,
-} from './sharedActions'
-
+import { removeSection } from './sharedActions'
 
 
 const sectionsSlice = createSlice({
@@ -15,13 +11,13 @@ const sectionsSlice = createSlice({
             state.push(action.payload)
         },
 
-        recieveSections: (_, action) => {
+        receiveSections: (_, action) => {
             return action.payload
         },
 
         reorderSections: (_, action) => {
             return action.payload
-        },
+        }
     },
 
     extraReducers: {
@@ -39,7 +35,6 @@ export default reducer
 
 export const { 
     addSection,
-    recieveSections,
+    receiveSections,
     reorderSections,
-    reorderSubsecs
 } = actions;

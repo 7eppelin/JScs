@@ -1,17 +1,16 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { fetchSubsecs } from 'dataSlice';
-import { updateItemsOrderInDB } from 'utils'
 import useSubsecs from './useSubsecs'
 
-import Subsections from './Subsections'
+import SubsecsList from './SubsecsList'
 
 
-const SubsecsContainer = ({ sectionName, isAdmin, delayAnimation }) => {
+const SubsecsContainer = ({ sectionName, delayAnimation }) => {
     const dispatch = useDispatch();
 
     // sorted arr of subsecs and a func to change their order onDrag
-    const [ subsecs, reorderSubsecs ] = useSubsecs(sectionName)
+    const subsecs = useSubsecs(sectionName)
 
     // fetch subsections and features whenever the url changes
     useEffect(() => {
@@ -19,18 +18,10 @@ const SubsecsContainer = ({ sectionName, isAdmin, delayAnimation }) => {
         dispatch(fetchSubsecs(sectionName));
     }, [sectionName, subsecs, dispatch])
 
-    // save the new subsecs' order onDragEnd
-    const saveNewOrder = useCallback(() => {
-        if (!isAdmin) return
-        const ids = subsecs.map(sub => sub.id)
-        updateItemsOrderInDB(sectionName, ids)
-    }, [isAdmin, subsecs])
-
     return (
-        <Subsections
+        <SubsecsList
             subsecs={subsecs}
-            reorderSubsecs={reorderSubsecs}
-            saveNewOrder={saveNewOrder}
+            sectionName={sectionName}
             delayAnimation={delayAnimation} />
     )
 }

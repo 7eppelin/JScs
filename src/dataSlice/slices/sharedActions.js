@@ -5,11 +5,9 @@
 
 import { createAction } from '@reduxjs/toolkit'
 
+export const removeSection = createAction('sections/removeSection')
 
-export const addSubsec = createAction('data/addSubsec')
-export const removeSubsec = createAction('data/removeSubsec')
+export const addSubsec = createAction('subsecs/addSubsec')
+export const removeSubsec = createAction('subsecs/removeSubsec')
 
-export const removeSection = createAction('data/removeSection')
-
-export const addFeature = createAction('data/addFeature')
-export const removeFeature = createAction('data/removeFeature')
+export const removeFeature = createAction('features/removeFeature')

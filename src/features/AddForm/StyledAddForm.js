@@ -16,7 +16,7 @@ const StyledAddForm = styled.form`
     input {
         background-color: var(--gray5);
         font-size: 1.5rem;
-        color: var(--gray1);
+        color: var(--white2);
         box-shadow: inset 0 0 12px -1px var(--black);
         padding: 12px 15px;
         border: 1px solid var(--gray5);
@@ -43,13 +43,13 @@ const StyledAddForm = styled.form`
         text-align: center;
         background-color: var(--gray5);
         border-top: 1px solid var(--gray4);
-        color: var(--gray1);
+        color: var(--white2);
         transition: .2s;
     }
 
     button:hover {
         background: var(--gray4);
-        color: var(--white);
+        color: var(--white1);
     }
 
     button:focus { outline: none }

@@ -8,11 +8,22 @@ import {
 } from './sharedActions';
 
 
+
+/*
+
+state = {
+    sectionName: [ { subsec }, { subsec2 }, ...],
+    anotherSection: [ { subsec42 }, { subsec66 }, ...],
+    ...
+}
+
+ */
+
 const subsecsSlice = createSlice({
     name: 'subsecs',
     initialState: {},
     reducers: {
-        recieveSubsecs: (state, action) => {
+        receiveSubsecs: (state, action) => {
             const subs = action.payload
             const secName = subs[0].sectionName
             state[secName] = subs
@@ -36,11 +47,14 @@ const subsecsSlice = createSlice({
         },
 
         [removeSubsec]: (state, action) => {
-            delete state[action.payload]
+            const { secName, id } = action.payload
+            state[secName] = state[secName].filter(
+                sub => sub.id !== id
+            )
         },
 
         [removeSection]: (state, action) => {
-            const secName = action.payload
+            const secName = action.payload.name
             delete state[secName]
         },
     }
@@ -51,7 +65,4 @@ const { reducer, actions } = subsecsSlice;
 
 export default reducer
 
-export const { 
-    recieveSubsecs,
-    reorderSubsecs,
-} = actions;
+export const { reorderSubsecs, receiveSubsecs } = actions;

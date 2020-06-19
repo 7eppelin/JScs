@@ -6,16 +6,15 @@ import {
 } from 'firebase.js';
 
 
+///////////////////////////////////////////////////////////////////////
 
+////////                    Find IDs in DB                     ////////
 
 ///////////////////////////////////////////////////////////////////////
 
-//////                  Find item in DB by name                  //////
-
-///////////////////////////////////////////////////////////////////////
 
 
-
+// sectionName => sectionID
 export const findSectionIDinDB = async name => {
     const snapshot = await db
         .collection('sections')
@@ -27,6 +26,7 @@ export const findSectionIDinDB = async name => {
 }
 
 
+// subsecName =>  subsecID
 export const findSubsecIDinDB = async names => {
     const [ secName, name ] = names
 
@@ -42,6 +42,7 @@ export const findSubsecIDinDB = async names => {
 }
 
 
+// featureName => featureID
 export const findFeatureIDinDB = async names => {
     const [ secName, subsecName, name ] = names
     
@@ -60,11 +61,36 @@ export const findFeatureIDinDB = async names => {
 
 
 
+// sectionName => arr of nested subsecs' ids
+// subsecID => arr of nested features' ids
+export const getIdsFromDB = async docName => {
+    const doc = await db
+        .doc(`order/${docName}`)
+        .get()
+
+    if (!doc.exists) return []
+    return doc.data().ids
+}
+
+
+// arr of subsecs' ids => arr of all the nested features 'ids
+export const getFeaturesIdsFromDB = subsecs => (
+    // make an arr of promises out of the arr of subsecs
+    Promise.all(subsecs.map(getIdsFromDB))
+        // result is an array of arrays of ids
+        // turn it into an array of ids
+        .then(result => result.reduce(
+            (prev, curr) => [...prev, ...curr], []
+        ))
+)
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////
 
-//////                      Create item in DB                    //////
+////////                    Create item in DB                  ////////
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -100,7 +126,6 @@ export const createFeatureInDB = async (names, ids) => {
     const [ sectionName, subsecName, name ] = names
     const [ sectionID, subsecID ] = ids
 
-    // create the feature;
     const newFeature = { 
         name, 
         sectionID, 
@@ -128,7 +153,7 @@ export const saveContentItem = item => {
 
 ///////////////////////////////////////////////////////////////////////
 
-//////                      Manipulate Refs                      //////
+////////                    Manipulate Refs                    ////////
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -152,22 +177,14 @@ export const createRefsDoc = docName => {
 export const deleteRefsDoc = docName => {
     return db.doc(`order/${docName}`).delete()
 }
-
-export const getIdsFromDB = async docName => {
-    const doc = await db
-        .doc(`order/${docName}`)
-        .get()
-
-    if (!doc.exists) return null
-    return doc.data().ids
-}
+ 
 
 
 
 
 ///////////////////////////////////////////////////////////////////////
 
-//////                      Retrieve items                       //////
+////////                    Retrieve items                     ////////
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -190,9 +207,11 @@ export const retrieveSubsecsFromDB = async secName => {
 
 
 
+
+
 ///////////////////////////////////////////////////////////////////////
 
-//////                Save new items order in DB                 //////
+////////              Save new items order in DB               ////////
 
 ///////////////////////////////////////////////////////////////////////
 

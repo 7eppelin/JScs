@@ -4,19 +4,20 @@ import reducer from './dataSlice'
 
 export {     
     addSection,
-    recieveSections,
+    receiveSections,
     reorderSections,
 } from './slices/sectionsSlice'
 
 
 export {
-    recieveSubsecs,
+    receiveSubsecs,
     reorderSubsecs,
 } from './slices/subsecsSlice'
 
 
 export { 
-    recieveFeatures,
+    addFeature,
+    receiveFeatures,
     reorderFeatures
 } from './slices/featuresSlice'
 
@@ -31,8 +32,7 @@ export {
     removeSection,
     addSubsec,
     removeSubsec,
-    addFeature,
-    removeFeature,
+    removeFeature
 } from './slices/sharedActions'
 
 
