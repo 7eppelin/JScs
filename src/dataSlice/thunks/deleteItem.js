@@ -80,7 +80,7 @@ export const deleteSection = (name, id) => async dispatch => {
     })
 
     await batch.commit()
-    dispatch(removeSection({ name, subsecs }))
+    dispatch(removeSection({ name, id }))
     return `The {{${name}}} section has been {{deleted}}.`
 }
 

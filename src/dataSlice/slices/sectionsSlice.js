@@ -22,7 +22,7 @@ const sectionsSlice = createSlice({
 
     extraReducers: {
         [removeSection]: (state, action) => {
-            const name = action.payload
+            const { name } = action.payload
             return state.filter(sec => sec.name !== name)
         },
     }

@@ -22,7 +22,6 @@ export const findIDsByNames = async (names, data) => {
 
     if (subsecName) {
         const subsecs = data.subsecs[secName]
-        console.log(names, subsecs)
         const subsecID = await findSubsecID(names, subsecs)
         ids.push(subsecID)
     }

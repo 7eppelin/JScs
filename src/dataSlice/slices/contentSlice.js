@@ -12,7 +12,8 @@ const contentSlice = createSlice({
     initialState: {},
     reducers: {
         addContentItem: (state, action) => {
-            state[action.payload.id] = action.payload;
+            const item = action.payload
+            state[item.id] = item
         },
 
         removeContentItem: (state, action) => {
@@ -22,15 +23,18 @@ const contentSlice = createSlice({
 
     extraReducers: {
         [removeSection]: (state, action) => {
-            delete state[action.payload]
+            const { id } = action.payload
+            delete state[id]
         },
 
         [removeSubsec]: (state, action) => {
-            delete state[action.payload]
+            const { id } = action.payload
+            delete state[id]
         },
 
         [removeFeature]: (state, action) => {
-            delete state[action.payload]
+            const { id } = action.payload
+            delete state[id]
         }
     }
 })

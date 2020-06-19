@@ -51,16 +51,25 @@ const featuresSlice = createSlice({
             const { id, subsecID } = action.payload
             state[subsecID] = state[subsecID].filter(f => f.id !== id)
         },
-        
-        [removeSection]: (state, action) => {
-            // arr of ids
-            const { subsecs } = action.payload
-            subsecs.forEach(sub => delete state[sub])
-        },
 
         [removeSubsec]: (state, action) => {
             const { id } = action.payload
             delete state[id]
+        },
+        
+        [removeSection]: (state, action) => {
+            const secName = action.payload.name
+
+            for (const key in state) {
+                // take array of features
+                const features = state[key]
+                // take the first feature's sectionName field
+                const section = features[0]?.sectionName
+
+                // if it's equal to the given secName
+                // delete the entire array
+                if (section === secName) delete state[key]
+            }
         },
     }
 })

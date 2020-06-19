@@ -1,6 +1,4 @@
 
-import { batch } from 'react-redux'
-
 import { 
     removeSection, 
     removeSubsec, 
@@ -21,7 +19,7 @@ export default (names, ids) => dispatch => {
 
     if (featureName) {
         return dispatch(
-            deleteDemoFeature(names, featureID)
+            deleteDemoFeature(names, ids)
         )
     
     } else if (subsecName) {
@@ -38,9 +36,8 @@ export default (names, ids) => dispatch => {
 
 
 
-const deleteDemoSection = (name, id) => dispatch => {
-
-    dispatch(removeSection(id))
+const deleteDemoSection = (name, id)=> dispatch => {
+    dispatch(removeSection({ name, id }))
 
     return `
         !!Database: insufficient permissions! !!
@@ -51,10 +48,8 @@ const deleteDemoSection = (name, id) => dispatch => {
 
 
 const deleteDemoSubsection = (names, id) => dispatch => {
-
-    dispatch(removeSubsec(id))
-
     const [ secName, name ] = names
+    dispatch(removeSubsec({ id, secName }))
 
     return `
         !!Database: insufficient permissions! !!
@@ -65,12 +60,11 @@ const deleteDemoSubsection = (names, id) => dispatch => {
 
 
 
-const deleteDemoFeature = (names, id) => dispatch => {
-
-    dispatch(removeFeature(id))
+const deleteDemoFeature = (names, ids) => dispatch => {
+    const [ , subsecID, id ] = ids
+    dispatch(removeFeature({ id, subsecID }))
 
     const [ secName, subsecName, name ] = names
-
     return `
         !!Database: insufficient permissions! !!
         The {{${name}}} feature has been deleted from
