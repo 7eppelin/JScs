@@ -1,28 +1,41 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { fetchSubsecs } from 'dataSlice';
 import useSubsecs from './useSubsecs'
 
+import AnimatedSubsecsList from './AnimatedSubsecsList'
 import SubsecsList from './SubsecsList'
 
 
 const SubsecsContainer = ({ sectionName, delayAnimation }) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+    const scrollbar = useRef()
 
     // sorted arr of subsecs and a func to change their order onDrag
     const subsecs = useSubsecs(sectionName)
 
     // fetch subsections and features whenever the url changes
     useEffect(() => {
-        if (!sectionName || subsecs) return;
-        dispatch(fetchSubsecs(sectionName));
+        if (!sectionName || subsecs) return
+        dispatch(fetchSubsecs(sectionName))
     }, [sectionName, subsecs, dispatch])
 
     return (
-        <SubsecsList
-            subsecs={subsecs}
-            sectionName={sectionName}
-            delayAnimation={delayAnimation} />
+        <div className='scrollbar'
+            ref={scrollbar}>
+
+            <AnimatedSubsecsList
+                keyValue={sectionName}
+                isShown={subsecs?.length > 0}
+                delayAnimation={delayAnimation}>
+
+                <SubsecsList
+                    subsecs={subsecs}
+                    scrollbar={scrollbar}
+                    sectionName={sectionName} />
+
+            </AnimatedSubsecsList>
+        </div>
     )
 }
 

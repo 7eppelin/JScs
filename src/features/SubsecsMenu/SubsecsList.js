@@ -3,17 +3,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateItemsOrderInDB, arrayMove } from 'utils'
 import { reorderSubsecs } from 'dataSlice'
 
-import AnimatedSubsecsList from './AnimatedSubsecsList'
 import Subsec from './Subsec'
 
 
 const SubsecsList = ({ 
-    subsecs = [], 
+    subsecs, 
+    scrollbar,
     sectionName,
-    delayAnimation 
 }) => {
     const dispatch = useDispatch()
-    const scrollbar = useRef()
     const isAdmin = useSelector(state => state.user?.isAdmin)
 
     // feature menus' heights change as the user toggles open/close
@@ -35,27 +33,16 @@ const SubsecsList = ({
         updateItemsOrderInDB(sectionName, ids)
     }, [isAdmin, subsecs])
 
-    return (
-        <div className='scrollbar'
-            ref={scrollbar}>
 
-            <AnimatedSubsecsList
-                keyValue={sectionName}
-                isShown={subsecs.length > 0}
-                delayAnimation={delayAnimation}>
-
-                {subsecs.map((subsec, i) => (
-                    <Subsec i={i}
-                        heights={heights}
-                        key={subsec.id} 
-                        subsec={subsec}
-                        reorder={reorder}
-                        scrollbar={scrollbar}
-                        saveNewOrder={saveNewOrder} />
-                ))}
-            </AnimatedSubsecsList>
-        </div>
-    )
+    return (subsecs.map((subsec, i) => (
+        <Subsec i={i}
+            heights={heights}
+            key={subsec.id} 
+            subsec={subsec}
+            reorder={reorder}
+            scrollbar={scrollbar}
+            saveNewOrder={saveNewOrder} />
+    )))
 }
 
 
