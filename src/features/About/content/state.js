@@ -21,13 +21,13 @@ const state = {
         text: [
             "The idea behind ",
             {type: 'link', text: "this approach" , href: "https://redux.js.org/faq/organizing-state#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-setstate"}, 
-            " is to use the ",
+            " is to use ",
             {type: "strong", text: "Redux' store"},
             " for the parts of the state that are used by different components, ",
             "often located in different parts of the UI. ",
-            " And the rest of the state is managed locally using the ",
+            " And the rest of the state is managed locally using ",
             {type: "strong", text: "React's useState()"},
-            ". ",
+            " hook. ",
         ]
     }, {
         type: 'paragraph',
@@ -36,8 +36,7 @@ const state = {
             {type: "strong", text: "Redux' store"},
             " is used to manage the data fetched from the ",
             {type: "strong", text: "database"}, 
-            ", the logged in user info, ",
-            "and the status of the form in the header."
+            ", and the logged in user info. "
         ]
 ///////////////////////////////////////////////////////////////////////////////
     }, {
@@ -50,9 +49,7 @@ const state = {
             {type: "strong", text: "Redux"},
             " , and wanted to go further, so i decided to try ",
             {type: "strong", text: "Redux-Toolkit"},
-            ". The code you end up writing differs compared to the normal ",
-            {type: "strong", text: "Redux"},
-            " approach. Here are some of the benefits the ", 
+            ". Here are some of the benefits the ", 
             {type: "strong", text: "toolkit"},
             " offers:"
         ]
@@ -60,7 +57,7 @@ const state = {
     }, {
         type: 'list',
         items: [
-            "Reduced amount of boilerplate code ", 
+            "Reduced amount of boilerplate code. ", 
 
             [
             "Besides the ",
