@@ -3,7 +3,6 @@ import styled from 'styled-components/macro';
 import { AnimatePresence } from 'framer-motion'
 
 import content from './content/'
-import { useMount } from 'utils'
 
 import AnimatedPage from './AnimatedPage'
 import Page from './Page'
@@ -11,7 +10,6 @@ import PagesNav from './PagesNav'
 
 
 const Pages = () => {
-    const justMounted = useMount()
     const [activePage, setActivePage] = useState(0)
     const wheelRef = useRef()
 
@@ -24,18 +22,15 @@ const Pages = () => {
         setActivePage(target)
     }, [activePage])
 
-    const scrollDown = useCallback(() => {
-        scrollPages(activePage + 1)
-    }, [activePage])
-
     return (
         <Div>
-            <AnimatePresence exitBeforeEnter>
-                <AnimatedPage
-                    key={activePage}
+            <AnimatePresence 
+                exitBeforeEnter 
+                initial={false}>
+
+                <AnimatedPage key={activePage}
                     pageIndex={activePage}
                     lastPage={content.length - 1}
-                    justMounted={justMounted}
                     scrollPages={scrollPages}
                     animationDirection={animationDirection}
                     setAnimationDirection={setAnimationDirection}
@@ -44,7 +39,7 @@ const Pages = () => {
                     <Page content={content[activePage]}
                         isLastPage={activePage === content.length - 1}
                         setAnimationDirection={setAnimationDirection}
-                        scrollDown={scrollDown} />
+                        scrollDown={() => setActivePage(activePage + 1)} />
                 </AnimatedPage>
             </AnimatePresence>
 

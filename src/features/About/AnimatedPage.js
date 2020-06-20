@@ -10,7 +10,6 @@ const AnimatedPage = ({
     pageIndex, // current acive page's index in the content arr
     lastPage, // last page' index
     scrollPages, // func to scroll between pages
-    justMounted, // is it the first render of the front page (to skip initial animation)
     animationDirection,
     setAnimationDirection,
     wheelRef, // ./PagesNavWheel
@@ -27,15 +26,10 @@ const AnimatedPage = ({
     )
 
     return (
-        <Section 
-            ref={pageRef}
+        <Section ref={pageRef}
             className='scrollbar'
             variants={variants}
-            // if this is the mount of ./Pages, don't animate
-            // otherwise opposite of animattionDirection
-            initial={justMounted ? false :
-                animationDirection === 'up' ? 'exit-down' : 'exit-up'
-            }
+            initial={animationDirection === 'up' ? 'exit-down' : 'exit-up'}
             animate='enter'
             exit={`exit-${animationDirection}`}
             onWheel={handleWheel}>

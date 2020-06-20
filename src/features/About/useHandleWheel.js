@@ -48,7 +48,7 @@ const useHandleWheel = (
         const progress = scroll.scrollYProgress.current
 
         // if at the start of the current page and
-        // scrolling up and this is not the first page
+        // and this is not the first page
         if (progress === 0 && activePage !== 0) { 
             return true 
         }
@@ -58,7 +58,6 @@ const useHandleWheel = (
 
     // scroll to the prev page
     const scrollUp = () => {
-
         --counter.current
 
         // spin the wheel (arg should be positive)
@@ -77,15 +76,16 @@ const useHandleWheel = (
     const handleWheel = e => {
         // if the user scrolls down 
         if (e.deltaY > 0) {
+            // if previously was scrolling up, reset
             if (counter.current < 0) {
                 counter.current = 0
                 wheel.current.spin(0)
             }
             if (shouldScrollDown()) scrollDown()
-            return
-        }
+            
         // if the user scrolls up
-        if (e.deltaY < 0) {
+        } else if (e.deltaY < 0) {
+            // if previously was scrolling down, reset
             if (counter.current > 0) {
                 counter.current = 0
                 wheel.current.spin(0)

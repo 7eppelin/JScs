@@ -27,6 +27,7 @@ const PagesNav = ({
                     wheelRef.current.spin(0)
                 }}
                 handleMouseDown={() => {
+                    // must set animation direction before the actual scrolling
                     if (i > activePage) setAnimationDirection('up')
                     if (i < activePage) setAnimationDirection('down')
                 }} />
