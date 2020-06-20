@@ -14,7 +14,7 @@ const editor = {
     }, {
         type: "paragraph",
         text: [
-            "Each item in the menu has the corresponding ",
+            "Each item in the menu has a corresponding ",
             {type: "strong", text: "content"},
             " document. The document initially appears in ",
             {type: "strong", text: "read-only mode"},
