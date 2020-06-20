@@ -25,6 +25,9 @@ const backend = {
         ]
 ///////////////////////////////////////////////////////////////////////////////
     }, {
+        type: 'heading',
+        text: 'Firebase'
+    }, {
         type: "paragraph",
         text: [
             {type: "strong", text: "Firebase"},
@@ -66,7 +69,7 @@ const backend = {
             " by dragging and dropping them.",
             ], [
             "Edit the contents ",
-            " and save the changes to the ",
+            " and save the changes in the ",
             {type: "strong", text: "database"},
             "."
             ]
@@ -76,7 +79,7 @@ const backend = {
         type: "paragraph",
         text: [
             "You are welcome to play with these features, ",
-            "they are left to be seen by a regular user ",
+            "they are left for viewing by a regular user ",
             " specifically for demonstration purposes. ",
             "None of your interactions are going to be saved ",
             " in the database."
