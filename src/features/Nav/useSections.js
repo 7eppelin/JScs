@@ -16,7 +16,7 @@ const useSections = () => {
     }, [dispatch])        
 
     const sections = useSelector(state => state.data.sections)
-
+    
     // reorder sections
     const reorder = useCallback((current, target) => {
         if (target === sections.length || target < 0) return

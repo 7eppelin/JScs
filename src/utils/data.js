@@ -86,12 +86,11 @@ export const findItemByName = (name, items) => (
 // create a new content object
 export const createContentItem = item => {
 
-    const { id, name, sectionName, subsectionName } = item
+    const { id, name, sectionName, subsecName } = item
 
     let url = `/${name}`
-    if (subsectionName) url = `/${subsectionName}` + url
+    if (subsecName) url = `/${subsecName}` + url
     if (sectionName) url = `/${sectionName}` + url
-
 
     // initial content's data in the slate.js' format
     const data = [{
@@ -104,9 +103,6 @@ export const createContentItem = item => {
         }, {
             type: 'paragraph',
             children: [{ text: 'Description is missing... '}]
-        }, {
-            type: 'paragraph',
-            children: [{ text: 'This page is editable. Try it out!' }]
         }
     ]
 

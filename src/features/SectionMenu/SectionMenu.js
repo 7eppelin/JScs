@@ -14,8 +14,8 @@ const SectionMenu = ({
     sections, 
     reorderSections 
 }) => {
-    const scrollbar = useRef();
-    const ul = useRef();
+    const scrollbar = useRef()
+    const ul = useRef()
 
     // invoked onDragEnd
     const updateDB = useCallback(() => {
