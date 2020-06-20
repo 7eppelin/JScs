@@ -18,7 +18,7 @@ const jscs = {
     }, {
         type: 'paragraph',
         text: [
-            "I'm not-even-a-junior-yet front-end developer, ",
+            "I'm a beginner front-end developer, ",
             "and I figured that I need a portfolio project, ",
             "and came up with the idea of creating ",
             {text: "a JavaScript cheat sheet. ", type: "strong"},
@@ -26,7 +26,7 @@ const jscs = {
     }, {
         type: 'list',
         items: [
-            "To have a fairly decent portfolio project;",
+            "To have a fairly decent portfolio project.",
 
             ["To keep practicing with the technologies that ",
             "i had already started to learn, and learn some new ones. ",
@@ -43,7 +43,7 @@ const jscs = {
             " at that time."
             ],
 
-            "To create an app that I will actually use;"
+            "To create an app that I will actually use."
         ]
     }, {
         type: 'paragraph',
@@ -52,9 +52,9 @@ const jscs = {
             {text: "a cheat sheet app", type: "strong"},
             ", where the user (probably, just myself) could quickly recall ",
             "the API that he already knows, but has forgotten some detals. ",
-            "All JS and JS-related frameworks' APIs in one place."
+            "All JS and JS-related libraries and frameworks' APIs in one place."
         ]
-    }] 
+    }]
 }
 
 
