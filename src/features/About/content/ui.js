@@ -8,7 +8,7 @@ const ui = {
         type: "intro",
         icon: "react",
         text: [
-            "The main technology with which this application is written is ",
+            "The UI of the app is written with ",
             {type: "link", text: "React", href: "https://reactjs.org/"},
             "."
         ]
@@ -37,15 +37,13 @@ const ui = {
         text: [
             " Back then, I had mainly been writing ",
             {type: "strong", text: "class components"},
-            " on ",
-            {type: "strong", text: "React"},
             ". Just like everyone, i suppose. ",
             "But not so long ago, React ",
             {type: "strong", text: "hooks"},
-            " were released, and I decided to challenge myself: ",
-            "I wanted to try to write the entire app without writing ",
-            "a single class component. ",
-            "There are currently no class components in the app."
+            " were released, and I decided to see if I can write ",
+            "the entire app without having a single class component ",
+            "(not counting third-party libraries, of course). ",
+            "Currently, there are no class components in the app."
         ]
 ///////////////////////////////////////////////////////////////////////////////
     }, {
