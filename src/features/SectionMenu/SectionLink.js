@@ -14,38 +14,19 @@ const SectionLink = ({
     updateDB 
 }) => {
     const [ isDragging, setDragging ] = useState(false);
-    const [ boundary, setBoundary ] = useState(false);
     const elemRef = useRef();
     const dragOriginY = useMotionValue(0);
 
-    const isOnTop = () => {
-        const el = elemRef.current.getBoundingClientRect();
-        const ulTop = ul.current.getBoundingClientRect().top;
-
-        return el.top <= ulTop;
-    }
-
     return (
         <StyledLink
-            // variants are for the initialization animation only
-            // not related to d'n'd
             variants={variants}
-
             ref={elemRef}
             drag='y'
             dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={boundary ? 0.01 : 1}
+            dragElastic={1}
             dragOriginY={dragOriginY}
             isDragging={isDragging}
-            
             onDrag={(_, info) => {
-
-                if (isOnTop()) {
-                    setBoundary(true)
-                } else if (boundary) {
-                    setBoundary(false)
-                }
-
                 // if the dragged elem was moved by 32px down, 
                 // swap it's position with the next elem
                 if (info.point.y > 30) moveItem(i, i + 1);
@@ -55,23 +36,19 @@ const SectionLink = ({
                 // scroll while dragging
                 scroll(scrollbar.current, info.delta.y, dragOriginY)
             }}
-
             onDragStart={() => {
                 setDragging(true)
             }}
-
             onDragEnd={() => {
                 setDragging(false);
                 updateDB();
             }}
-
             positionTransition={({ delta }) => {
                 if (isDragging) {
                     dragOriginY.set(dragOriginY.get() + delta.y)
                 }
                 return !isDragging;
-            }}
-        >
+            }}>
 
             <NavLink draggable={false} 
                 to={`/${label}`} 

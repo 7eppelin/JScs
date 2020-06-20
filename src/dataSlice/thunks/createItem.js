@@ -105,7 +105,7 @@ export const createSubsec = (names, sectionID) => async dispatch => {
 export const createFeature = (names, ids) => async dispatch => {
 
     const [ sectionName, subsecName, name ] = names
-    const [ _, subsecID ] = ids
+    const [ , subsecID ] = ids
 
     // create the feature
     const feature = await createFeatureInDB(names, ids)
