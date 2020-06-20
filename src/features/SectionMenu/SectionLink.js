@@ -9,7 +9,6 @@ const SectionLink = ({
     label, 
     i, 
     scrollbar,
-    ul,
     moveItem, 
     updateDB 
 }) => {

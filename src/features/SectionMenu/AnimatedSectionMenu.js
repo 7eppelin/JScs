@@ -7,7 +7,6 @@ import Spinner from 'components/Spinner';
 
 const AnimatedSectionMenu = ({ 
     children,
-    ulRef,
     scrollbarRef,
     showSpinner
 }) => (
@@ -22,9 +21,7 @@ const AnimatedSectionMenu = ({
                 initial='hidden' 
                 animate='visible'>
 
-                <ul ref={ulRef} >
-                    {children}
-                </ul>
+                <ul>{children}</ul>
             </motion.div>
         }
     </Section>

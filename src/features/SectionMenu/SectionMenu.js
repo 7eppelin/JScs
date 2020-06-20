@@ -13,7 +13,6 @@ const SectionMenu = ({
     reorderSections 
 }) => {
     const scrollbar = useRef()
-    const ul = useRef()
 
     // invoked onDragEnd
     const updateDB = useCallback(() => {
@@ -25,7 +24,6 @@ const SectionMenu = ({
     return (
         <AnimatedSectionMenu
             showSpinner={!sections.length && !prevSection}
-            ulRef={ul}
             scrollbarRef={scrollbar} >
 
             {sections.map((sec, i) => (
@@ -33,7 +31,6 @@ const SectionMenu = ({
                     label={sec.name}
                     i={i}
                     scrollbar={scrollbar}
-                    ul={ul}
                     updateDB={updateDB}
                     moveItem={reorderSections} />
             ))}
