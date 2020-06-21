@@ -7,7 +7,6 @@ import variants from './variants'
 
 const StyledP = styled(motion.p)`
     margin: 0;
-    color: var(--gray1);
     padding: 12px;
     padding-left: 15%;
     padding-right: 23%;

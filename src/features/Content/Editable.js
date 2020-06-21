@@ -29,6 +29,7 @@ const MyEditable = ({ readOnly }) => {
 const Container = styled.div`
     position: relative;
     background-color: var(--gray5);
+    color: var(--white2);
     box-shadow: inset 0 -12px 25px -15px black;
     scroll-behavior: smooth;
     overflow-x: hidden;

@@ -10,7 +10,7 @@ const TitleElement = ({ attributes, children }) => (
 
 
 const StyledTitle = styled.h1`
-    color: var(--orange1);
+    color: var(--yellow);
     padding: 45px 15% 25px 20%;
     background-color: var(--gray4);
     font-size: 3rem;
