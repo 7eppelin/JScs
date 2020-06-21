@@ -33,7 +33,10 @@ const ContentEditorWrapper = ({ delayAnimation }) => {
     }, [content]);
 
     return (
-        <AnimatedContentEditor id={content?.id} delayAnimation={delayAnimation}>
+        <AnimatedContentEditor 
+            id={content?.id} 
+            delayAnimation={delayAnimation}>
+            
             {content && (
                 <ContentEditor
                     content={content}

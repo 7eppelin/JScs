@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
-import { motion } from 'framer-motion';
 
-import variants from './../variants'
 import { setLinks } from '../../editor';
 import { useEditor, useReadOnly } from 'slate-react';
 
@@ -27,7 +25,6 @@ const Links = ({ element, attributes, children }) => {
 
     return (
         <LinksContainer 
-            variants={variants} 
             contentEditable={false}
             {...attributes} >
 
@@ -50,7 +47,7 @@ const Links = ({ element, attributes, children }) => {
 }
 
 
-const LinksContainer = styled(motion.div)`
+const LinksContainer = styled.div`
     position: relative;
     user-select: none;
     height: 52px;

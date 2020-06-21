@@ -14,7 +14,7 @@ const AnimatedContentEditor = ({ children, id, delayAnimation }) => (
                 animate='enter'
                 exit='exit'
                 transition={delayAnimation ? 
-                    {...enterTransition, delay: .65} : enterTransition }>
+                    {...enterTransition, delay: .8} : enterTransition }>
 
                 {children}
 
