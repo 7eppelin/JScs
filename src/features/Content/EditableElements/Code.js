@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import variants from './variants'
 
 
-const Code = styled(motion.pre)`
+const Pre = styled(motion.pre)`
     margin-left: 16%;
     margin-right: 28%;
     border-radius: 3px;
@@ -13,7 +13,7 @@ const Code = styled(motion.pre)`
 `;
 
 const CodeElement = ({ attributes, children }) => (
-    <Code 
+    <Pre 
         className='language-js scrollbar' 
         variants={variants}
         {...attributes}>
@@ -21,7 +21,7 @@ const CodeElement = ({ attributes, children }) => (
         <code>
             {children}
         </code>
-    </Code>
+    </Pre>
 )
 
 export default CodeElement;

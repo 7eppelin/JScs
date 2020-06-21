@@ -9,9 +9,10 @@ import { ReactEditor } from 'slate-react'
 // checks whether the given mark is active 
 // on the currently selected text
 
-export const isMarkActive = (editor, mark) => {
+export const isMarkActive = (editor, mark, selection) => {
     const [ match ] = Editor.nodes(editor, {
         match: n => n[mark],
+        at: selection,
         universal: true
     })
     return !!match
@@ -21,8 +22,10 @@ export const isMarkActive = (editor, mark) => {
 
 // checks whether the caret is currently
 // inside of an elem of the given type
+// or an elem of the given type is inside
+// the currently selected range of text
 
-export const isInside = (editor, ...types) => {
+export const isInside = (editor, types) => {
     const [match] = Editor.nodes(editor, {
         match: n => types.includes(n.type),
       })
@@ -52,28 +55,40 @@ export const setMark = (editor, mark, value, selection) => {
 }
 
 
-
-export const setLink = (editor, href, selection) => {
+export const toggleLink = (editor, href, selection) => {
     if (selection) {
         Transforms.select(editor, selection)
     }
-    const link = {
-        type: 'link',
-        href,
-        children: []
-    }
 
-    Transforms.wrapNodes(editor, link, {split: true})
+    if (href) {
+        const link = { type: 'link', href, children: [] }
+        Transforms.wrapNodes(editor, link, {split: true})
+    } else {
+        Transforms.unwrapNodes(
+            editor, 
+            { match: n => n.type === 'link'}
+        )
+    }
 }
 
-export const unsetLink = (editor, selection) => {
+
+export const toggleCode = (editor, selection) => {
     if (selection) {
         Transforms.select(editor, selection)
     }
-    Transforms.unwrapNodes(
-        editor, 
-        { match: n => n.type === 'link'}
-    )
+
+    if (isInside(editor, 'code-inline')) {
+        Transforms.unwrapNodes(
+            editor, 
+            { match: n => n.type === 'code-inline'}
+        )
+    } else {
+        Transforms.wrapNodes(
+            editor,
+            { type: 'code-inline', children: [] },
+            { split: true }
+        )
+    }
 }
 
 

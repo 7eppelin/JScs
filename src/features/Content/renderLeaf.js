@@ -20,10 +20,6 @@ const renderLeaf = ({ leaf, attributes, children }) => {
     if (leaf.bold) {
         children = <strong>{children}</strong>
     }
-
-    if (leaf.code) {
-        children = <Code {...attributes}>{children}</Code>
-    }
     
     return (
         <span {...attributes} >
@@ -31,13 +27,5 @@ const renderLeaf = ({ leaf, attributes, children }) => {
         </span>
     )
 }
-
-
-const Code = styled.code`
-    padding: .12em .3em;
-    border-radius: 3px;
-    color: var(--white);
-    background-color: var(--gray3);
-`;
 
 export default renderLeaf;

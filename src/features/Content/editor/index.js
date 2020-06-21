@@ -5,8 +5,8 @@ export { ELEMS, HOTKEYS, ICONS } from './constants'
 export {
     isMarkActive,
     setMark,
-    setLink,
-    unsetLink,
+    toggleLink,
+    toggleCode,
     isInside,
     insertElem,
     setLinks,

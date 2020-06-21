@@ -1,7 +1,14 @@
 import React, { useCallback, useMemo } from 'react'
 import { useSlate } from 'slate-react'
 
-import { isMarkActive, setMark, setLink, unsetLink } from 'features/Content/editor'
+import { 
+    isMarkActive, 
+    isInside,
+    setMark, 
+    toggleLink,
+    toggleCode 
+} from 'features/Content/editor'
+
 import Button from './Button'
 import Input from './Input'
 import Icon from 'components/Icon'
@@ -18,11 +25,7 @@ const MenuControls = ({
     // on input submit
     const submit = useCallback(() => {
         const val = inputRef.current.value;
-        if (val) {
-            setLink(editor, val, selection)
-        } else {
-            unsetLink(editor, selection)
-        }
+        toggleLink(editor, val, selection)
     }, [editor, inputRef, selection])
 
     // when the input is focused, selection is lost
@@ -33,10 +36,6 @@ const MenuControls = ({
     )
     const isItalic = useMemo(
         () => isMarkActive(editor, 'italic'),
-        [editor, editor.children, editor.selection]
-    )
-    const isCode = useMemo(
-        () => isMarkActive(editor, 'code'),
         [editor, editor.children, editor.selection]
     )
 
@@ -65,10 +64,8 @@ const MenuControls = ({
             </Button>
 
             <Button tooltip='toggle Code. Ctrl + `'
-                handleMouseDown={() => {
-                    setMark(editor, 'code', !isCode, selection.current)
-                }}
-                isActive={isCode} >
+                handleMouseDown={() => toggleCode(editor, selection.current)}
+                isActive={isInside(editor, 'code-inline')} >
                     <Icon icon='code-tags' />
             </Button>
 

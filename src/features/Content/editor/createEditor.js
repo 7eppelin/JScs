@@ -17,9 +17,9 @@ import { compose } from '@reduxjs/toolkit'
 const withVoids = editor => {
     const { isVoid } = editor;
 
-    editor.isVoid = el => {
-        return el.type === 'links' ? true : isVoid(el);
-    }
+    editor.isVoid = el => (
+        el.type === 'links' ? true : isVoid(el)
+    )
     
     return editor;
 }
@@ -29,9 +29,10 @@ const withVoids = editor => {
 const withInlines = editor => {
     const { isInline } = editor;
 
-    editor.isInline = el => {
-        return el.type === 'link' ? true : isInline(el);
-    }
+    editor.isInline = el => (
+        el.type === 'link' || el.type === 'code-inline' ? 
+        true : isInline(el)
+    )
 
     return editor;
 }
