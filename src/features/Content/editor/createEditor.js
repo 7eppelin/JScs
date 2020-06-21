@@ -25,6 +25,18 @@ const withVoids = editor => {
 }
 
 
+// just like the default isVoid, isInline returns false every time
+const withInlines = editor => {
+    const { isInline } = editor;
+
+    editor.isInline = el => {
+        return el.type === 'link' ? true : isInline(el);
+    }
+
+    return editor;
+}
+
+
 
 // slate normalizes the editor's content after every change
 // here we can add some custom constraints to our editor
@@ -88,6 +100,7 @@ const withDelete = editor => {
 const createMyEditor = compose(
     withDelete,
     withVoids,
+    withInlines,
     withNormalizing, 
     withHistory, 
     withReact, 

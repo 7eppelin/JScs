@@ -15,7 +15,7 @@ const ToggleReadOnly = ({ readOnly, toggle }) => (
 const Button = styled.button`
     outline: none;
     background: var(--gray6);
-    color: ${props => props.readOnly ? 'var(--gray1)' : 'var(--green)'};
+    color: ${props => props.readOnly ? 'var(--white2)' : 'var(--green)'};
     padding: 8px 30px;
     position: absolute;
     z-index: 10;
@@ -34,7 +34,7 @@ const Button = styled.button`
 
     path {
         fill: ${props => props.readOnly ? 
-            'var(--gray2)' : 'var(--green)'
+            'var(--white2)' : 'var(--green)'
         };
     }
 `;
