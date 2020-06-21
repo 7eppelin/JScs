@@ -23,7 +23,7 @@ const Form = ({ links, editing, closeForm }) => {
             setText('');
             setHref('');
         }
-    }, [editing])
+    }, [editing, links])
 
     const submit = e => {
         e.preventDefault();

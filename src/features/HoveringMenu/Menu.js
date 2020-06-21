@@ -1,88 +1,36 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components/macro';
-import { motion } from 'framer-motion';
+import React, { useState, useRef } from 'react';
 import { useSlate } from 'slate-react';
 
 import MenuControls from './MenuControls'
-import useMenuCoords from './useMenuCoords'
+import AnimatedMenu from './AnimatedMenu'
 
 
 const Menu = ({ inputRef }) => {
     const editor = useSlate();
-    const menu = useRef()
 
     // null || 'link' || 'tooltip'
-    const [inputType, setInputType] = useState(null)
+    const [isInputShown, setInputShown] = useState(false)
     
-    // in order to be able to apply text formatting 
-    // to the selected text, we need the current selection
+    // in order to be able to manipulate the selected text, 
+    // we need the current selection
     // but it's getting lost once the user focuses on the input
-    // we'll create a ref, and keep it updated
-    // with the latest non-null selection
+    // we'll hold the latest *non-null* selection in a ref
     const memoizedSelection = useRef()
     if (editor.selection) memoizedSelection.current = editor.selection
 
-    // menu's coords
-    const { x, y } = useMenuCoords(menu, inputType, memoizedSelection.current)
-
-    // prevent the initial left/top animation
-    // see Div's positionTransition
-    const justMounted = useRef(true)
-    useEffect(() => {
-        setTimeout(() => justMounted.current = false, 50)
-    }, [])
-
-
     return (
-        <Div ref={menu}
-            style={{ left: x, top: y }}
-            variants={variants}
-            initial='hidden'
-            animate='shown'
-            exit='hidden'
-            positionTransition={() => {
-                if (justMounted.current) return { duration: 0 }
-                return transition
-            }} >
+        <AnimatedMenu
+            isInputShown={isInputShown}
+            selection={memoizedSelection.current}>
 
             <MenuControls
-                inputType={inputType}
-                setInputType={setInputType}
+                isInputShown={isInputShown}
+                setInputShown={setInputShown}
                 inputRef={inputRef}
-                selection={memoizedSelection} />
+                selection={memoizedSelection.current} />
 
-        </Div>
+        </AnimatedMenu>
     )
 }
-
-
-const transition = {
-    type: 'spring',
-    damping: 14,
-    stiffness: 150,
-    mass: 0.7,
-}
-
-const variants = {
-    hidden: {
-        scale: 0.3,
-        opacity: 0,
-        transition: { duration: .25, delay: .25 },
-    },
-    shown: {
-        scale: 1,
-        opacity: 1,
-    }
-}
-
-
-const Div = styled(motion.div)`
-    background: var(--black);
-    border-radius: 5px;
-    border: 1px solid var(--gray4);
-    position: absolute;
-    z-index: 200;
-    box-shadow: 0 2px 15px 2px black;
-`;
 
 export default Menu;

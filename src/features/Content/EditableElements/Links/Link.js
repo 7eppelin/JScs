@@ -14,7 +14,10 @@ const Link = ({
 }) => (
     <Tooltip tip={href} offset={8} >
         <Li>
-            <a href={href} alt={href} target='_blank'>
+            <a href={href} 
+                alt={href} 
+                target='_blank'
+                rel="noopener noreferrer">
                 {text}
             </a>
 

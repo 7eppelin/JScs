@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { motion } from 'framer-motion';
 
 import { NavLink } from 'react-router-dom';
 import Icon from 'components/Icon'

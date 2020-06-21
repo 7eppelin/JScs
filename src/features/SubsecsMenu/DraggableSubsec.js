@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
-import { motion, useMotionValue, useDragControls } from 'framer-motion'
+import { motion, useMotionValue } from 'framer-motion'
 import { scroll } from 'utils'
 
 
@@ -35,7 +35,7 @@ const DraggableSubsec = ({
 
         // scroll when dragging
         scroll(scrollbar.current, info.delta.y, dragOriginY)
-    }, [ i, reorder ])
+    }, [ i, reorder, dragOriginY, heights, scrollbar ])
 
     return (
         <StyledSubsec drag='y'

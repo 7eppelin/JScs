@@ -10,7 +10,7 @@ const useMenuCoords = (menu, isInputShown, selection) => {
 
     useEffect(() => {
         // if selection is collapsed, or the user's selection
-        // includes a code block or the title
+        // includes a code block or the title, or
         // the menu is about to hide, don't do anything
         const inside = isInside(editor, 'code-block', 'title')
         const collapsed = Range.isCollapsed(selection)

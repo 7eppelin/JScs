@@ -25,8 +25,8 @@ const Button = ({
 
 const Btn = styled.button`
     display: inline-block;
-    width: 45px;
-    color: var(--gray2);
+    width: 55px;
+    color: var(--white2);
     text-shadow: 1px 1px 1px var(--gray4);
     padding: 10px 0;
     font-size: 1.4rem;

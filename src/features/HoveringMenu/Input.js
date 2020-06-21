@@ -6,12 +6,11 @@ import Icon from 'components/Icon'
 const Input = ({ 
     inputRef,
     isShown,
-    placeholder,
     submit
 }) => (
     <Div isShown={isShown}>
         <input ref={inputRef} 
-            placeholder={placeholder} />
+            placeholder='link URL...' />
 
         <button 
             onClick={submit}
@@ -29,7 +28,7 @@ const Div = styled.div`
     margin-top: 3px;
     overflow: hidden;
     transition: .12s;
-    width: 225px;
+    width: 220px;
     height: ${props => props.isShown ? '36px' : 0};
 
     input {
@@ -37,7 +36,7 @@ const Div = styled.div`
         width: 100%;
         padding: 10px 35px 10px 15px;
         background: var(--gray5);
-        color: var(--gray1);
+        color: var(--white2);
         outline: 1px solid transparent;
         outline-offset: -5px;
         box-shadow: inset 0 0 12px -5px black;

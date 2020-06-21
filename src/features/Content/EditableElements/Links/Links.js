@@ -21,7 +21,7 @@ const Links = ({ element, attributes, children }) => {
     const deleteLink = useCallback(index => {
         const newLinks = links.filter((l, i) => i !== index)
         setLinks(editor, newLinks)
-    }, [links])
+    }, [links, editor])
 
     return (
         <LinksContainer 

@@ -4,9 +4,11 @@ import InlineLink from 'components/InlineLink'
 
 
 const LinkElement = ({ element, attributes, children }) => (
-    <InlineLink href={element.href} {...attributes}>
-        {children}
-    </InlineLink>
+    <span {...attributes}>
+        <InlineLink href={element.href}>
+            {children}
+        </InlineLink>
+    </span>
 )
 
 export default LinkElement

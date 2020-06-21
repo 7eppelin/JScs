@@ -15,7 +15,7 @@ import {
 export default (names, ids) => dispatch => {  
 
     const [ secName, subsecName, featureName ] = names
-    const [ sectionID, subsecID, featureID ] = ids
+    const [ sectionID, subsecID ] = ids
 
     if (featureName) {
         return dispatch(

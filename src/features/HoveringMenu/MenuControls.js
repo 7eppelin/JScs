@@ -8,22 +8,22 @@ import Icon from 'components/Icon'
 
 
 const MenuControls = ({ 
-    inputType,
-    setInputType,
+    isInputShown,
+    setInputShown,
     inputRef,
     selection
 }) => {
     const editor = useSlate()
 
-    const placeholder = 
-        inputType === 'href' ? 'link URL...' :
-        inputType === 'tooltip' ? 'tooltip text...' : '' 
-
     // on input submit
     const submit = useCallback(() => {
         const val = inputRef.current.value;
-        setMark(editor, inputType, val, selection.current);
-    })
+        if (val) {
+            setLink(editor, val, selection)
+        } else {
+            unsetLink(editor, selection)
+        }
+    }, [editor, inputRef, selection])
 
     // when the input is focused, selection is lost
     // that leads to every isMarkActive() call returning false
@@ -73,28 +73,15 @@ const MenuControls = ({
             </Button>
 
             <Button tooltip='transform into a link'
-                isActive={inputType === 'href'}
-                handleMouseDown={() => {
-                    inputType === 'href' ? 
-                        setInputType(null) : setInputType('href')
-                }}>
+                isActive={isInputShown}
+                handleMouseDown={() => setInputShown(!isInputShown)}>
                     <Icon icon='link2' />
-            </Button>
-
-            <Button tooltip='add a tooltip'
-                isActive={inputType === 'tooltip'}
-                handleMouseDown={() => {
-                    inputType === 'tooltip' ? 
-                        setInputType(null) : setInputType('tooltip');
-                }}>
-                    <Icon icon='tooltip' />
             </Button>
 
             <Input 
                 submit={submit}
                 inputRef={inputRef} 
-                isShown={inputType !== null}
-                placeholder={placeholder} />
+                isShown={isInputShown} />
         </>
     )
 }

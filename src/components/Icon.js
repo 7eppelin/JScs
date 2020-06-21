@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components/macro'
 
 
 const Icon = ({ 
@@ -14,15 +13,6 @@ const Icon = ({
             <path d={ICONS[icon]} />
     </svg>
 )
-
-const Svg = styled.svg`
-    vertical-align: middle;
-
-    path {
-        fill: var(--white2);
-        transition: .5s;
-    }
-`;
 
 // CREDIT FOR ALL THE ICONS:
 // https://materialdesignicons.com/

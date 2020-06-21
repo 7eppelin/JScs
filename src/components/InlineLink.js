@@ -22,10 +22,11 @@ const Link = styled.a`
         display: inline-block;
         white-space: no-wrap;
         transition: .2s;
+        margin: 0 .4em;
     }
 
     svg {
-        margin: -3px 2px 0;
+        margin-top: -2px;
         vertical-align: middle;
     }
 

@@ -20,7 +20,7 @@ const Pages = () => {
     const scrollPages = useCallback(target => {
         if (target < 0 || target >= content.length) return
         setActivePage(target)
-    }, [activePage])
+    }, [])
 
     return (
         <Div>

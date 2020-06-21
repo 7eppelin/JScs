@@ -24,14 +24,14 @@ const SubsecsList = ({
     const reorder = useCallback((current, target) => {
         const newOrder = arrayMove(subsecs, current, target)
         dispatch(reorderSubsecs({ sectionName, newOrder}))
-    }, [subsecs, dispatch])    
+    }, [subsecs, sectionName, dispatch])    
 
     // save the new subsecs' order onDragEnd
     const saveNewOrder = useCallback(() => {
         if (!isAdmin) return
         const ids = subsecs.map(sub => sub.id)
         updateItemsOrderInDB(sectionName, ids)
-    }, [isAdmin, subsecs])
+    }, [isAdmin, sectionName, subsecs])
 
 
     return (subsecs.map((subsec, i) => (

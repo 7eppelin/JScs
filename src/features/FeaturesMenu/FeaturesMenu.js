@@ -16,7 +16,7 @@ const FeaturesMenu = ({
     useEffect(() => {
         if (!isOpen || items) return
         dispatch(fetchFeatures(subsecID))
-    }, [items, isOpen, dispatch])
+    }, [items, subsecID, isOpen, dispatch])
 
     // set the item's current height, so the siblings can know it
     const openHeight = 47 + items?.length * 35
