@@ -25,7 +25,7 @@ const Menu = ({ inputRef }) => {
     // menu's coords
     const { x, y } = useMenuCoords(menu, inputType, memoizedSelection.current)
 
-    // this is to prevent the initial left/top animation
+    // prevent the initial left/top animation
     // see Div's positionTransition
     const justMounted = useRef(true)
     useEffect(() => {

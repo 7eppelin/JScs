@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useSlate } from 'slate-react'
 
-import { isMarkActive, setMark } from 'features/Content/editor'
+import { isMarkActive, setMark, setLink, unsetLink } from 'features/Content/editor'
 import Button from './Button'
 import Input from './Input'
 import Icon from 'components/Icon'
@@ -29,15 +29,15 @@ const MenuControls = ({
     // that leads to every isMarkActive() call returning false
     const isBold = useMemo(
         () => isMarkActive(editor, 'bold'), 
-        [editor.children, selection.current]
+        [editor, editor.children, editor.selection]
     )
     const isItalic = useMemo(
         () => isMarkActive(editor, 'italic'),
-        [editor.children, selection.current]
+        [editor, editor.children, editor.selection]
     )
     const isCode = useMemo(
         () => isMarkActive(editor, 'code'),
-        [editor.children, selection.current]
+        [editor, editor.children, editor.selection]
     )
 
     // TODO

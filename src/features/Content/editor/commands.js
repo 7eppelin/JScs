@@ -52,6 +52,31 @@ export const setMark = (editor, mark, value, selection) => {
 }
 
 
+
+export const setLink = (editor, href, selection) => {
+    if (selection) {
+        Transforms.select(editor, selection)
+    }
+    const link = {
+        type: 'link',
+        href,
+        children: []
+    }
+
+    Transforms.wrapNodes(editor, link, {split: true})
+}
+
+export const unsetLink = (editor, selection) => {
+    if (selection) {
+        Transforms.select(editor, selection)
+    }
+    Transforms.unwrapNodes(
+        editor, 
+        { match: n => n.type === 'link'}
+    )
+}
+
+
 // focuses the editor
 // inserts an elem with the given type at the current selection
 // if there's no selection, inserts at the end of the doc
