@@ -9,6 +9,7 @@ import Paragraph from './EditableElements/Paragraph'
 import Ul from './EditableElements/Ul'
 import Li from './EditableElements/Li'
 import Link from './EditableElements/Link'
+import InlineCode from './EditableElements/InlineCode'
 import Code from './EditableElements/Code'
 
 
@@ -41,6 +42,9 @@ const renderElement = props => {
 
         case 'code-block':
             return <Code {...props} />
+
+        case 'code-inline':
+            return <InlineCode {...props} />
 
         default:
             return <p {...props.attributes}>{props.children}</p>
