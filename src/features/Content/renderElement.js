@@ -8,6 +8,7 @@ import H3 from './EditableElements/H3'
 import Paragraph from './EditableElements/Paragraph'
 import Ul from './EditableElements/Ul'
 import Li from './EditableElements/Li'
+import Link from './EditableElements/Link'
 import Code from './EditableElements/Code'
 
 
@@ -34,6 +35,9 @@ const renderElement = props => {
 
         case 'li':
             return <Li {...props} />
+
+        case 'link':
+            return <Link {...props} />
 
         case 'code-block':
             return <Code {...props} />
