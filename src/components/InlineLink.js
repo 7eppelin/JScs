@@ -22,7 +22,7 @@ const Link = styled.a`
         display: inline-block;
         white-space: no-wrap;
         transition: .2s;
-        margin: 0 .4em;
+        margin-right: .4em;
     }
 
     svg {

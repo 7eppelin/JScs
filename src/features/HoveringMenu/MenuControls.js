@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { useSlate } from 'slate-react'
 
 import { 
     isMarkActive, 
     isInside,
-    setMark, 
+    toggleMark,
     toggleLink,
     toggleCode 
 } from 'features/Content/editor'
@@ -28,17 +28,6 @@ const MenuControls = ({
         toggleLink(editor, val, selection)
     }, [editor, inputRef, selection])
 
-    // when the input is focused, selection is lost
-    // that leads to every isMarkActive() call returning false
-    const isBold = useMemo(
-        () => isMarkActive(editor, 'bold'), 
-        [editor, editor.children, editor.selection]
-    )
-    const isItalic = useMemo(
-        () => isMarkActive(editor, 'italic'),
-        [editor, editor.children, editor.selection]
-    )
-
     // TODO
     // figure out how to render buttons in a map 
     // using features/Content/editor/constants
@@ -48,23 +37,19 @@ const MenuControls = ({
     return (
         <>
             <Button tooltip='toggle Bold. Ctrl + B'
-                handleMouseDown={() => {
-                    setMark(editor, 'bold', !isBold, selection.current)
-                }}
-                isActive={isBold} >
+                handleMouseDown={() => toggleMark(editor, 'bold')}
+                isActive={isMarkActive(editor, 'bold')} >
                     <b>B</b>
             </Button>
 
             <Button tooltip='toggle Italic. Ctrl + i'
-                handleMouseDown={() => {
-                    setMark(editor, 'italic', !isItalic, selection.current)
-                }}
-                isActive={isItalic}>
+                handleMouseDown={() => toggleMark(editor, 'italic')}
+                isActive={isMarkActive(editor, 'italic')}>
                     <i>I</i>
             </Button>
 
             <Button tooltip='toggle Code. Ctrl + `'
-                handleMouseDown={() => toggleCode(editor, selection.current)}
+                handleMouseDown={() => toggleCode(editor)}
                 isActive={isInside(editor, 'code-inline')} >
                     <Icon icon='code-tags' />
             </Button>

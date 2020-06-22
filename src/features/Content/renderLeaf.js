@@ -1,9 +1,7 @@
 import React from 'react';
-import styled from 'styled-components/macro';
 
 
 const renderLeaf = ({ leaf, attributes, children }) => {
-
     if (leaf.token) {
         const classes = `token ${leaf.token}`;
         return (

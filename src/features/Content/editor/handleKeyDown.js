@@ -1,5 +1,10 @@
 
-import { isInside, isMarkActive, setMark, insertElem } from './'
+import { 
+    isInside, 
+    toggleMark, 
+    toggleCode,
+    insertElem 
+} from './'
 
 
 // TODO
@@ -22,20 +27,17 @@ export const handleKeyDown = (event, editor) => {
         // text formatting
         case 'KeyB': 
             event.preventDefault();
-            isActive = isMarkActive(editor, 'bold')
-            setMark(editor, 'bold', !isActive);
+            toggleMark(editor, 'bold');
             break;
         
         case 'KeyI':
             event.preventDefault();
-            isActive = isMarkActive(editor, 'italic')
-            setMark(editor, 'italic', !isActive);
+            toggleMark(editor, 'italic');
             break;
 
         case 'Backquote':
             event.preventDefault();
-            isActive = isMarkActive(editor, 'code')
-            setMark(editor, 'code', !isActive);
+            toggleCode(editor);
             break;
 
             

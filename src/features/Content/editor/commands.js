@@ -9,90 +9,79 @@ import { ReactEditor } from 'slate-react'
 // checks whether the given mark is active 
 // on the currently selected text
 
-export const isMarkActive = (editor, mark, selection) => {
+export const isMarkActive = (editor, mark) => {
     const [ match ] = Editor.nodes(editor, {
         match: n => n[mark],
-        at: selection,
         universal: true
     })
     return !!match
 }
 
 
-
 // checks whether the caret is currently
-// inside of an elem of the given type
-// or an elem of the given type is inside
+// inside of an elem of one of the given types
+// or an elem of one of the given types is inside
 // the currently selected range of text
 
 export const isInside = (editor, types) => {
-    const [match] = Editor.nodes(editor, {
-        match: n => types.includes(n.type),
-      })
-    
-    return !!match
+    const match = n => types.includes(n.type)
+    const [node] = Editor.nodes(editor, { match })
+    return !!node
 }
 
 
 
-// sets a mark on the selected text
+// toggles a mark on the selected text
 
-export const setMark = (editor, mark, value, selection) => {
-
-    // add/removeMark operates on the currently selected text
-    // in some scenarios selection is being lost, 
-    // e.g. when the user has focused on an input
-    // in such cases the caller must provide the selection arg
-    if (selection) {
-        Transforms.select(editor, selection)
-    }
-
-    if (value) {
-        editor.addMark(mark, value)
-    } else {
-        editor.removeMark(mark)
-    }
+export const toggleMark = (editor, mark) => {
+    const isActive = isMarkActive(editor, mark)
+    editor.addMark(mark, !isActive)
 }
+
 
 
 export const toggleLink = (editor, href, selection) => {
-    if (selection) {
-        Transforms.select(editor, selection)
-    }
+    if (selection) Transforms.select(editor, selection)
+
+    if (isActiveLink(editor)) unwrapLink(editor)
 
     if (href) {
-        const link = { type: 'link', href, children: [] }
-        Transforms.wrapNodes(editor, link, {split: true})
+        wrapLink(editor, href)
     } else {
-        Transforms.unwrapNodes(
-            editor, 
-            { match: n => n.type === 'link'}
-        )
+        unwrapLink(editor)
     }
 }
 
+const isActiveLink = editor => {
+    const match = n => n.type === 'link'
+    const [ link ] = Editor.nodes(editor, { match })
+    return !!link
+}
 
-export const toggleCode = (editor, selection) => {
-    if (selection) {
-        Transforms.select(editor, selection)
-    }
+const wrapLink = (editor, href) => {
+    const link = { type: 'link', href, children: [] }
+    Transforms.wrapNodes(editor, link, {split: true})
+}
 
+const unwrapLink = editor => {
+    const match = n => n.type === 'link'
+    Transforms.unwrapNodes(editor, { match })
+}
+
+
+
+export const toggleCode = editor => {
     if (isInside(editor, 'code-inline')) {
-        Transforms.unwrapNodes(
-            editor, 
-            { match: n => n.type === 'code-inline'}
-        )
+        const match = n => n.type === 'code-inline'
+        Transforms.unwrapNodes(editor, { match })
+
     } else {
-        Transforms.wrapNodes(
-            editor,
-            { type: 'code-inline', children: [] },
-            { split: true }
-        )
+        const elem = { type: 'code-inline', children: [] }
+        Transforms.wrapNodes(editor, elem, {split: true})
     }
 }
 
 
-// focuses the editor
 // inserts an elem with the given type at the current selection
 // if there's no selection, inserts at the end of the doc
 

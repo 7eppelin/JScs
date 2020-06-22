@@ -13,7 +13,7 @@ const StyledP = styled(motion.p)`
 `;
 
 const ParagraphElement = ({ attributes, children }) => (
-    <StyledP 
+    <StyledP
         variants={variants} 
         {...attributes}>
 
