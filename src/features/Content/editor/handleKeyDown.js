@@ -20,8 +20,6 @@ export const handleKeyDown = (event, editor) => {
 
     if (!event.ctrlKey && !event.metaKey) return;
 
-    let isActive;
-
     switch (char) {
 
         // text formatting

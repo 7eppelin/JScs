@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { 
     isMarkActive, 
@@ -17,35 +17,50 @@ const MenuControls = ({
     isInputShown,
     setInputShown,
     selection
-}) => (
-    <>
-        <Button tooltip='toggle Bold. Ctrl + B'
-            handleMouseDown={() => toggleMark(editor, 'bold', selection)}
-            isActive={isMarkActive(editor, 'bold', selection)} >
-                <b>B</b>
-        </Button>
+}) => {
 
-        <Button tooltip='toggle Italic. Ctrl + i'
-            handleMouseDown={() => toggleMark(editor, 'italic', selection)}
-            isActive={isMarkActive(editor, 'italic', selection)}>
-                <i>I</i>
-        </Button>
+    const isBold = isMarkActive(editor, 'bold', selection)
+    const isItalic = isMarkActive(editor, 'italic', selection)
 
-        <Button tooltip='toggle Code. Ctrl + `'
-            handleMouseDown={() => toggleCode(editor, selection)}
-            isActive={isInside(editor, ['code-inline'])} >
-                <Icon icon='code-tags' />
-        </Button>
+    // once the user focuses on the input, selection is lost
+    // which leads to every isInside call returning false
+    // we have either to memoize it's result
+    // or modify it to accept the selection arg
+    const isInsideCode = useMemo(
+        () => isInside(editor, 'code-inline'), 
+        [editor, selection]
+    )
 
-        <Button tooltip='transform into a link'
-            isActive={isInputShown}
-            handleMouseDown={() => setInputShown(!isInputShown)}>
-                <Icon icon='link2' />
-        </Button>
+    return (
+        <>
+            <Button tooltip='toggle Bold. Ctrl + B'
+                handleMouseDown={() => toggleMark(editor, 'bold', selection)}
+                isActive={isBold} >
+                    <b>B</b>
+            </Button>
 
-        <LinkForm selection={selection} 
-            isShown={isInputShown} />
-    </>
-)
+            <Button tooltip='toggle Italic. Ctrl + i'
+                handleMouseDown={() => toggleMark(editor, 'italic', selection)}
+                isActive={isItalic}>
+                    <i>I</i>
+            </Button>
+
+            <Button tooltip='toggle Code. Ctrl + `'
+                handleMouseDown={() => toggleCode(editor, selection)}
+                isActive={isInsideCode} >
+                    <Icon icon='code-tags' />
+            </Button>
+
+            <Button tooltip='transform into a link'
+                isActive={isInputShown}
+                handleMouseDown={() => setInputShown(!isInputShown)}>
+                    <Icon icon='link2' />
+            </Button>
+
+            <LinkForm selection={selection} 
+                isShown={isInputShown} />
+        </>
+    )
+}
 
 export default MenuControls;

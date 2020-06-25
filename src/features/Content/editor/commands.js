@@ -31,7 +31,7 @@ export const isMarkActive = (editor, mark, selection) => {
 // or an elem of one of the given types is inside
 // the currently selected range of text
 
-export const isInside = (editor, types) => {
+export const isInside = (editor, ...types) => {
     const match = n => types.includes(n.type)
     const [node] = Editor.nodes(editor, { match })
     return !!node

@@ -8,11 +8,10 @@ import { useMount } from 'utils'
 
 const AnimatedMenu = ({ isInputShown, selection, children }) => {
     const menu = useRef()
+    const { x, y } = useMenuCoords(menu, isInputShown, selection)
 
     // prevent the initial left/top animation
-    const justMounted = useMount(true)
-
-    const { x, y } = useMenuCoords(menu, isInputShown, selection)
+    const justMounted = useMount()
 
     return (
         <Div ref={menu}
@@ -23,7 +22,7 @@ const AnimatedMenu = ({ isInputShown, selection, children }) => {
             exit='hidden'
             positionTransition={() => {
                 if (justMounted) return { duration: 0 }
-                return transition
+                return transition // definition is below
             }} >
 
             {children}

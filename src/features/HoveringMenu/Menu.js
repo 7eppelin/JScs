@@ -6,9 +6,7 @@ import AnimatedMenu from './AnimatedMenu'
 
 
 const Menu = () => {
-    const editor = useSlate();
-
-    // null || 'link' || 'tooltip'
+    const editor = useSlate()
     const [isInputShown, setInputShown] = useState(false)
     
     // in order to be able to manipulate the selected text, 
