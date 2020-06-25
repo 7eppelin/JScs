@@ -33,7 +33,7 @@ const StyledAuth = styled.div`
         transition: .5s;
     }
 
-    button:hover { background: var(--gray6) }
+    button:hover { background: var(--gray5) }
     button:hover span { color: var(--orange2) }
 
     span {
