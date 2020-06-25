@@ -9,7 +9,6 @@ import AddButton from './AddButton'
 import AnimatedForm from './AnimatedForm'
 
 
-
 const Links = ({ element, attributes, children }) => {
     const { links } = element;
     const editor = useEditor();

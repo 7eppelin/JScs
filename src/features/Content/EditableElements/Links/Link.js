@@ -32,7 +32,11 @@ const Link = ({
 
 const Li = styled.li`
     position: relative;
-    padding: 0 45px;
+    padding: 0 30px;
+
+    &:first-child {
+        padding-left: 50px;
+    }
 
     a {
         position: relative;
@@ -67,8 +71,6 @@ const Li = styled.li`
 
     &:hover div {
         opacity: 1;
-        transform: scale(1);
-        top: 3px;
     }
 `
 

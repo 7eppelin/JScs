@@ -7,34 +7,33 @@ const LinkControls = ({ editLink, deleteLink }) => (
     <Div>
         <button onClick={editLink}>
             <Icon icon='pen'
-                size='1.35em' />
+                size='1.25em' />
         </button>
 
         <button className='close' 
             onClick={deleteLink}>
             <Icon icon='close'
-                size='1.35em' />
+                size='1.25em' />
         </button>
     </Div>
 )
 
 const Div = styled.div`
-    position: absolute;
-    right: 3px;
-    top: 1px;
+    display: inline-block;
+    margin-left: 5px;
     opacity: 0;
-    transform: scale(.75);
     transition: .45s;
 
     button:focus { outline: none }
     button:first-child { margin-right: 4px }
 
     path {
-        fill: var(--gray2);
+        transition: .4s;
+        fill: var(--white2);
     }
 
     button:hover path {
-        fill: var(--white);
+        fill: var(--white1);
     }
 `
 
