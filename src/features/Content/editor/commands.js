@@ -6,12 +6,20 @@ import { ReactEditor } from 'slate-react'
 // commands to manipulate the editor
 
 
+
+export const select = (editor, selection) => {
+    Transforms.select(editor, selection)
+    ReactEditor.focus(editor)
+}
+
+
 // checks whether the given mark is active 
 // on the currently selected text
 
-export const isMarkActive = (editor, mark) => {
+export const isMarkActive = (editor, mark, selection) => {
     const [ match ] = Editor.nodes(editor, {
         match: n => n[mark],
+        at: selection,
         universal: true
     })
     return !!match
@@ -33,7 +41,9 @@ export const isInside = (editor, types) => {
 
 // toggles a mark on the selected text
 
-export const toggleMark = (editor, mark) => {
+export const toggleMark = (editor, mark, selection) => {
+    if (selection) select(editor, selection)
+
     const isActive = isMarkActive(editor, mark)
     editor.addMark(mark, !isActive)
 }
@@ -70,7 +80,9 @@ const unwrapLink = editor => {
 
 
 
-export const toggleCode = editor => {
+export const toggleCode = (editor, selection) => {
+    if (selection) select(editor, selection)
+
     if (isInside(editor, 'code-inline')) {
         const match = n => n.type === 'code-inline'
         Transforms.unwrapNodes(editor, { match })

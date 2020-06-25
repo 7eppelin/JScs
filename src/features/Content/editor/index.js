@@ -3,6 +3,7 @@ export { createEditor } from './createEditor'
 export { ELEMS, HOTKEYS, ICONS } from './constants'
 
 export {
+    select,
     isMarkActive,
     toggleMark,
     toggleLink,

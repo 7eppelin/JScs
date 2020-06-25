@@ -5,7 +5,7 @@ import MenuControls from './MenuControls'
 import AnimatedMenu from './AnimatedMenu'
 
 
-const Menu = ({ inputRef }) => {
+const Menu = () => {
     const editor = useSlate();
 
     // null || 'link' || 'tooltip'
@@ -24,9 +24,9 @@ const Menu = ({ inputRef }) => {
             selection={memoizedSelection.current}>
 
             <MenuControls
+                editor={editor}
                 isInputShown={isInputShown}
                 setInputShown={setInputShown}
-                inputRef={inputRef}
                 selection={memoizedSelection.current} />
 
         </AnimatedMenu>

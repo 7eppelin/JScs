@@ -28,7 +28,6 @@ export const useMount = () => {
 
 // takes element's ref and a func to call 
 // whenever the user clicks outside of the element
-// useful for hiding elements on click outside
 export const useOnClickOutside = (ref, handler) => {
     useEffect(() => {
 
@@ -39,11 +38,11 @@ export const useOnClickOutside = (ref, handler) => {
           handler(event);
         }
   
-        document.addEventListener('click', listener);
+        document.addEventListener('mousedown', listener);
         document.addEventListener('touchstart', listener);
   
         return () => {
-          document.removeEventListener('click', listener);
+          document.removeEventListener('mousedown', listener);
           document.removeEventListener('touchstart', listener);
         };
       }, [ref, handler])

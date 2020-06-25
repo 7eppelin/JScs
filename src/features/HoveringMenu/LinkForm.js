@@ -1,28 +1,41 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components/macro';
+import { useSlate } from 'slate-react'
+import { toggleLink } from 'features/Content/editor'
 
 import Icon from 'components/Icon'
 
-const Input = ({ 
-    inputRef,
-    isShown,
-    submit
-}) => (
-    <Div isShown={isShown}>
-        <input ref={inputRef} 
-            placeholder='link URL...' />
 
-        <button 
-            onClick={submit}
-            // prevent focus
-            onMouseDown={e => e.preventDefault()} >
-            <Icon icon='check-bold' size='1.15em' />
-        </button>
-    </Div>
-)
+const LinkForm = ({ isShown, selection }) => {
+    const editor = useSlate()
+    const inputRef = useRef(null)    
+
+    const submit = e => {
+        e.preventDefault()
+        const val = inputRef.current.value;
+        toggleLink(editor, val, selection)
+    }
+
+    return (
+        <Form name='hoveringMenu_form'
+            onSubmit={submit}
+            isShown={isShown}>
+
+            <input ref={inputRef} 
+                className='hovering-input'
+                placeholder='link URL...' />
+
+            <button 
+                // prevent focus
+                onMouseDown={e => e.preventDefault()} >
+                <Icon icon='check-bold' size='1.15em' />
+            </button>
+        </Form>
+    )
+}
 
 
-const Div = styled.div`
+const Form = styled.form`
     position: relative;
     padding: 0 3px;
     margin-top: 3px;
@@ -67,4 +80,4 @@ const Div = styled.div`
     }
 `;
 
-export default Input;
+export default LinkForm;

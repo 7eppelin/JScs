@@ -1,19 +1,20 @@
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { useSlate } from 'slate-react'
 
-import useHoveringMenu from './useHoveringMenu'
+import isMenuShown from './isMenuShown'
+
 const Menu = React.lazy(() => import('./Menu'));
 
 
 const HoveringMenu = () => {
-    const inputRef = useRef(null)
-    const isShown = useHoveringMenu(inputRef)
+    const editor = useSlate()
 
     return (
         <AnimatePresence>
-            {isShown && (
+            {isMenuShown(editor) && (
                 <Suspense fallback=' '>
-                    <Menu inputRef={inputRef} />
+                    <Menu />
                 </Suspense>
             )}
         </AnimatePresence>

@@ -4,7 +4,7 @@ import { useSlate, ReactEditor } from 'slate-react';
 import { Range } from 'slate';
 
 
-const useHoveringMenu = (inputRef) => {
+const useHoveringMenu = () => {
     const [isShown, setShown] = useState(false)
     const editor = useSlate()
     const { selection } = editor
@@ -13,7 +13,8 @@ const useHoveringMenu = (inputRef) => {
 
     useEffect(() => {
         // don't let the menu hide when the user focuses on the input
-        if (inputRef.current === document.activeElement) return;
+        const activeEl = document.activeElement
+        if (activeEl.classList.contains('hovering-input')) return;
 
         // if there's no selection, or in readOnly mode, 
         // or the user selection is inside either a code block or the title
@@ -28,7 +29,7 @@ const useHoveringMenu = (inputRef) => {
         }
 
         setShown(true);
-    }, [selection, readOnly, inputRef.current])
+    }, [selection, readOnly])
 
     return isShown
 }

@@ -1,71 +1,51 @@
-import React, { useCallback } from 'react'
-import { useSlate } from 'slate-react'
+import React from 'react'
 
 import { 
     isMarkActive, 
     isInside,
     toggleMark,
-    toggleLink,
     toggleCode 
 } from 'features/Content/editor'
 
 import Button from './Button'
-import Input from './Input'
+import LinkForm from './LinkForm'
 import Icon from 'components/Icon'
 
 
 const MenuControls = ({ 
+    editor,
     isInputShown,
     setInputShown,
-    inputRef,
     selection
-}) => {
-    const editor = useSlate()
+}) => (
+    <>
+        <Button tooltip='toggle Bold. Ctrl + B'
+            handleMouseDown={() => toggleMark(editor, 'bold', selection)}
+            isActive={isMarkActive(editor, 'bold', selection)} >
+                <b>B</b>
+        </Button>
 
-    // on input submit
-    const submit = useCallback(() => {
-        const val = inputRef.current.value;
-        toggleLink(editor, val, selection)
-    }, [editor, inputRef, selection])
+        <Button tooltip='toggle Italic. Ctrl + i'
+            handleMouseDown={() => toggleMark(editor, 'italic', selection)}
+            isActive={isMarkActive(editor, 'italic', selection)}>
+                <i>I</i>
+        </Button>
 
-    // TODO
-    // figure out how to render buttons in a map 
-    // using features/Content/editor/constants
-    // the problem is that the 'href' and 'tooltip' buttons
-    // don't set marks, but toggle the input instead
+        <Button tooltip='toggle Code. Ctrl + `'
+            handleMouseDown={() => toggleCode(editor, selection)}
+            isActive={isInside(editor, ['code-inline'])} >
+                <Icon icon='code-tags' />
+        </Button>
 
-    return (
-        <>
-            <Button tooltip='toggle Bold. Ctrl + B'
-                handleMouseDown={() => toggleMark(editor, 'bold')}
-                isActive={isMarkActive(editor, 'bold')} >
-                    <b>B</b>
-            </Button>
+        <Button tooltip='transform into a link'
+            isActive={isInputShown}
+            handleMouseDown={() => setInputShown(!isInputShown)}>
+                <Icon icon='link2' />
+        </Button>
 
-            <Button tooltip='toggle Italic. Ctrl + i'
-                handleMouseDown={() => toggleMark(editor, 'italic')}
-                isActive={isMarkActive(editor, 'italic')}>
-                    <i>I</i>
-            </Button>
-
-            <Button tooltip='toggle Code. Ctrl + `'
-                handleMouseDown={() => toggleCode(editor)}
-                isActive={isInside(editor, 'code-inline')} >
-                    <Icon icon='code-tags' />
-            </Button>
-
-            <Button tooltip='transform into a link'
-                isActive={isInputShown}
-                handleMouseDown={() => setInputShown(!isInputShown)}>
-                    <Icon icon='link2' />
-            </Button>
-
-            <Input 
-                submit={submit}
-                inputRef={inputRef} 
-                isShown={isInputShown} />
-        </>
-    )
-}
+        <LinkForm selection={selection} 
+            isShown={isInputShown} />
+    </>
+)
 
 export default MenuControls;

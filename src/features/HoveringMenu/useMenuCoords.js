@@ -28,7 +28,7 @@ const useMenuCoords = (menu, isInputShown, selection) => {
         // i wish i could simply use menu's offsetHeight, but this hook
         // is getting invoked before the input had a chance to open
         const menuHeight = 41 + (isInputShown ? 39 : 0);
-        const y = rect.top - cont.top + contScroll - menuHeight - 20;
+        const y = rect.top - cont.top + contScroll - menuHeight - 16;
 
         const menuWidth = menu.current.offsetWidth
         const menuLeft = rect.left - menuWidth / 2 + rect.width / 2
