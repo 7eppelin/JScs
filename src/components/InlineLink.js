@@ -27,6 +27,7 @@ const Link = styled.a`
 
     svg {
         margin-top: -2px;
+        margin-left: 3px;
         vertical-align: middle;
     }
 

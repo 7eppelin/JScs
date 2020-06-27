@@ -3,9 +3,11 @@ import React from 'react';
 import { motion } from 'framer-motion'
 
 // motion variants
+const transition = { duration: 0 }
+
 const letter = {
-    show: { opacity: 1 },
-    hide: { opacity: 0 }
+    show: { opacity: 1, transition },
+    hide: { opacity: 0, transition }
 }
 
 
@@ -74,29 +76,23 @@ export default str => {
         }
 
 
-        // return a 'red' element
         if (isRed) return (
             <motion.i key={i}
-                transition={{ duration: 0 }}
                 variants={letter}>
                     {char}
             </motion.i> 
         )
 
 
-        // return a 'highlighted' element
         if (isHighlighted) return (
             <motion.b key={i}
-                transition={{ duration: 0 }}
                 variants={letter}>
                     {char}
             </motion.b>
         )
 
-        // return a 'normal' element
         return (
             <motion.span key={i}
-                transition={{ duration: 0 }}
                 variants={letter}>
                     {char}
             </motion.span>

@@ -1,11 +1,12 @@
-import React from 'react'
+
 
 export const ELEMS = [
     'paragraph',
     'h2',
     'h3',
     'ul',
-    'code-block'
+    'code-block',
+    'api'
 ]
 
 export const MARKS = [
@@ -22,6 +23,7 @@ export const HOTKEYS = {
     'h2': 'ctrl + 2',
     'h3': 'ctrl + 3',
     'ul': 'ctrl + u',
+    'api': 'ctrl + a',
     'bold': 'ctrl + b',
     'italic': 'ctrl + i',
     'code': 'ctrl + `'
@@ -33,9 +35,8 @@ export const ICONS = {
     h2: 'H2',
     h3: 'H3',
     ul: 'UL',
+    'api': 'api',
     bold: 'B',
     italic: 'I',
     code: '</>',
-    link: <i className="fas fa-link" />,
-    tooltip: <i className="far fa-comment-alt" />
 }

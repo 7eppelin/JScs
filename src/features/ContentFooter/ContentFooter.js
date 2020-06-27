@@ -34,7 +34,7 @@ const StyledFooter = styled(motion.div)`
     .edited {
         padding: 14px;
         padding-left: 40px;
-        color: var(--gray3);
+        color: var(--gray1);
         font-size: 1.2rem;
     }
 `;

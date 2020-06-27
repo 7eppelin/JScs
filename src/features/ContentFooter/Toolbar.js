@@ -6,6 +6,7 @@ import { insertElem, isInside } from '../Content/editor';
 import Button from './Button';
 import { ELEMS } from 'features/Content/editor'
 
+
 const Toolbar = () => {
     const editor = useSlate();
 
