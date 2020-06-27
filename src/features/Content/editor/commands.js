@@ -104,15 +104,11 @@ export const insertElem = (editor, type) => {
     // nor to split the title and insert it between
 
     // if the selection is inside the title
-    // specify the explicit location where to insert the elem
-    // and that would be right after the links panel
-
+    // insert the elem right after the links panel
     const insertAt = isInside(editor, 'title') ? [2] : undefined
 
-    if (type === 'ul') {
-        insertUl(editor, insertAt)
-        return
-    }
+    if (type === 'ul') return insertUl(editor, insertAt)
+    if (type === 'api') return insertAPI(editor, insertAt)
 
     const elem = {
         type,
@@ -132,6 +128,24 @@ const insertUl = (editor, insertAt) => {
 
     Transforms.insertNodes(editor, li, { at: insertAt })
     Transforms.wrapNodes(editor, ul, { at: insertAt })
+}
+
+const insertAPI = (editor, insertAt) => {
+    const elem = {
+        type: 'api',
+        children: [{
+            type: 'api-name',
+            children: [{ text: 'func()' }]
+        }, {
+            type: 'api-tip',
+            children: [{ text: '' }]
+        }, {
+            type: 'paragraph',
+            children: [{ text: 'description...' }]
+        }]
+    }
+
+    Transforms.insertNodes(editor, elem, { at: insertAt })
 }
 
 
