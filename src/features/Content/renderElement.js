@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 import Title from './EditableElements/Title'
 import Links from './EditableElements/Links'
 import H2 from './EditableElements/H2'
@@ -11,6 +10,9 @@ import Li from './EditableElements/Li'
 import Link from './EditableElements/Link'
 import InlineCode from './EditableElements/InlineCode'
 import Code from './EditableElements/Code'
+import Api from './EditableElements/Api/Api'
+import ApiTitle from './EditableElements/Api/ApiTitle'
+import ApiDesc from './EditableElements/Api/ApiDesc'
 
 
 
@@ -45,6 +47,15 @@ const renderElement = props => {
 
         case 'code-inline':
             return <InlineCode {...props} />
+
+        case 'api':
+            return <Api {...props} />
+
+        case 'api-title':
+            return <ApiTitle {...props} />
+
+        case 'api-desc':
+            return <ApiDesc {...props} />
 
         default:
             return <p {...props.attributes}>{props.children}</p>

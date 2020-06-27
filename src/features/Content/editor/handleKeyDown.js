@@ -65,6 +65,11 @@ export const handleKeyDown = (event, editor) => {
             insertElem(editor, 'code-block');
             break;
 
+        case 'KeyA':
+            event.preventDefault()
+            insertElem(editor, 'api');
+            break;
+
         default: return
     }  
 }

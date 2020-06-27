@@ -47,7 +47,10 @@ const Links = ({ element, attributes, children }) => {
 
 
 const LinksContainer = styled.div`
-    position: relative;
+    position: absolute;
+    top: 110px;
+    left: 0;
+    right: 0;
     user-select: none;
     height: 52px;
     background: var(--black);

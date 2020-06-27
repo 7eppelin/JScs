@@ -10,6 +10,10 @@ const TitleElement = ({ attributes, children }) => (
 
 
 const StyledTitle = styled.h1`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     color: var(--yellow);
     padding: 45px 15% 25px 20%;
     background-color: var(--gray4);

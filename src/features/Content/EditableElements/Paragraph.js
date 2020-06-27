@@ -6,10 +6,7 @@ import variants from './variants'
 
 
 const StyledP = styled(motion.p)`
-    margin: 0;
-    padding: 12px;
-    padding-left: 15%;
-    padding-right: 23%;
+    padding: 12px 0;
 `;
 
 const ParagraphElement = ({ attributes, children }) => (

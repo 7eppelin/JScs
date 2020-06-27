@@ -134,10 +134,10 @@ const insertAPI = (editor, insertAt) => {
     const elem = {
         type: 'api',
         children: [{
-            type: 'api-name',
+            type: 'api-title',
             children: [{ text: 'func()' }]
         }, {
-            type: 'api-tip',
+            type: 'api-desc',
             children: [{ text: '' }]
         }, {
             type: 'paragraph',
