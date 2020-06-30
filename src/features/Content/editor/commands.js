@@ -13,6 +13,7 @@ export const select = (editor, selection) => {
 }
 
 
+
 // checks whether the given mark is active 
 // on the currently selected text
 
@@ -24,6 +25,7 @@ export const isMarkActive = (editor, mark, selection) => {
     })
     return !!match
 }
+
 
 
 // checks whether the caret is currently
@@ -80,6 +82,7 @@ const unwrapLink = editor => {
 
 
 
+
 export const toggleCode = (editor, selection) => {
     if (selection) select(editor, selection)
 
@@ -102,9 +105,6 @@ export const toggleCode = (editor, selection) => {
 export const insertElem = (editor, type, initialText) => {
     ReactEditor.focus(editor)
 
-    // we don't want to insert an elem between the title and the links panel
-    // nor to split the title and insert it between
-
     // if the selection is inside the title
     // insert the elem right after the links panel
     const insertAt = isInside(editor, 'title') ? [2] : undefined
@@ -118,6 +118,7 @@ export const insertElem = (editor, type, initialText) => {
     Transforms.insertNodes(editor, elem, { at: insertAt })
 }
 
+
 const insertUl = (editor, insertAt) => {
     const li = { 
         type: 'li', 
@@ -128,6 +129,7 @@ const insertUl = (editor, insertAt) => {
     Transforms.insertNodes(editor, li, { at: insertAt })
     Transforms.wrapNodes(editor, ul, { at: insertAt })
 }
+
 
 const insertAPI = (editor, insertAt) => {
     const title = {
@@ -149,18 +151,6 @@ const insertAPI = (editor, insertAt) => {
 
     Transforms.insertNodes(editor, elem, { at: insertAt })
 }
-
-
-// this is api element
-export const insertComma = editor => {
-    insertElem(editor, 'api-comma', ',')
-
-    const match = n => n.type === 'api-comma'
-    Transforms.liftNodes(editor, { match })
-    Transforms.unwrapNodes(editor, { match })
-    Transforms.move(editor, {unit: 'offset'})
-}
-
 
 
 

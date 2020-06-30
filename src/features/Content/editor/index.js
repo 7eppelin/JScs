@@ -10,7 +10,6 @@ export {
     toggleCode,
     isInside,
     insertElem,
-    insertComma,
     setLinks,
 } from './commands'
 
