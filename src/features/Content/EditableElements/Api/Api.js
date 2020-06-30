@@ -14,9 +14,7 @@ const Api = ({ attributes, children }) => (
 
 
 const Div = styled(motion.div)`
-    padding: 12px;
-    padding-left: 15%;
-    padding-right: 23%;
+    padding: 12px 0;
 `
 
 export default Api

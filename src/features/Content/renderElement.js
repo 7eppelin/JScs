@@ -12,7 +12,9 @@ import InlineCode from './EditableElements/InlineCode'
 import Code from './EditableElements/Code'
 import Api from './EditableElements/Api/Api'
 import ApiTitle from './EditableElements/Api/ApiTitle'
-import ApiDesc from './EditableElements/Api/ApiDesc'
+import ApiArgs from './EditableElements/Api/ApiArgs'
+import ApiComma from './EditableElements/Api/ApiComma'
+import ApiArg from './EditableElements/Api/ApiArg'
 
 
 
@@ -54,8 +56,14 @@ const renderElement = props => {
         case 'api-title':
             return <ApiTitle {...props} />
 
-        case 'api-desc':
-            return <ApiDesc {...props} />
+        case 'api-args':
+            return <ApiArgs {...props} />
+
+        case 'api-comma':
+            return <ApiComma {...props} />
+
+        case 'api-arg':
+            return <ApiArg {...props} />
 
         default:
             return <p {...props.attributes}>{props.children}</p>

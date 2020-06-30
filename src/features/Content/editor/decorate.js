@@ -1,10 +1,11 @@
 import Prism from 'prismjs';
 import { Node } from 'slate'
 
-// integrating prismjs with slate
-// see Content/Editables
+
 
 export const decorate = ([node, path]) => {
+
+	// integrating prismjs with slate
 	if (node.type !== 'code-block' &&
 		node.type !== 'code-inline'
 	) { return [] }

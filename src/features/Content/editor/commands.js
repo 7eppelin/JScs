@@ -94,13 +94,15 @@ export const toggleCode = (editor, selection) => {
 }
 
 
+
+
 // inserts an elem with the given type at the current selection
 // if there's no selection, inserts at the end of the doc
 
-export const insertElem = (editor, type) => {
+export const insertElem = (editor, type, initialText) => {
     ReactEditor.focus(editor)
 
-    // we don't want to insert the elem between the title and the links panel
+    // we don't want to insert an elem between the title and the links panel
     // nor to split the title and insert it between
 
     // if the selection is inside the title
@@ -110,14 +112,11 @@ export const insertElem = (editor, type) => {
     if (type === 'ul') return insertUl(editor, insertAt)
     if (type === 'api') return insertAPI(editor, insertAt)
 
-    const elem = {
-        type,
-        children: [{ text: `[ ${type} ]` }]
-    }
+    const text = initialText || ''
+    const elem = { type, children: [{ text }] }
 
     Transforms.insertNodes(editor, elem, { at: insertAt })
 }
-
 
 const insertUl = (editor, insertAt) => {
     const li = { 
@@ -131,15 +130,18 @@ const insertUl = (editor, insertAt) => {
 }
 
 const insertAPI = (editor, insertAt) => {
+    const title = {
+        type: 'api-title',
+        children: [{ text: 'func' }, { 
+            type: 'api-args', 
+            children: [{text: '()'}] 
+        },]
+    }
+
     const elem = {
         type: 'api',
-        children: [{
-            type: 'api-title',
-            children: [{ text: 'func()' }]
-        }, {
-            type: 'api-desc',
-            children: [{ text: '' }]
-        }, {
+        children: [
+            title, {
             type: 'paragraph',
             children: [{ text: 'description...' }]
         }]
@@ -147,6 +149,18 @@ const insertAPI = (editor, insertAt) => {
 
     Transforms.insertNodes(editor, elem, { at: insertAt })
 }
+
+
+// this is api element
+export const insertComma = editor => {
+    insertElem(editor, 'api-comma', ',')
+
+    const match = n => n.type === 'api-comma'
+    Transforms.liftNodes(editor, { match })
+    Transforms.unwrapNodes(editor, { match })
+    Transforms.move(editor, {unit: 'offset'})
+}
+
 
 
 

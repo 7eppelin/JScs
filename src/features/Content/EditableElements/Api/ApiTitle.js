@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 
 const ApiTitle = ({ attributes, children }) => (
     <Div {...attributes}>
-            {children}
+        {children}
     </Div>
 )
 

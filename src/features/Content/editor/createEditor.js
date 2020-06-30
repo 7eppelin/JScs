@@ -1,7 +1,7 @@
 
 import { isInside } from './'
 
-import { createEditor, Transforms, Node } from 'slate'
+import { createEditor, Transforms, Node, Text } from 'slate'
 import { withHistory } from 'slate-history'
 import { withReact } from 'slate-react'
 import { compose } from '@reduxjs/toolkit'
@@ -29,9 +29,10 @@ const withVoids = editor => {
 const withInlines = editor => {
     const { isInline } = editor;
 
+    const inlines = ['link', 'code-inline', 'api-args', 'api-comma', 'api-arg']
+
     editor.isInline = el => (
-        el.type === 'link' || el.type === 'code-inline' ? 
-        true : isInline(el)
+        inlines.includes(el.type) ? true : isInline(el)
     )
 
     return editor;
@@ -39,7 +40,7 @@ const withInlines = editor => {
 
 
 
-// slate normalizes the editor's content after every change
+// slate normalizes editor's elements after every change
 // here we can add some custom constraints to our editor
 
 const withNormalizing = editor => {
@@ -49,11 +50,39 @@ const withNormalizing = editor => {
 
         // ensure that an UL can only contain LI's
         if (node.type === 'ul') {
-            const children = Node.children(editor, path)
-            for (const [child] of children) {
-                if (child.type !== 'li') {
+            for (const [el] of Node.children(editor, path)) {
+                if (el.type !== 'li') {
                     Transforms.liftNodes(editor)
                     return
+                }
+            }
+        }
+
+        // delete empty 'api-arg' elements
+        if (node.type === 'api-args') {
+            const first = node.children[0]
+            const last = node.children[node.children.length - 1]
+
+            if (!Text.isText(first) || 
+                !Text.isText(last) ||
+                first.text !== '(' ||
+                last.text !== ')') {
+
+                    if (first === last && first.text === '()') return
+                    if (last.text === ',)') return
+                    Transforms.removeNodes(editor, { at: path })
+                    return
+                }
+
+            for (const [elem] of Node.children(editor, path)) {
+
+                if (elem.type === 'api-arg') {
+                    const text = Node.string(elem)
+                    if (!text) {
+                        const match = n => n.type === 'api-arg'
+                        Transforms.removeNodes(editor, { match })
+                        return
+                    }
                 }
             }
         }
@@ -71,17 +100,14 @@ const withNormalizing = editor => {
 const withDelete = editor => {
     const { deleteBackward, deleteFragment } = editor
 
-    // this is getting called whenever the user
+    // this method is getting called whenever the user
     // attempts to delete a single character
     editor.deleteBackward = (...args) => {
         const anchor = editor.selection.anchor
 
         // if selection is at the start of the elem
         // that is next to the panel, skip
-        
-        if (anchor.path[0] === 2 && anchor.offset === 0) {
-            return
-        }
+        if (anchor.path[0] === 2 && anchor.offset === 0) return
 
         // otherwise, call the default method
         deleteBackward(...args)

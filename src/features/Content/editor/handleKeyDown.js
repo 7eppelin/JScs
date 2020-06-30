@@ -1,9 +1,12 @@
 
+import { Transforms } from 'slate'
+
 import { 
     isInside, 
     toggleMark, 
     toggleCode,
-    insertElem 
+    insertElem,
+    insertComma,
 } from './'
 
 
@@ -12,17 +15,22 @@ import {
 // using ./constants
 
 export const handleKeyDown = (event, editor) => {
+
+    if (isInside(editor, 'api')) {
+        return handleApi(editor, event)
+    }
+
     const char = event.nativeEvent.code
 
-    // func definitions below
     if (char === 'Enter') handleEnter(editor, event)
     if (char === 'Tab') handleTab(editor, event)
 
+
+    // hotkeys. Ctrl + key
     if (!event.ctrlKey && !event.metaKey) return;
 
     switch (char) {
-
-        // text formatting
+        // format text
         case 'KeyB': 
             event.preventDefault();
             toggleMark(editor, 'bold');
@@ -38,8 +46,7 @@ export const handleKeyDown = (event, editor) => {
             toggleCode(editor);
             break;
 
-            
-        // block insertion
+        // insert elem
         case 'Digit2':
             event.preventDefault();
             insertElem(editor, 'h2');
@@ -75,7 +82,6 @@ export const handleKeyDown = (event, editor) => {
 }
 
 
-
 // default behavior 'onEnter' is to insert a new elem
 // of the same type as the elem at the selection
 
@@ -90,15 +96,14 @@ const handleEnter = (editor, event) => {
     
     // if the user is inside the title elem
     if (isInside(editor, 'title')) {
-        event.preventDefault()
-        return
+        return event.preventDefault()
     }
 
     // if the user is inside of a code-block
     // or pressed shift+enter, create a new line
     if (isInside(editor, 'code-block') || event.shiftKey) {
         editor.insertText('\n');
-        event.preventDefault();
+        return event.preventDefault();
     }
 }
 
@@ -107,5 +112,31 @@ const handleTab = (editor, event) => {
     if (isInside(editor, 'code-block')) {
         event.preventDefault()
         editor.insertText('    ')
+    }
+}
+
+
+const handleApi = (editor, event) => {
+    const char = event.nativeEvent.code
+
+    if (event.key === '(') {
+        event.preventDefault()
+        insertElem(editor, 'api-args', '()')
+        Transforms.move(editor, { reverse: true })
+        return
+    }
+
+    if (isInside(editor, 'api-args')) {
+        if (!isInside(editor, 'api-arg')
+            && event.key.length === 1
+            && char !== 'Comma') {
+                event.preventDefault()
+                insertElem(editor, 'api-arg', event.key)
+        }
+
+        if (char === 'Comma') {
+            event.preventDefault()
+            insertComma(editor)
+        }
     }
 }
