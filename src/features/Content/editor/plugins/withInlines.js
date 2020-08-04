@@ -5,7 +5,10 @@
 export const withInlines = editor => {
     const { isInline } = editor;
 
-    const inlines = ['link', 'code-inline', 'api-args', 'api-comma', 'api-arg']
+    const inlines = [
+        'link', 
+        'code-inline', 
+    ]
 
     editor.isInline = el => (
         inlines.includes(el.type) ? true : isInline(el)

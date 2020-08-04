@@ -11,7 +11,8 @@ const ApiTitle = ({ attributes, children }) => (
 
 const Div = styled.div`
     color: var(--yellow);
-    font-size: 1.5rem;
+    font-size: 1.65rem;
+    letter-spacing: .1em;
 `
 
 export default ApiTitle

@@ -1,6 +1,7 @@
 
-import { Editor, Transforms } from 'slate';
+import { Editor, Transforms, Node } from 'slate';
 import { ReactEditor } from 'slate-react'
+import { nanoid } from '@reduxjs/toolkit'
 
 
 // commands to manipulate the editor
@@ -134,19 +135,17 @@ const insertUl = (editor, insertAt) => {
 const insertAPI = (editor, insertAt) => {
     const title = {
         type: 'api-title',
-        children: [{ text: 'func' }, { 
-            type: 'api-args', 
-            children: [{text: '()'}] 
-        },]
+        children: [{ text: 'func()' }]
+    }
+
+    const description = {
+        type: 'api-description',
+        children: [{ text: 'description...' }]
     }
 
     const elem = {
         type: 'api',
-        children: [
-            title, {
-            type: 'paragraph',
-            children: [{ text: 'description...' }]
-        }]
+        children: [title, description]
     }
 
     Transforms.insertNodes(editor, elem, { at: insertAt })

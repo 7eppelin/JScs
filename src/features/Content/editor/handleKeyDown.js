@@ -1,7 +1,6 @@
 
 
 import { 
-    isInside, 
     toggleMark, 
     toggleCode,
     insertElem,
@@ -9,16 +8,9 @@ import {
 
 import { handleEnter } from './keysHandlers/handleEnter'
 import { handleTab } from './keysHandlers/handleTab'
-import { handleApi } from './keysHandlers/handleApi'
-
 
 
 export const handleKeyDown = (event, editor) => {
-
-    if (isInside(editor, 'api')) {
-        handleApi(editor, event)
-        return
-    }
 
     const char = event.nativeEvent.code
 
