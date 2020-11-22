@@ -22,8 +22,8 @@ const Login = () => {
 )}
 
 const StyledIcon = styled(Icon)`
-    margin-left: 8px;
-    margin-top: -3px;
+    margin-left: 5px;
+    margin-top: -2px;
     path { fill: var(--white1) }
 `
 

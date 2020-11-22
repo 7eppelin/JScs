@@ -13,7 +13,7 @@ const Auth = () => {
 
     return (
         <StyledAuth>
-            {user ?  <Logout user={user} /> : <Login />}
+            {user ? <Logout user={user} /> : <Login />}
         </StyledAuth>
     )
 }
@@ -21,7 +21,7 @@ const Auth = () => {
 const StyledAuth = styled.div`
     float: right;
     font-size: 1.5rem;
-    margin-top: 25px;
+    margin-top: 22px;
     color: var(--white1);
 
     button {
