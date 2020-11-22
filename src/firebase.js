@@ -38,19 +38,19 @@ export const authRef = firebase.auth();
 const authProvider = new firebase.auth.GithubAuthProvider().addScope('read:user');
 
 
-export const loginWithGithub = () => async dispatch => {
-    //  firebase's user displayName field
-    //  is being set to null for some reason
-    //  the only way to set it explicitly
-    //  is to use additionalUserInfo
+// this is getting invoked whenever the user clicks the 'login' button
 
+export const loginWithGithub = () => async dispatch => {
     const signInResult = await authRef.signInWithPopup(authProvider)
 
+    //  firebase sets user.displayName to null for some reason
+    //  but we can set it explicitly using the additionalUserInfo obj
     const user = authRef.currentUser;
     if (!user.displayName) {
         await user.updateProfile({
             displayName: signInResult.additionalUserInfo.username
         })
     }
+
     dispatch(logIn(user))
 }

@@ -15,15 +15,8 @@ const App = () => {
 
 	useEffect(() => {
 		authRef.onAuthStateChanged(user => {
-			// firebase sets user.displayName to null
-			// i handle this case by setting displayName 
-			// explicitly when a user logs in for the first time
-			// see firebase.js logInWithGithub()
-			// so for any subsequents logouts/logins 
-			// user will have his displayName set properly
-
-			if (!user) return dispatch(logOut());
-			if (user.displayName) dispatch(logIn(user));
+			if (!user) return dispatch(logOut())
+			dispatch(logIn(user))
 		})
 	});
 
