@@ -12,13 +12,13 @@ const letter = {
 
 
 // CONTEXT:
-// a status message can have 'special' words/characters
+// The status message can have 'special' words/characters
 // the 'highlighted' ones (orange) and the 'red' ones
 // to make a text range 'highlighted' 
 // wrap it in curly braces like this: {{text}}
 // to make it 'red' wrap it in '!!' like this: !!text!!
 
-// provided a status message (string), this func turns it
+// takes a string and turns it
 // into an array of letters each wrapped in a motion element
 // normal letters are wrapped in a <motion.span>, 
 // 'highlighted' in a <motion.b>, 

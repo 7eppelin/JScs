@@ -9,21 +9,18 @@ const FormStatus = ({ status }) => {
     const { type, message } = status
 
     // parseMessage returns an array of letters
-    // each wrapped either in a <motion.span> or <motion.b>
-    const msg = message ? parseMessage(message) : null
+    // each wrapped in a motion element
+    const letters = message ? parseMessage(message) : null
 
     return (
         <AnimatePresence exitBeforeEnter>
-
             <Div key={Math.random()}
                 variants={variants}
                 initial='hide'
                 animate='show'
                 exit='hide'
                 className={type === 'error' ? 'error' : ''}>
-
-                    {msg}
-
+                    {letters}
             </Div>
         </AnimatePresence>
     )

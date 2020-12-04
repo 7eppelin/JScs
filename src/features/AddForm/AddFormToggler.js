@@ -14,6 +14,7 @@ const AddFormToggler = ({ toggle, isToggled }) => (
     </StyledToggler>
 );
 
+
 const StyledToggler = styled.button`
     width: 42px;
     height: 42px;

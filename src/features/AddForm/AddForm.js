@@ -9,12 +9,9 @@ import FormStatus from './FormStatus'
 
 
 const AddForm = ({ hide }) => {
-
     const formRef = useRef()
     const dispatch = useDispatch()
-
-    const [inputValue, setinputValue] = useState('')
-
+    const [inputValue, setInputValue] = useState('')
     const [status, setStatus] = useState({
         type: 'success',
         message: `Specify the full address ({{section}}/{{subsection}}/{{feature}}) 
@@ -63,7 +60,6 @@ const AddForm = ({ hide }) => {
             })
     }
 
-
     return (
         <StyledAddForm className='AddForm'
                 onSubmit={handleSubmit}
@@ -73,14 +69,11 @@ const AddForm = ({ hide }) => {
 
             <input value={inputValue} 
                 placeholder='section/subsection/feature'
-                onChange={e => setinputValue(e.target.value)} />
+                onChange={e => setInputValue(e.target.value)} />
 
             <FormStatus status={status} />
 
-            <button>
-                CREATE
-            </button>
-
+            <button>CREATE</button>
             <button onClick={handleDelete}
                     type='reset' >
                 DELETE

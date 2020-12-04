@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const AddForm = React.lazy(() => import('./AddForm'))
 
+
 const AnimatedAddForm = ({ isOpen, hide }) => (
         <AnimatePresence>
             {isOpen && (
@@ -14,12 +15,13 @@ const AnimatedAddForm = ({ isOpen, hide }) => (
                         transition={{ duration: .25 }}>
 
                     <Suspense fallback=''>
-                    <AddForm hide={hide} />
+                        <AddForm hide={hide} />
                     </Suspense>
                 </StyledDiv>
             )}
         </AnimatePresence>
 )
+
 
 const StyledDiv = styled(motion.div)`
     position: absolute;
