@@ -14,11 +14,11 @@ const Main = () => {
     const location = useLocation()
     const match = useRouteMatch('/:secName?/:subsec?/:feature?')
     const secName = match.params.secName;
-    const prevSection = usePrevious(secName)
 
     // if transitioning from the front-page to the content section
     // delay SubsectionMenu and ContentEditor's animations
     const isMount = useMount()
+    const prevSection = usePrevious(secName)
     const delayAnimation = isMount ? false : 
         secName && !prevSection ? true : false
 
@@ -39,11 +39,9 @@ const Main = () => {
                     <Route exact path='/'>
                         <About />
                     </Route>
-
                     <Route path='/:secName'>
                         <Content delayAnimation={delayAnimation} />
                     </Route>
-                    
                 </Switch>
             </AnimatePresence>
 
