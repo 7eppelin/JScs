@@ -17,6 +17,7 @@ const About = () => (
     </Section>
 )
 
+
 const Section = styled(motion.section)`
     background: var(--gray6);
     padding: 4px;
@@ -32,22 +33,22 @@ const Section = styled(motion.section)`
 const transition = {
     type: 'spring',
     stiffness: 250,
-    damping: 14,
+    damping: 10,
     mass: 0.5,
 }
 
 const variants = {
     initial: {
-        scale: .8,
+        scale: .88,
         left: '-100vw',
     },
 
     exit: {
-        scale: .8,
+        scale: .88,
         left: '-100vw',
         transition: {
             ...transition,
-            left: { delay: 0.25 },
+            left: { delay: 0.2 },
         }
     },
 
@@ -58,7 +59,7 @@ const variants = {
             delay: 0.05,
             scale: { 
                 ...transition,
-                delay: 0.45 
+                delay: 0.38 
             }
         }
 
