@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^11.2.0",
     "@tippyjs/react": "^4.0.0-alpha.3",
     "firebase": "^7.14.6",
-    "firebase-tools": "^8.4.1",
+    "firebase-tools": "^8.18.0",
     "framer-motion": "^1.9.1",
     "g": "^2.0.1",
     "prismjs": "^1.21.0",
