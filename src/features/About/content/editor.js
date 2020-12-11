@@ -2,7 +2,7 @@
 
 const editor = {
 
-    title: "The editor",
+    title: "The Editor",
     body: [{
         type: "intro",
         icon: 'edit-doc',
@@ -45,7 +45,7 @@ const editor = {
         text: [
             "Despite being fully ",
             {type: "strong", text: "editable"},
-            ", the editor has reasonable constraints:"
+            ", the editor has some reasonable constraints:"
         ]
     }, {
         type: "list",
