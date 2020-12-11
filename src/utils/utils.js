@@ -8,7 +8,7 @@ export const arrayMove = (arr, current, target) => {
 
     const newArr = [...arr];
 
-    // delete the elem from the ids array
+    // delete the elem from it's current position
     const el = newArr.splice(current, 1)[0];
     // and insert it in the target position
     newArr.splice(target, 0, el);
