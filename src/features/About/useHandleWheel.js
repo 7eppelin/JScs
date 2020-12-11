@@ -6,7 +6,7 @@ const useHandleWheel = (
     pageRef, 
     activePage, 
     lastPage,
-    scrollPages, 
+    scrollToPage, 
     setAnimationDirection,
     wheel
 ) => {
@@ -32,7 +32,7 @@ const useHandleWheel = (
 
         if (counter.current > 15) {
             wheel.current.spin(0)
-            scrollPages(activePage + 1)
+            scrollToPage(activePage + 1)
         }
     }
 
@@ -49,7 +49,7 @@ const useHandleWheel = (
 
         if (counter.current < -15) {
             wheel.current.spin(0)
-            scrollPages(activePage - 1)
+            scrollToPage(activePage - 1)
         }
     }
 

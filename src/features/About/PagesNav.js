@@ -8,7 +8,7 @@ import PagesNavWheel from './PagesNavWheel'
 const PagesNav = ({ 
     pages, 
     activePage, 
-    scrollPages,
+    scrollToPage,
     setAnimationDirection,
     wheelRef
 }) => (
@@ -23,7 +23,7 @@ const PagesNav = ({
                 tooltip={page}
                 isActive={activePage === i}
                 handleClick={() => {
-                    scrollPages(i)
+                    scrollToPage(i)
                     wheelRef.current.spin(0)
                 }}
                 handleMouseDown={() => {

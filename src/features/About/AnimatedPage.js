@@ -7,12 +7,12 @@ import useHandleWheel from './useHandleWheel'
 
 const AnimatedPage = ({ 
     children,
-    pageIndex, // current acive page's index in the content arr
-    lastPage, // last page' index
-    scrollPages, // func to scroll between pages
+    pageIndex,
+    lastPage,
+    scrollToPage,
     animationDirection,
     setAnimationDirection,
-    wheelRef, // ./PagesNavWheel
+    wheelRef,
 }) => {
     const pageRef = useRef()
 
@@ -20,7 +20,7 @@ const AnimatedPage = ({
         pageRef,
         pageIndex,
         lastPage,
-        scrollPages,
+        scrollToPage,
         setAnimationDirection,
         wheelRef
     )
