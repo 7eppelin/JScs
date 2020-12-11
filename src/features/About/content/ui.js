@@ -17,7 +17,7 @@ const ui = {
 
         type: "paragraph",
         text: [
-            "Back in the day when i decided to create this app, ",
+            "Back in the day when I decided to create this app, ",
             "I had little experience with ",
             {type: "strong", text: "React"}, 
             " and ",
@@ -37,12 +37,12 @@ const ui = {
         text: [
             " Back then, I had mainly been writing ",
             {type: "strong", text: "class components"},
-            ". Just like everyone, i suppose. ",
+            ". Just like everyone, I suppose. ",
             "But not so long ago, React ",
             {type: "strong", text: "hooks"},
             " were released, and I decided to see if I can write ",
             "the entire app without having a single class component ",
-            "(not counting third-party libraries, of course). ",
+            "(not counting third-party libraries). ",
             "Currently, there are no class components in the app."
         ]
 ///////////////////////////////////////////////////////////////////////////////
