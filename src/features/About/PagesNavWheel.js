@@ -6,12 +6,10 @@ import Icon from 'components/Icon'
 
 
 const PagesNavWheel = React.forwardRef((props, ref) => {
-
     const [count, setCount] = useState(0)
-
     const wheelRef = useRef()
 
-    // see ./AnimatedPage & ./useHandleWheel
+    // see ./useHandleWheel
     useImperativeHandle(ref, () => ({
         spin: count => setCount(count) 
     }))

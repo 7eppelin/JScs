@@ -13,7 +13,7 @@ const Pages = () => {
     const [activePage, setActivePage] = useState(0)
     const wheelRef = useRef()
 
-    // we want the pages to be animated 
+    // the pages should be animated 
     // in the opposite direction of scrolling
     const [animationDirection, setAnimationDirection] = useState('down')
 
