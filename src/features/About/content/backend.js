@@ -17,9 +17,9 @@ const backend = {
     }, {
         type: "paragraph",
         text: [
-            "I'm yet to know how to do stuff on the ",
+            "I don't know how to do stuff on the ",
             {type: "strong", text: "server-side"},
-            ". I've been adviced to try ",
+            " yet. I've been adviced to try ",
             {type: "strong", text: "Firebase"},
             "."
         ]
