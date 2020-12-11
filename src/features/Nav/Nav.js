@@ -13,7 +13,8 @@ import SubsecsMenu from 'features/SubsecsMenu/SubsecsMenu';
 const Nav = ({ activeSection, delayAnimation }) => {
     const isAdmin = useSelector(state => state.user?.isAdmin)
 
-    // arr of sections and a func to reorder onDrag
+    // fetches all the sections from the DB
+    // returns arr of sections and a func to reorder onDrag
     const [ sections, reorderSections ] = useSections()
 
     const prevSection = usePrevious(activeSection)

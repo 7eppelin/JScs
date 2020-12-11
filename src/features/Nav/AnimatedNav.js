@@ -28,11 +28,11 @@ const StyledNav = styled(motion.nav)`
 
 const transition = {
     left: {
-        delay: 0.48,
+        delay: 0.42,
         type: 'spring',
-        stiffness: 110,
+        stiffness: 130,
         damping: 14,
-        mass: 0.9,
+        mass: 0.8,
     }
 }
 
@@ -44,7 +44,7 @@ const variants = {
     },
     about: {
         left: '86vw',
-        scaleY: 0.9,
+        scaleY: 0.92,
         transition
     }
 }
