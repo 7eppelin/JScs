@@ -1,25 +1,25 @@
 
 
 const jscs = {
-    "title": "A JavaScript cheat sheet",
+    "title": "A JavaScript Cheat Sheet",
 
     "body": [{
         type: 'intro',
         icon: 'greeting',
         text: [
-            "Hey! I`m Pyotr and this is my personal project - ", 
+            "Hey! I'm Pyotr and this is my personal project - ", 
             {type: "strong", text: "JScs! "},
             "The source code of the app is available on ",
             {type: "link", text: "GitHub", href: "https://github.com/7eppelin/JScs/"},
         ]
     }, {
         type: "heading",
-        text: "The app"
+        text: "The App"
     }, {
         type: 'paragraph',
         text: [
-            "I'm a beginner front-end developer, ",
-            "and I figured that I need a portfolio project, ",
+            "I'm a beginner front-end developer. ",
+            "I figured that I need a portfolio project, ",
             "and came up with the idea of creating ",
             {text: "a JavaScript cheat sheet. ", type: "strong"},
             "I pursued three goals:"]
@@ -29,7 +29,7 @@ const jscs = {
             "To have a fairly decent portfolio project.",
 
             ["To keep practicing with the technologies that ",
-            "i had already started to learn, and learn some new ones. ",
+            "I had already started to learn, and learn some new ones. ",
             "I had little experience with ",
             {text: "HTML", type: "strong"}, 
             ", ",
@@ -52,7 +52,14 @@ const jscs = {
             {text: "a cheat sheet app", type: "strong"},
             ", where the user (probably, just myself) could quickly recall ",
             "the API that he already knows, but has forgotten some detals. ",
-            "All JS and JS-related libraries and frameworks' APIs in one place."
+            "All JS and JS-related libraries and frameworks' APIs in one place.",
+        ]
+    }, {
+        type: 'paragraph',
+        text: [
+            "Another idea was to make it possible for the admin ",
+            "to manage all the app's materials right from the UI ",
+            "without the need of messing with the DB directly. "
         ]
     }]
 }
