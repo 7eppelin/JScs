@@ -1,6 +1,7 @@
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 import { removeSection } from './sharedActions'
+import { arrayMove } from 'utils';
 
 
 const sectionsSlice = createSlice({
@@ -15,8 +16,9 @@ const sectionsSlice = createSlice({
             return action.payload
         },
 
-        reorderSections: (_, action) => {
-            return action.payload
+        reorderSections: (state, action) => {
+            const { current, target } = action.payload
+            return arrayMove(state, current, target)
         }
     },
 

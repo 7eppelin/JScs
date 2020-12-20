@@ -1,5 +1,7 @@
 import React, { useRef, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
+import { reorderSections } from 'dataSlice';
 import { updateItemsOrderInDB } from 'utils';
 
 import AnimatedSectionMenu from './AnimatedSectionMenu'
@@ -10,8 +12,8 @@ const SectionMenu = ({
     isAdmin, 
     prevSection,
     sections, 
-    reorderSections 
 }) => {
+    const dispatch = useDispatch()
     const scrollbar = useRef()
 
     // invoked onDragEnd
@@ -29,10 +31,24 @@ const SectionMenu = ({
             {sections.map((sec, i) => (
                 <SectionLink key={sec.id} 
                     label={sec.name}
-                    i={i}
                     scrollbar={scrollbar}
                     updateDB={updateDB}
-                    moveItem={reorderSections} />
+                    handleDrag={moved => {    
+                        // if a section was moved down and is not the last section
+                        if (moved > 30 && i + 1 < sections.length) {
+                            dispatch(reorderSections({
+                                current: i,
+                                target: i + 1
+                            }));
+                        }
+                        // if a section was moved up and is not the first section
+                        if (moved < -30 && i !== 0) {
+                            dispatch(reorderSections({
+                                current: i,
+                                target: i - 1
+                            }));
+                        }
+                    }} />
             ))}
         </AnimatedSectionMenu>
     )

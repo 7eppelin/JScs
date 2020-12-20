@@ -7,9 +7,8 @@ import { scroll } from 'utils'
 
 const SectionLink = ({ 
     label, 
-    i, 
+    handleDrag,
     scrollbar,
-    moveItem, 
     updateDB 
 }) => {
     const [ isDragging, setDragging ] = useState(false);
@@ -26,18 +25,11 @@ const SectionLink = ({
             dragOriginY={dragOriginY}
             isDragging={isDragging}
             onDrag={(_, info) => {
-                // if the dragged elem was moved by 32px down, 
-                // swap it's position with the next elem
-                if (info.point.y > 30) moveItem(i, i + 1);
-                // if it was moved up, swap with prev elem 
-                if (info.point.y < -30) moveItem(i, i - 1);
-
+                handleDrag(info.point.y)
                 // scroll while dragging
                 scroll(scrollbar.current, info.delta.y, dragOriginY)
             }}
-            onDragStart={() => {
-                setDragging(true)
-            }}
+            onDragStart={() => setDragging(true)}
             onDragEnd={() => {
                 setDragging(false);
                 updateDB();

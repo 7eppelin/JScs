@@ -1,8 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { fetchSections } from 'dataSlice';
 import { usePrevious } from 'utils'
-import useSections from './useSections'
 
 import AnimatedNav from './AnimatedNav'
 import Spinner from 'components/Spinner'
@@ -12,11 +12,14 @@ import SubsecsMenu from 'features/SubsecsMenu/SubsecsMenu';
 
 const Nav = ({ activeSection, delayAnimation }) => {
     const isAdmin = useSelector(state => state.user?.isAdmin)
+    const dispatch = useDispatch()
 
-    // fetches all the sections from the DB
-    // returns arr of sections and a func to reorder onDrag
-    const [ sections, reorderSections ] = useSections()
+    // fetch sections once
+    useEffect(() => {
+        dispatch(fetchSections())
+    }, [dispatch])        
 
+    const sections = useSelector(state => state.data.sections)
     const prevSection = usePrevious(activeSection)
 
     return (
@@ -24,8 +27,8 @@ const Nav = ({ activeSection, delayAnimation }) => {
             {/* 
                 only render spinner in the nav when:
                 1. this is the initial render of the app
-                2. sections haven't been fetched yet
-                3. the content section is being rendered
+                2. the content section is being rendered
+                3. sections haven't been fetched yet
             */}
             {!sections.length && (activeSection || prevSection) ? 
                 <Spinner />
@@ -34,8 +37,7 @@ const Nav = ({ activeSection, delayAnimation }) => {
                     <SectionMenu 
                         isAdmin={isAdmin}
                         prevSection={prevSection}
-                        sections={sections} 
-                        reorderSections={reorderSections} />
+                        sections={sections} />
 
                     <SubsecsMenu 
                         isAdmin={isAdmin}

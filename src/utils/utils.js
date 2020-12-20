@@ -4,8 +4,6 @@
 // moves the item from current to target index
 // returns a new array
 export const arrayMove = (arr, current, target) => {
-    if (target < 0 || target > arr.length - 1) return arr;
-
     const newArr = [...arr];
 
     // delete the elem from it's current position
