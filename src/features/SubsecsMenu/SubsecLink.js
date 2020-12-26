@@ -9,14 +9,12 @@ const SubsecLink = ({
     to, 
     label, 
     featuresOpen, 
-    toggleFeatures,
-    startDrag,
+    toggleFeatures
 }) => (
     <Div>
         <NavLink to={to} 
             draggable={false}
-            activeClassName='active'
-            onMouseDown={startDrag}>
+            activeClassName='active'>
                 {label}
         </NavLink>
 

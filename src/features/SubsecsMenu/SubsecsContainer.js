@@ -11,10 +11,9 @@ const SubsecsContainer = ({ sectionName, delayAnimation }) => {
     const dispatch = useDispatch()
     const scrollbar = useRef()
 
-    // sorted arr of subsecs and a func to change their order onDrag
     const subsecs = useSubsecs(sectionName)
 
-    // fetch subsections and features whenever the url changes
+    // fetch subsections whenever the url changes
     useEffect(() => {
         if (!sectionName || subsecs) return
         dispatch(fetchSubsecs(sectionName))

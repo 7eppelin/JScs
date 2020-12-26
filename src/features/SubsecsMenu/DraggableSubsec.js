@@ -10,14 +10,11 @@ const DraggableSubsec = ({
     heights,
     reorder,
     scrollbar,
-    dragControls,
     saveNewOrder,
     children,
 }) => {
     const [ isDragging, setDragging ] = useState(false)
     const dragOriginY = useMotionValue(0)
-
-    if (isDragging) console.log('subsec dragging')
 
     const onDrag = useCallback((_, info) => {
         const dragged = info.point.y;
@@ -39,7 +36,6 @@ const DraggableSubsec = ({
 
     return (
         <StyledSubsec drag='y'
-            dragControls={dragControls}
             dragElastic={1}
             dragOriginY={dragOriginY}
             dragConstraints={{ top: 0, bottom: 0 }}
@@ -78,7 +74,7 @@ const StyledSubsec = styled(motion.li)`
     transition: background .2s, box-shadow .2s;
 
     & a {
-        background: ${props => props.isDragging && 'var(--gray4)'}
+        background: ${props => props.isDragging && 'var(--gray2)'}
     }
 `;
 

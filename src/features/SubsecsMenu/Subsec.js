@@ -17,24 +17,18 @@ const Subsec = ({
     const [ featuresOpen, setFeaturesOpen ] = useState(false)
     const { name, id, sectionName } = subsec   
 
-    // dragging starts onMouseDown on a nested component (SubsecLink)
-    const dragControls = useDragControls()
-    const startDrag = e => dragControls.start(e)
-
     return (
         <DraggableSubsec i={i}
             heights={heights}
             reorder={reorder}
             scrollbar={scrollbar}
-            saveNewOrder={saveNewOrder}
-            dragControls={dragControls} >
+            saveNewOrder={saveNewOrder} >
 
             <SubsecLink 
                 to={`/${sectionName}/${name}`}
                 label={name}
                 toggleFeatures={setFeaturesOpen}
-                featuresOpen={featuresOpen}
-                startDrag={startDrag} />
+                featuresOpen={featuresOpen} />
 
             <FeaturesMenu i={i}
                 heights={heights}

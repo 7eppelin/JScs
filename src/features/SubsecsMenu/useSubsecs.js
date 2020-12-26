@@ -6,9 +6,9 @@ const useSubsecs = sectionName => {
     const subsecs = useSelector(state => state.data.subsecs[sectionName])
 
     // if we were simply returning the subsecs,
-    // when the user transitions from the content section to the frontpage
-    // subsecs would be null, and the subsecs menu
-    // would disappear from the ui during the animation
+    // the entire menu would dissapear from the ui
+    // whenever the user goes from the content section to the frontpage,
+    // because in this case subsecs would be undefined
     const subsecsRef = useRef(null)
     if (sectionName) subsecsRef.current = subsecs
 
