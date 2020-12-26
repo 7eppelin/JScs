@@ -35,11 +35,6 @@ const Section = styled.section`
     width: 15vw;
     padding: 5px 2px 5px 8px;
 
-    .scrollbar {
-        background: var(--black);
-        transition: background 2s;
-    }
-
     ul {
         max-height: 100%;
         padding-right: 2px;
@@ -50,7 +45,7 @@ const Section = styled.section`
 // framer-motion's variants
 const list = {
     hidden: { 
-        scale: 0.3,
+        scale: 0.8,
         opacity: 0,
     },
     visible: { 
@@ -60,7 +55,6 @@ const list = {
             when: 'beforeChildren',
             staggerChildren: 0.08,
         },
-        transitionEnd: { background: 'var(--gray6)'}
     }
 }
 

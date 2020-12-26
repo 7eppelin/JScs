@@ -16,17 +16,15 @@ const SectionLink = ({
     const dragOriginY = useMotionValue(0);
 
     return (
-        <StyledLink
-            variants={variants}
+        <StyledLink variants={variants}
             ref={elemRef}
+            className={isDragging && 'dragging'}
             drag='y'
             dragConstraints={{ top: 0, bottom: 0 }}
             dragElastic={1}
             dragOriginY={dragOriginY}
-            isDragging={isDragging}
             onDrag={(_, info) => {
                 handleDrag(info.point.y)
-                // scroll while dragging
                 scroll(scrollbar.current, info.delta.y, dragOriginY)
             }}
             onDragStart={() => setDragging(true)}
@@ -55,15 +53,27 @@ const SectionLink = ({
 const StyledLink = styled(motion.li)`
     position: relative;
     margin-bottom: 2px;
-    z-index: ${props => props.isDragging ? 5 : 0 };
-    box-shadow: ${props => props.isDragging && '0 0 30px -6px black'};
+    z-index: 1;
+
+    &.dragging {
+        box-shadow: 0 0 30px -6px black;
+        z-index: 5;
+    }
+
+    &:not(.dragging) {
+        transition: z-index 0.05s 0.25s;
+    }
+
+    &.dragging a {
+        background: var(--gray3);
+    }
 
     a {
         display: block;
         padding: 13px;
         height: 100%;
         border-radius: 3px;
-        background: ${props => props.isDragging ? 'var(--gray4)' : 'var(--gray5)'};
+        background: var(--gray5);
         color: var(--white2);
         transition: .2s;
     }
@@ -80,8 +90,14 @@ const StyledLink = styled(motion.li)`
 
 
 const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
+    hidden: { 
+        opacity: 0,
+        scale: .8 
+    },
+    visible: { 
+        opacity: 1,
+        scale: 1 
+    }
 }
 
 

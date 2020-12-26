@@ -11,7 +11,6 @@ import SubsecsMenu from 'features/SubsecsMenu/SubsecsMenu';
 
 
 const Nav = ({ activeSection, delayAnimation }) => {
-    const isAdmin = useSelector(state => state.user?.isAdmin)
     const dispatch = useDispatch()
 
     // fetch sections once
@@ -34,14 +33,9 @@ const Nav = ({ activeSection, delayAnimation }) => {
                 <Spinner />
                 :
                 <>
-                    <SectionMenu 
-                        isAdmin={isAdmin}
-                        prevSection={prevSection}
+                    <SectionMenu prevSection={prevSection} 
                         sections={sections} />
-
-                    <SubsecsMenu 
-                        isAdmin={isAdmin}
-                        sectionName={activeSection}
+                    <SubsecsMenu sectionName={activeSection} 
                         delayAnimation={delayAnimation} />
                 </>
             }

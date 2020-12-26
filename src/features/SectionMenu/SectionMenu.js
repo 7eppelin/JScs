@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { reorderSections } from 'dataSlice';
 import { updateItemsOrderInDB } from 'utils';
@@ -8,13 +8,10 @@ import AnimatedSectionMenu from './AnimatedSectionMenu'
 import SectionLink from './SectionLink';
 
 
-const SectionMenu = ({ 
-    isAdmin, 
-    prevSection,
-    sections, 
-}) => {
+const SectionMenu = ({ prevSection, sections }) => {
     const dispatch = useDispatch()
     const scrollbar = useRef()
+    const isAdmin = useSelector(state => state.user?.isAdmin)
 
     // invoked onDragEnd
     const updateDB = useCallback(() => {
