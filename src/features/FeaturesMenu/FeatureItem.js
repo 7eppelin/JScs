@@ -4,15 +4,9 @@ import { motion, useMotionValue } from 'framer-motion'
 import { NavLink } from 'react-router-dom'
 
 
-const FeatureItem = ({ 
-    i,
-    feature,
-    moveItem,
-    saveNewOrder
-}) => {
+const FeatureItem = ({ feature, handleDrag, saveNewOrder }) => {
     const [ isDragging, setDragging ] = useState(false)
     const dragOriginY = useMotionValue(0);
-
     const { name, sectionName, subsecName } = feature;
 
     return (
@@ -20,25 +14,17 @@ const FeatureItem = ({
             dragElastic={1}
             dragConstraints={{ top: 0, bottom: 0 }}
             dragOriginY={dragOriginY}
-
             isDragging={isDragging}
             animate={isDragging ? 
                 { zIndex: 5 } : 
                 { zIndex: 0, transition: {delay: 0.3} } 
             }
-
-            onDrag={(e, info) => {
-                const dragged = info.point.y;
-                if (dragged > 20) moveItem(i, i + 1)
-                if (dragged < -20) moveItem(i, i - 1)
-            }}
-
+            onDrag={(_event, info) => handleDrag(info.point.y)}
             onDragStart={() => setDragging(true)}
             onDragEnd={() => {
                 setDragging(false)
                 saveNewOrder()
             }}
-
             positionTransition={({ delta }) => {
                 if (isDragging) {
                     dragOriginY.set(dragOriginY.get() + delta.y)

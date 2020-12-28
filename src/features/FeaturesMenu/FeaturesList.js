@@ -23,9 +23,14 @@ const FeaturesList = ({
         updateItemsOrderInDB(subsecID, ids)
     }
 
-    const moveItem = (current, target) => {
-        if (target === items.length || target < 0) return
-        const newOrder = arrayMove(items, current, target)
+    const moveItem = (index, dragged) => {
+        let target = index
+        if (dragged > 20) target += 1
+        if (dragged < -20) target -= 1
+
+        if (target === items.length || target < 0 || index === target) return
+
+        const newOrder = arrayMove(items, index, target)
         dispatch(reorderFeatures({ subsecID, newOrder }))
     }
 
@@ -36,10 +41,9 @@ const FeaturesList = ({
             animate={isOpen && items.length ? 'open' : 'closed'}>
 
             {items.map((item, i) => (
-                <FeatureItem i={i}
-                    key={item.id} 
+                <FeatureItem key={item.id} 
+                    handleDrag={dragged => moveItem(i, dragged)}
                     feature={item}
-                    moveItem={moveItem}
                     saveNewOrder={saveNewOrder} />
             ))}
         </motion.ul>
@@ -48,7 +52,7 @@ const FeaturesList = ({
 
 const variants = {
     open: { height: 'auto' },
-    closed: { height: 0 }
+    closed: { height: 0, transition: {duration: .12} }
 }
 
 
