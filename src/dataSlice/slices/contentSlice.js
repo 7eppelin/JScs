@@ -17,7 +17,8 @@ const contentSlice = createSlice({
         },
 
         removeContentItem: (state, action) => {
-            delete state[action.payload]
+            const id = action.payload
+            delete state[id]
         }
     },
 

@@ -1,23 +1,28 @@
 
+import { db } from 'firebase.js'
 import { receiveSubsecs } from 'dataSlice'
-import { retrieveSubsecsFromDB, getIdsFromDB } from 'utils'
+import { getIdsFromDB } from 'utils'
 
 
 
 export const fetchSubsecs = secName => async dispatch => {
 
-    // get all subsections with sub.sectionName == secName;
-    const subsecs = await retrieveSubsecsFromDB(secName)
+    // get all the subsections that belong to the given section
+    const items = await db.collection('subsecs')
+        .where('sectionName', '==', secName)
+        .get()
+        .then(snapshot => snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        })))
 
-    // get the ids array
+    // get the ids array that is responsible for the order
     const ids = await getIdsFromDB(secName)
 
-    if (!subsecs) return
-
     // sort the subsecs according to the ids array
-    const subs = ids.map(id => (
-        subsecs.find(sub => sub.id === id)
+    const subsecs = ids.map(id => (
+        items.find(item => item.id === id)
     ))
 
-    dispatch(receiveSubsecs(subs))
+    dispatch(receiveSubsecs(subsecs))
 }

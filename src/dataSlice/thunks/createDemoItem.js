@@ -13,7 +13,7 @@ import { createContentItem } from 'utils'
 
 
 // when a regular user tries to craete an item via the AddForm
-// this function is being dispatched
+// this function is invoked
 
 // creates sections/subsections/features only in the redux store
 
@@ -22,14 +22,10 @@ export default (names, ids) => async dispatch => {
     const [ secID ] = ids
 
     if (featureName) {
-        return dispatch(
-            createDemoFeature(names, ids)
-        )
+        return dispatch(createDemoFeature(names, ids))
 
     } else if (subsecName) {
-        return dispatch(
-            createDemoSubsec(names, secID)
-        )
+        return dispatch(createDemoSubsec(names, secID))
 
     } else {
         return dispatch(createDemoSection(secName))

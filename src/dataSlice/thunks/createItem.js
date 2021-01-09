@@ -23,22 +23,22 @@ import createDemoItem from './createDemoItem'
 
 export const createItem = address => async (dispatch, getState) => {
 
-    // array [ 'sectionName', 'subsecName', 'featureName' ]
+    // names = [ 'sectionName', 'subsecName', 'featureName' ]
     const names = address.split('/')
 
-    // array [ sectionID, subsecID, featureID ]
+    // ids = [ 'sectionID', 'subsecID', 'featureID' ]
     const ids = await findIDsByNames(names, getState().data)
 
     const [ secName, subsecName, featureName ] = names
     const [ secID ] = ids
 
-    // validate the address
+    // validates the given address
+    // throws if something is wrong
     validateCreate(names, ids)
-
 
     const isAdmin = getState().user?.isAdmin;
     if (!isAdmin) {
-        // create the item only in the redux store
+        // create the item only in the store
         return dispatch(createDemoItem(names, ids))
     }
 
@@ -58,14 +58,14 @@ export const createItem = address => async (dispatch, getState) => {
 export const createSection = name => async dispatch => {
     const section = await createSectionInDB(name)
 
-    // create the reference in the ids arr
+    // create the reference to the section
+    // in the IDs array respobsible for the order
     await createItemRefInDB('sections', section.id)
 
-    // create the doc that will contain
-    // children subsecs ids
+    // create a doc that will contain the section's children subsecs' IDs
     await createRefsDoc(name)
     
-    // create the corresponding content item
+    // create a corresponding content item
     const content = createContentItem(section);
     await saveContentItem(content);
 
@@ -81,12 +81,10 @@ export const createSubsec = (names, sectionID) => async dispatch => {
     
     const subsec = await createSubsecInDB(names, sectionID)
 
-    // create a reference to the subsection
-    // in the ids array respobsible for the order
+    // create a reference to the subsection in the ids array
     await createItemRefInDB(sectionName, subsec.id)
 
-    // create the doc that will contain
-    // children features ids
+    // create a doc that will contain the subsec's children features IDs
     await createRefsDoc(subsec.id)
 
     // create a corresponding content item
@@ -110,8 +108,7 @@ export const createFeature = (names, ids) => async dispatch => {
     // create the feature
     const feature = await createFeatureInDB(names, ids)
 
-    // create a reference to the feature
-    // in the ids array respobsible for the order
+    // create a reference to the feature in the IDs array
     await createItemRefInDB(subsecID, feature.id)
 
     // create a corresponding content item

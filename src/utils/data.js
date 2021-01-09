@@ -7,11 +7,10 @@ import {
 } from 'utils'
 
 
-// names = [ 'sectionName', 'subsecName', 'featureName' ]
-// 'featureName' and 'subsecName' are optional
-// data = state.data from the store
+// given an array of items' names - [ 'sectionName', 'subsecName', 'featureName' ]
+// and the data slice of the store (state.data)
+// return an array of given items' IDs [ sectionID, subsecID, featureID ]
 
-// return [ sectionID, subsecID, featureID ]
 
 export const findIDsByNames = async (names, data) => {
     const [ secName, subsecName, featureName ] = names
@@ -61,19 +60,6 @@ export const findIdByName = (name, items) => (
 export const findItemByName = (name, items) => (
     items?.find(item => item.name === name)
 )
-
-
-// export const findSection = (name, sections) => (
-//     sections.find(sec => sec.name === name)
-// )
-
-// export const findSubsec = (name, subsecs) => (
-//     subsecs?.find(sub => sub.name === name)
-// )
-
-// export const findFeature = (name, features) => (
-//     features?.find(f => f.name === name)
-// )
 
 
 

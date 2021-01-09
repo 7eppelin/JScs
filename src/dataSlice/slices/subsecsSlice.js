@@ -8,15 +8,12 @@ import {
 } from './sharedActions';
 
 
-
 /*
-
 state = {
     sectionName: [ { subsec }, { subsec2 }, ...],
     anotherSection: [ { subsec42 }, { subsec66 }, ...],
     ...
 }
-
  */
 
 const subsecsSlice = createSlice({

@@ -177,34 +177,6 @@ export const createRefsDoc = docName => {
 export const deleteRefsDoc = docName => {
     return db.doc(`order/${docName}`).delete()
 }
- 
-
-
-
-
-///////////////////////////////////////////////////////////////////////
-
-////////                    Retrieve items                     ////////
-
-///////////////////////////////////////////////////////////////////////
-
-
-
-export const retrieveSubsecsFromDB = async secName => {
-    const snapshot = await db
-        .collection('subsecs')
-        .where('sectionName', '==', secName)
-        .get()
-
-    if (!snapshot.docs.length) return null
-
-    return snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
-}
-
-
 
 
 

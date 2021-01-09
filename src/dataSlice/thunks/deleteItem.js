@@ -25,7 +25,7 @@ export const deleteItem = address => async (dispatch, getState) => {
     // [ sectionID, subsectionID, featureID ]
     const ids = await findIDsByNames(names, getState().data)
 
-    // throws an error or does nothing if everything is ok
+    // either throws an error, or, if everything is ok, does nothing
     validateDelete(names, ids)
 
     const isAdmin = getState().user?.isAdmin
@@ -54,8 +54,8 @@ export const deleteSection = (name, id) => async dispatch => {
     // now, we need to not only delete the section
     // but all the nested items as well
 
-    // instead of executing operations for every single item
-    // batch them together and commit once
+    // instead of executing operations for each related item
+    // batch the operations together and commit once
     const batch = db.batch()
 
     batch.delete(db.doc(`sections/${id}`))

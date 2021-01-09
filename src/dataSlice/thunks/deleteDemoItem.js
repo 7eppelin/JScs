@@ -8,7 +8,7 @@ import {
 
 
 // when a regular user tries to delete an item via the AddForm
-// this function is being dispatched
+// this function is invoked
 
 // deletes sections/subsections/features only from the redux store
 
@@ -18,19 +18,13 @@ export default (names, ids) => dispatch => {
     const [ sectionID, subsecID ] = ids
 
     if (featureName) {
-        return dispatch(
-            deleteDemoFeature(names, ids)
-        )
+        return dispatch(deleteDemoFeature(names, ids))
     
     } else if (subsecName) {
-        return dispatch(
-            deleteDemoSubsection(names, subsecID)
-        )
+        return dispatch(deleteDemoSubsection(names, subsecID))
 
     } else {
-        return dispatch(
-            deleteDemoSection(secName, sectionID)
-        )
+        return dispatch(deleteDemoSection(secName, sectionID))
     }
 }
 

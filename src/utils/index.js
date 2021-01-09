@@ -24,8 +24,6 @@ export {
     createRefsDoc,
     deleteRefsDoc,
 
-    retrieveSubsecsFromDB,
-
     saveContentItem,
 
     updateItemsOrderInDB,
