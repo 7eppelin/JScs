@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom'
 
-import { fetchContentItem, updateContentItem } from 'dataSlice';
+import { fetchContentItem } from 'dataSlice';
 import selectContent from './selectContent';
 
 import AnimatedContentEditor from './AnimatedContentEditor'
@@ -37,11 +37,7 @@ const ContentEditorWrapper = ({ delayAnimation }) => {
             id={content?.id} 
             delayAnimation={delayAnimation}>
             
-            {content && (
-                <ContentEditor
-                    content={content}
-                    updateContent={newValue => dispatch(updateContentItem(newValue))} />
-            )}
+            {content && <ContentEditor content={content} />}
         </AnimatedContentEditor>
     )
 }

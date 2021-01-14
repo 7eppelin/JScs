@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateContentItem } from 'dataSlice';
 
 // prismjs theme
 import 'assets/css/prism-atom-dark.css';
@@ -11,19 +13,20 @@ import Editable from './Editable'
 import ContentFooter from 'features/ContentFooter/ContentFooter';
 
 
-const ContentEditor = ({ content, updateContent }) => {
+const ContentEditor = ({ content }) => {
+    const dispatch = useDispatch()
     const editor = useMemo(() => createEditor(), [])
-
-    console.log(content)
 
     const [ editorState, setEditorState ] = useState(content.data);
     const [ readOnly, setReadOnly ] = useState(true);
 
-    const saveChanges = () => updateContent({
-        ...content,
-        edited: Date.now(),
-        data: editorState
-    })
+    const saveChanges = () => {
+        dispatch(updateContentItem({
+            ...content,
+            edited: Date.now(),
+            data: editorState
+        }))
+    }
 
     return (
         <>
