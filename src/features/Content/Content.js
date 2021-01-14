@@ -64,7 +64,7 @@ const variants = {
             right: { delay: 0.05 },
             scale: { 
                 ...transition,
-                delay: 0.45 
+                delay: 0.4 
             }
         }
     }

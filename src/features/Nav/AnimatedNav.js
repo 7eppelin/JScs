@@ -31,7 +31,7 @@ const transition = {
         delay: 0.42,
         type: 'spring',
         stiffness: 130,
-        damping: 14,
+        damping: 15,
         mass: 0.8,
     }
 }

@@ -32,8 +32,8 @@ const Section = styled(motion.section)`
 
 const transition = {
     type: 'spring',
-    stiffness: 250,
-    damping: 10,
+    stiffness: 240,
+    damping: 14,
     mass: 0.5,
 }
 

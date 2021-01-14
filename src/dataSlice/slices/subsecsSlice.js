@@ -21,9 +21,8 @@ const subsecsSlice = createSlice({
     initialState: {},
     reducers: {
         receiveSubsecs: (state, action) => {
-            const subs = action.payload
-            const secName = subs[0].sectionName
-            state[secName] = subs
+            const { sectionName, subsecs } = action.payload
+            state[sectionName] = subsecs
         },
 
         reorderSubsecs: (state, action) => {

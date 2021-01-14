@@ -1,27 +1,30 @@
 import React from 'react';
 import styled from 'styled-components/macro'
 import { motion, AnimatePresence } from 'framer-motion';
+import ContentFallback from './ContentFallback.js'
 
 
 // animates ContentEditor
 
-const AnimatedContentEditor = ({ children, id, delayAnimation }) => (
-    <AnimatePresence exitBeforeEnter>
-        {id && (
-            <Div key={id}
-                variants={variants}
-                initial='exit'
-                animate='enter'
-                exit='exit'
-                transition={delayAnimation ? 
-                    {...enterTransition, delay: .8} : enterTransition }>
+const AnimatedContentEditor = ({ children, id, delayAnimation }) => {
+    if (delayAnimation && !id) return <ContentFallback />
 
-                {children}
+    return (
+        <AnimatePresence exitBeforeEnter>
+            {id && (
+                <Div key={id}
+                    variants={variants}
+                    initial={delayAnimation ? false : 'exit'}
+                    animate='enter'
+                    exit='exit'>
 
-            </Div>
-        )}
-    </AnimatePresence>
-)
+                    {children}
+
+                </Div>
+            )}
+        </AnimatePresence>
+    )
+}
 
 
 const Div = styled(motion.div)`
@@ -34,17 +37,16 @@ const Div = styled(motion.div)`
     color: var(--gray1); 
 `;
 
-const enterTransition = {
-    duration: 0.3,
-    when: 'beforeChildren',
-    staggerChildren: 0.09,
-    ease: 'circOut'
-}
-
 const variants = {
     enter: {
         scale: 1,
         opacity: 1,
+        transition: {
+            duration: 0.3,
+            when: 'beforeChildren',
+            staggerChildren: 0.09,
+            ease: 'circOut'
+        }
     },
     exit: {
         scale: 0.7,

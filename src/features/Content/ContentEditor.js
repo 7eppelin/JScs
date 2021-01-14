@@ -14,6 +14,8 @@ import ContentFooter from 'features/ContentFooter/ContentFooter';
 const ContentEditor = ({ content, updateContent }) => {
     const editor = useMemo(() => createEditor(), [])
 
+    console.log(content)
+
     const [ editorState, setEditorState ] = useState(content.data);
     const [ readOnly, setReadOnly ] = useState(true);
 
