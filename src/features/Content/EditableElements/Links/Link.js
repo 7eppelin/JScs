@@ -31,18 +31,19 @@ const Link = ({
 )
 
 const Li = styled.li`
-    position: relative;
-    padding: 0 30px;
+    padding: 0 15px;
+    flex-shrink: 0;
 
     &:first-child {
-        padding-left: 50px;
+        padding-left: 40px;
     }
 
     a {
         position: relative;
         display: inline-block;
+        font-size: 1.4rem;
         padding: 4px;
-        color: var(--white);
+        color: var(--orange3);
         transition: .15s;
     }
 

@@ -34,7 +34,7 @@ const Wrapper = styled(motion.div)`
     height: 100%;
     width: 0;
     background: var(--gray6);
-    overflow-x: auto;
+    overflow: auto hidden;
 
     ul {
         height: 100%;

@@ -32,8 +32,8 @@ const Form = ({ links, editing, closeForm }) => {
         // if editing an existing link
         if (typeof editing === 'number') {
             newLinks = links.map((link, i) => {
-                if (editing !== i) return link;
-                return { text, href };
+                if (editing === i) return { text, href }
+                return link
             })
         } else {
             // if creating a new link

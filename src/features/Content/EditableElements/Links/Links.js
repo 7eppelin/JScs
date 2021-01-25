@@ -14,7 +14,7 @@ const Links = ({ element, attributes, children }) => {
     const editor = useEditor();
     const readOnly = useReadOnly();
 
-    // false | link index | true (when creating a new link)
+    // editing === false || link index || true (when creating a new link)
     const [ editing, setEditing ] = useState(false);
 
     const deleteLink = useCallback(index => {
