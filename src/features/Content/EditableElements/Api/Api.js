@@ -1,19 +1,15 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import { motion } from 'framer-motion';
 
-import variants from './../variants'
+import styled from 'styled-components/macro';
 
 
 const Api = ({ attributes, children }) => (
-    <Div variants={variants}
-        {...attributes}>
-            {children}
+    <Div {...attributes}>
+        {children}
     </Div>
 )
 
 
-const Div = styled(motion.div)`
+const Div = styled.div`
     margin-top: 25px;
 `
 

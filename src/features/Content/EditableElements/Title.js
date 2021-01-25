@@ -1,4 +1,4 @@
-import React from 'react';
+
 import styled from 'styled-components/macro';
 
 
@@ -15,10 +15,10 @@ const StyledTitle = styled.h1`
     left: 0;
     right: 0;
     color: var(--yellow);
-    padding: 45px 15% 25px 20%;
+    padding: 45px 0 25px 15%;
     background-color: var(--gray4);
     font-size: 3rem;
-    text-shadow: 3px 3px 0 var(--gray6);
+    text-shadow: 3px 3px 0 var(--black2);
 `;
 
 export default TitleElement;

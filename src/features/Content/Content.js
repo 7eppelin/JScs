@@ -15,8 +15,7 @@ const Content = ({ delayAnimation }) => (
         exit='exit'>
 
         <Suspense fallback=''>
-            <ContentEditorWrapper 
-                delayAnimation={delayAnimation} />
+            <ContentEditorWrapper delayAnimation={delayAnimation} />
         </Suspense>
 
     </Section>

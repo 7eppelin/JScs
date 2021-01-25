@@ -33,7 +33,6 @@ const Div = styled(motion.div)`
     flex-direction: column;
     margin: 6px 9px;
     height: calc(100% - 12px);
-    font-size: 1.4rem;
     color: var(--gray1); 
 `;
 

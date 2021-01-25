@@ -1,9 +1,10 @@
-import React from 'react';
+
 import styled from 'styled-components/macro';
 
 
 const StyledUl = styled.ul`
-    padding: 15px 23% 10px 15%;
+    padding: 15px 0 10px;
+    font-size: 1.4rem;
 `;
 
 const Ul = ({ attributes, children }) => (
