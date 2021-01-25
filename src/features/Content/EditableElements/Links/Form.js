@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 
 import { useEditor } from 'slate-react';
 import { setLinks } from '../../editor';
 
+import { useOnClickOutside } from 'utils'
+
 import Icon from 'components/Icon'
 
 
 const Form = ({ links, editing, closeForm }) => {
-    const editor = useEditor();
+    const editor = useEditor()
+    const formRef = useRef()
+
+    useOnClickOutside(formRef, closeForm)
 
     const [ text, setText ] = useState('');
     const [ href, setHref ] = useState('');
@@ -45,7 +50,7 @@ const Form = ({ links, editing, closeForm }) => {
     }
 
     return (
-        <form onSubmit={submit}>
+        <form ref={formRef} onSubmit={submit}>
 
             <Input 
                 type='text'

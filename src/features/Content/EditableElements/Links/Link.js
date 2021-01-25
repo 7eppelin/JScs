@@ -35,7 +35,7 @@ const Li = styled.li`
     flex-shrink: 0;
 
     &:first-child {
-        padding-left: 40px;
+        padding-left: 50px;
     }
 
     a {

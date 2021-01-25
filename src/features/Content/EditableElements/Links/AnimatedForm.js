@@ -1,39 +1,28 @@
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense } from 'react';
 import styled from 'styled-components/macro';
 import { motion, AnimatePresence } from 'framer-motion';
-
-import { useOnClickOutside } from 'utils'
 
 const Form = React.lazy(() => import('./Form'))
 
 
-const AnimatedForm = ({ isEditing, links, closeForm }) => {
-    const formRef = useRef()
-
-    useOnClickOutside(formRef, closeForm)
-
-    return (
-        <AnimatePresence>
-            {/* isEditing can be 0
-                which corresponds to the first link */}
-            {isEditing !== false && (
-                <Wrapper
-                    ref={formRef}
-                    variants={variants}
-                    initial='hidden'
-                    animate='shown'
-                    exit='hidden'
-                >
-                    <Suspense fallback=' ' >
-                        <Form editing={isEditing}
-                            links={links}
-                            closeForm={closeForm} />
-                    </Suspense>
-                </Wrapper>
-            )}
-        </AnimatePresence>
-    )
-}
+const AnimatedForm = ({ isEditing, links, closeForm }) => (
+    <AnimatePresence>
+        {/* isEditing can be 0
+            which corresponds to the first link */}
+        {isEditing !== false && (
+            <Wrapper variants={variants}
+                initial='hidden'
+                animate='shown'
+                exit='hidden'>
+                <Suspense fallback=' ' >
+                    <Form editing={isEditing}
+                        links={links}
+                        closeForm={closeForm} />
+                </Suspense>
+            </Wrapper>
+        )}
+    </AnimatePresence>
+)
 
 const Wrapper = styled(motion.div)`
     position: absolute;
