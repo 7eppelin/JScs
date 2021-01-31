@@ -1,8 +1,8 @@
 
-
 import { isInside } from './../commands'
 
 // make the links panel undeletable
+// by patching the editor's deleteBackward and deleteFragment methods
 
 export const withDelete = editor => {
     

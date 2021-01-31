@@ -1,7 +1,6 @@
 
-import { Editor, Transforms, Node } from 'slate';
+import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react'
-import { nanoid } from '@reduxjs/toolkit'
 
 
 // commands to manipulate the editor
@@ -31,8 +30,7 @@ export const isMarkActive = (editor, mark, selection) => {
 
 // checks whether the caret is currently
 // inside of an elem of one of the given types
-// or an elem of one of the given types is inside
-// the currently selected range of text
+// or an elem is inside the currently selected range of text
 
 export const isInside = (editor, ...types) => {
     const match = n => types.includes(n.type)
@@ -45,7 +43,7 @@ export const isInside = (editor, ...types) => {
 // toggles a mark on the selected text
 
 export const toggleMark = (editor, mark, selection) => {
-    if (selection) select(editor, selection)
+    if (selection) Transforms.select(editor, selection)
 
     const isActive = isMarkActive(editor, mark)
     editor.addMark(mark, !isActive)

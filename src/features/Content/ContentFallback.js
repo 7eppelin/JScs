@@ -19,12 +19,12 @@ const Fallback = styled.div`
 `
 
 const Header = styled.div`
-    height: 148px;
+    height: 174px;
     background: var(--gray4);
 `
 
 const Panel = styled.div`
-    height: 84px;
+    height: 92px;
 `
 
 const Content = styled.div`

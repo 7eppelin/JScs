@@ -1,6 +1,7 @@
 
 
 // default isInline returns false every time
+// we simply specify which elements should be considered as inlines
 
 export const withInlines = editor => {
     const { isInline } = editor;
