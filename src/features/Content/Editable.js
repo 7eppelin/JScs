@@ -14,7 +14,7 @@ const MyEditable = ({ readOnly }) => {
 
     return (
         <Container className='scrollbar'>
-            <Editable style={{padding: '190px 20% 40px 15%'}}
+            <Editable style={{padding: '215px 20% 40px 15%'}}
                 readOnly={readOnly}
                 onKeyDown={e => handleKeyDown(e, editor)}
                 decorate={decorate}

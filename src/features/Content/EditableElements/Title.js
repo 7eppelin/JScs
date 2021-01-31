@@ -15,7 +15,7 @@ const StyledTitle = styled.h1`
     left: 0;
     right: 0;
     color: var(--yellow);
-    padding: 45px 0 25px 15%;
+    padding: 50px 0 30px 15%;
     background-color: var(--gray4);
     font-size: 3rem;
     text-shadow: 3px 3px 0 var(--black2);

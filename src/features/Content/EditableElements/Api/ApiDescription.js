@@ -8,8 +8,8 @@ const ApiDescription = ({ attributes, children }) => (
 )
 
 const Div = styled.div`
-    font-size: 1.35rem;
-    margin: 10px 20px 0;
+    font-size: 1.4rem;
+    margin: 8px 12px 0;
 `
 
 export default ApiDescription

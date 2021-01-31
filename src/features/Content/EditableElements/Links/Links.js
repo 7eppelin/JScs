@@ -48,13 +48,12 @@ const Links = ({ element, attributes, children }) => {
 
 const LinksContainer = styled.div`
     position: absolute;
-    top: 110px;
+    top: 130px;
     left: 0;
     right: 0;
     user-select: none;
     height: 52px;
     background: var(--black);
-    margin-bottom: 25px;
     box-shadow: 0 2px 12px -4px black;
 `;
 

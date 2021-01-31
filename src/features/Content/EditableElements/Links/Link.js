@@ -13,7 +13,7 @@ const Link = ({
     deleteLink
 }) => (
     <Tooltip tip={href} offset={8} >
-        <Li>
+        <Li isEditing={isEditing}>
             <a href={href} 
                 alt={href} 
                 target='_blank'
@@ -31,7 +31,7 @@ const Link = ({
 )
 
 const Li = styled.li`
-    padding: 0 15px;
+    padding: ${props => props.isEditing ? '0 15px' : '0 28px'};
     flex-shrink: 0;
 
     &:first-child {
@@ -43,7 +43,7 @@ const Li = styled.li`
         display: inline-block;
         font-size: 1.4rem;
         padding: 4px;
-        color: var(--orange3);
+        color: var(--white2);
         transition: .15s;
     }
 

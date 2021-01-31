@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 
 const StyledP = styled.p`
     padding: 12px 0;
+    line-height: 1.7;
     margin: 0;
 `;
 

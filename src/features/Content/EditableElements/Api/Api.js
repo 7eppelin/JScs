@@ -10,7 +10,7 @@ const Api = ({ attributes, children }) => (
 
 
 const Div = styled.div`
-    margin-top: 25px;
+    margin: 25px 0 10px;
 `
 
 export default Api
