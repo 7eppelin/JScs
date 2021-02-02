@@ -14,6 +14,7 @@ const StyledTitle = styled.h1`
     top: 0;
     left: 0;
     right: 0;
+    //height: 130px;
     color: var(--yellow);
     padding: 50px 0 35px 15%;
     background-color: var(--gray4);
