@@ -2,7 +2,7 @@
 
 const backend = {
 
-    "title": "The Backend",
+    "title": "Backend",
 
     "body": [{
         type: "intro",

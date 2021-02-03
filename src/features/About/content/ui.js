@@ -2,7 +2,7 @@
 
 const ui = {
 
-    title: "The UI",
+    title: "UI",
 
     body: [{
         type: "intro",

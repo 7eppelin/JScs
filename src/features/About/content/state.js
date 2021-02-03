@@ -2,7 +2,7 @@
 
 const state = {
 
-    title: "The State",
+    title: "State",
 
     body: [{
 

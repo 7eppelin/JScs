@@ -1,7 +1,7 @@
 
 
 const tools = {
-    title: "The tools",
+    title: "Tools",
     body: [{
         type: "intro",
         icon: 'tools',

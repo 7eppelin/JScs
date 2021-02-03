@@ -2,7 +2,7 @@
 
 const editor = {
 
-    title: "The Editor",
+    title: "Editor",
     body: [{
         type: "intro",
         icon: 'edit-doc',
