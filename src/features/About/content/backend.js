@@ -19,7 +19,7 @@ const backend = {
         text: [
             "I don't know how to do stuff on the ",
             {type: "strong", text: "server-side"},
-            " yet. I've been adviced to try ",
+            " yet. I was adviced to try ",
             {type: "strong", text: "Firebase"},
             "."
         ]
@@ -65,8 +65,9 @@ const backend = {
             {type: "strong", text: "database"},
             " using the form in the header."
             ], [
-            "Change the order in which items appear in the menu ",
-            " by dragging and dropping them.",
+            "Change the order in which items appear in the menu by ",
+            {type: "strong", text: "dragging and dropping"},
+            " them.",
             ], [
             "Edit the contents ",
             " and save the changes in the ",

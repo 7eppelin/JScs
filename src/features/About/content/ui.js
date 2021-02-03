@@ -35,7 +35,7 @@ const ui = {
 
         type: "paragraph",
         text: [
-            " Back then, I had mainly been writing ",
+            " Back then, I was mostly writing ",
             {type: "strong", text: "class components"},
             ". Just like everyone, I suppose. ",
             "But not so long ago, React ",

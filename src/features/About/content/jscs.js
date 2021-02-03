@@ -59,7 +59,7 @@ const jscs = {
         text: [
             "Another idea was to make it possible for the admin ",
             "to manage all the app's materials right from the UI ",
-            "without the need of messing with the DB directly. "
+            "without the need of messing with the database directly. "
         ]
     }]
 }

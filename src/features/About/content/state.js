@@ -23,7 +23,7 @@ const state = {
             {type: 'link', text: "this approach" , href: "https://redux.js.org/faq/organizing-state#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-setstate"}, 
             " is to use ",
             {type: "strong", text: "Redux store"},
-            " for the parts of the state that are used by different components, ",
+            " for the pieces of state that are used by different components, ",
             "often located in different parts of the UI. ",
             " And the rest of the state is managed locally using ",
             {type: "strong", text: "React's useState()"},
@@ -47,9 +47,9 @@ const state = {
         text: [
             "I had little experience with ",
             {type: "strong", text: "Redux"},
-            ", and wanted to go further, so I decided to try ",
+            ", and wanted to go further, so I decided to give ",
             {type: "strong", text: "Redux-Toolkit"},
-            ". Here are some of the benefits the ", 
+            " a try. Here are some of the benefits the ", 
             {type: "strong", text: "toolkit"},
             " offers:"
         ]
