@@ -8,7 +8,7 @@
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^11.2.0",
     "@tippyjs/react": "^4.0.0-alpha.3",
-    "firebase": "^8.2.3",
+    "firebase": "^8.3.0",
     "firebase-tools": "^9.2.0",
     "framer-motion": "^1.9.1",
     "g": "^2.0.1",
