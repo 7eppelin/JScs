@@ -22,7 +22,7 @@
     "slate": "^0.59.0",
     "slate-history": "^0.59.0",
     "slate-react": "^0.59.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
