@@ -10,7 +10,7 @@
     "@tippyjs/react": "^4.0.0-alpha.3",
     "firebase": "^8.2.3",
     "firebase-tools": "^9.2.0",
-    "framer-motion": "^1.9.1",
+    "framer-motion": "^4.1.13",
     "g": "^2.0.1",
     "prismjs": "^1.23.0",
     "react": "^16.14.0",
